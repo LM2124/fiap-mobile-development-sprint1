@@ -10,12 +10,25 @@ import {
   SpaceGrotesk_700Bold as spaceGroteskBold,
 } from "@expo-google-fonts/space-grotesk"
 
+import {
+  Poppins_300Light as poppinsLight,
+  Poppins_400Regular as poppinsRegular,
+  Poppins_500Medium as poppinsMedium,
+  Poppins_600SemiBold as poppinsSemiBold,
+  Poppins_700Bold as poppinsBold,
+} from "@expo-google-fonts/poppins"
+
 export const customFontsToLoad = {
   spaceGroteskLight,
   spaceGroteskRegular,
   spaceGroteskMedium,
   spaceGroteskSemiBold,
   spaceGroteskBold,
+  poppinsLight,
+  poppinsRegular,
+  poppinsMedium,
+  poppinsSemiBold,
+  poppinsBold,
 }
 
 const fonts = {
@@ -26,6 +39,13 @@ const fonts = {
     medium: "spaceGroteskMedium",
     semiBold: "spaceGroteskSemiBold",
     bold: "spaceGroteskBold",
+  },
+  poppins: {
+    light: "poppinsLight",
+    normal: "poppinsRegular",
+    medium: "poppinsMedium",
+    semiBold: "poppinsSemiBold",
+    bold: "poppinsBold",
   },
   helveticaNeue: {
     // iOS only font.
@@ -59,7 +79,7 @@ export const typography = {
   /**
    * The primary font. Used in most places.
    */
-  primary: fonts.spaceGrotesk,
+  primary: fonts.poppins,
   /**
    * An alternate font used for perhaps titles and stuff.
    */

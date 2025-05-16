@@ -9,12 +9,13 @@ const palette = {
   neutral800: "#191015",
   neutral900: "#000000",
 
-  primary100: "#F4E0D9",
-  primary200: "#E8C1B4",
-  primary300: "#DDA28E",
-  primary400: "#D28468",
-  primary500: "#C76542",
-  primary600: "#A54F31",
+  // https://www.tints.dev/brand/0068FF
+  primary100: "#CCE0FF",
+  primary200: "#99C2FF",
+  primary300: "#66A3FF",
+  primary400: "#3385FF",
+  primary500: "#0068FF",
+  primary600: "#0052CC",
 
   secondary100: "#DCDDE9",
   secondary200: "#BCC0D6",

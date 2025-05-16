@@ -3,6 +3,7 @@ const en = {
     ok: "OK!",
     cancel: "Cancel",
     back: "Back",
+    productName: "FimXP",
   },
   welcomeScreen: {
     postscript:
