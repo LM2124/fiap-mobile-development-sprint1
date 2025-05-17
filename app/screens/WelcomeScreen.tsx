@@ -8,7 +8,7 @@ import { useAppTheme } from "@/utils/useAppTheme"
 
 const welcomeLogo = require("../../assets/images/xpLogo.png")
 
-interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
+interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> { }
 
 export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen() {
   const { themed, theme } = useAppTheme()
@@ -16,12 +16,12 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
   return (
     <Screen preset="fixed" contentContainerStyle={themed($container)}>
       <Image style={themed($welcomeLogo)} source={welcomeLogo} resizeMode="contain" />
-      <Text style={themed($welcomeHeading)} tx="common:productName"/>
+      <Text style={themed($welcomeHeading)} tx="common:productName" />
 
       <View style={themed($containerNarrow)}>
         <Text style={themed($welcomeText)}>
-          Bem Vindo.<br/>
-          Acesse sua conta com segurança e praticidade.<br/>
+          Bem Vindo.<br />
+          Acesse sua conta com segurança e praticidade.<br />
           Insira seus dados para continuar gerenciando suas finanças de forma simples e protegida.
         </Text>
         <Button style={themed($button)} textStyle={themed($buttonText)}>Entrar</Button>
@@ -72,7 +72,7 @@ const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 
 const $buttonAlt: ThemedStyle<ViewStyle> = (theme) => ({
   ...$button(theme),
-  // FIXME: não gostei dessa cor
+  // FIXME: não gostei dessa cor && E vc acha que eu gostei.
   backgroundColor: theme.colors.palette.primary300
 })
 
