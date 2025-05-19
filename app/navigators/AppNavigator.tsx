@@ -29,7 +29,8 @@ import { ComponentProps } from "react"
 export type AppStackParamList = {
   Welcome: undefined
   // 🔥 Your screens go here
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  SignUp: undefined
+	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -61,9 +62,11 @@ const AppStack = observer(function AppStack() {
         },
       }}
     >
-      <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+      {/* Comentar as outras telas pra fora por enquanto, até eu ver como mexe com a navigation direito */}
+      {/* <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} /> */}
       {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
+			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })
