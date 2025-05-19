@@ -1,12 +1,11 @@
 import { FC, useState } from "react"
-import { View, TextInput, ScrollView, TouchableOpacity, ViewStyle, TextStyle, TextInputProps } from "react-native"
-import { Screen, Text, Button } from "@/components"
+import { View, ScrollView, ViewStyle, TextStyle, TextInputProps } from "react-native"
+import { Screen, Text, Button, TextField, PasswordInput } from "@/components"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { type ThemedStyle } from "@/theme"
-import Icon from "react-native-vector-icons/Feather"
 
 export const SignUpScreen: FC = () => {
-  const { themed } = useAppTheme()
+  const { theme, themed } = useAppTheme()
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -14,71 +13,78 @@ export const SignUpScreen: FC = () => {
   const [birthdate, setBirthdate] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   return (
-    <Screen preset="fixed" contentContainerStyle={themed($container)}>
-      <View style={themed($header)} />
+    <Screen preset="fixed" contentContainerStyle={themed($root)}>
+      <View style={themed($header)}>
+        <Text style={themed($title)}>Criar Conta</Text>
+      </View>
+
       <View style={themed($formContainer)}>
         <ScrollView contentContainerStyle={themed($form)} showsVerticalScrollIndicator={false}>
-          <Text style={themed($title)}>Criar Conta</Text>
 
-          <TextInput
-            style={themed($input)}
-            placeholder="Nome Completo"
+          <TextField
+            label="Nome Completo"
+            placeholder="Exemplo da Silva"
+            autoComplete="name"
+            autoCorrect={true} // acho que podemos ligar o corretor para o nome
             value={name}
             onChangeText={setName}
+            containerStyle={themed($input)}
+            inputWrapperStyle={themed($inputWrapper)}
           />
-          <TextInput
-            style={themed($input)}
-            placeholder="Email"
+          <TextField
+            label="Email"
+            placeholder="exemplo@exemplo.com"
             keyboardType="email-address"
             autoCapitalize="none"
+            autoComplete="email"
+            autoCorrect={false}
             value={email}
             onChangeText={setEmail}
+            containerStyle={themed($input)}
+            inputWrapperStyle={themed($inputWrapper)}
           />
-          <TextInput
-            style={themed($input)}
-            placeholder="Número de Celular"
+          <TextField
+            label="Número de Celular"
+            placeholder="+123 456 789"
             keyboardType="phone-pad"
+            autoComplete="tel-device"
             value={phone}
             onChangeText={setPhone}
+            containerStyle={themed($input)}
+            inputWrapperStyle={themed($inputWrapper)}
           />
-          <TextInput
-            style={themed($input)}
-            placeholder="Data de Nascimento"
+          <TextField
+            label="Data de Nascimento"
+            // TODO: usar o seletor de data do expo
+            placeholder="DD/MM/YY (placeholder)"
+            autoComplete="birthdate-full"
             value={birthdate}
             onChangeText={setBirthdate}
+            containerStyle={themed($input)}
+            inputWrapperStyle={themed($inputWrapper)}
           />
-
-          {/* Campo de Senha */}
-          <View style={themed($inputWrapper)}>
-            <TextInput
-              style={themed($inputWithIcon)}
-              placeholder="Senha"
-              secureTextEntry={!showPassword}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Icon name={showPassword ? "eye-off" : "eye"} size={20} />
-            </TouchableOpacity>
-          </View>
-
-          {/* Confirmar Senha */}
-          <View style={themed($inputWrapper)}>
-            <TextInput
-              style={themed($inputWithIcon)}
-              placeholder="Confirmar Senha"
-              secureTextEntry={!showConfirmPassword}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-            <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-              <Icon name={showPassword ? "eye-off" : "eye"} size={20} />
-            </TouchableOpacity>
-          </View>
+          <PasswordInput
+            label="Senha"
+            // p.s. o placeholder do TextInput ignora
+            // a opção de censurar ou não o texto
+            placeholder="Digite a senha"
+            autoComplete="new-password"
+            value={password}
+            onChangeText={setPassword}
+            containerStyle={themed($input)}
+            inputWrapperStyle={themed($inputWrapper)}
+          />
+          <PasswordInput
+            label="Confirmar Senha"
+            placeholder="Confirme a senha"
+            autoComplete="new-password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            containerStyle={themed($input)}
+            inputWrapperStyle={themed($inputWrapper)}
+          />
 
           <Text style={themed($termsText)}>
             Continuando, Você Concorda com os{" "}
@@ -99,13 +105,23 @@ export const SignUpScreen: FC = () => {
   )
 }
 
-const $container: ThemedStyle<ViewStyle> = () => ({
+const $root: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   flex: 1,
+  backgroundColor: colors.tint,
+  justifyContent: "center",
+  alignItems: "center",
 })
 
 const $header: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  height: 120,
-  backgroundColor: colors.palette.primary500,
+  height: 150,
+  justifyContent: "center",
+})
+
+const $title: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
+  fontSize: spacing.xl,
+  lineHeight: spacing.xl,
+  fontWeight: "bold",
+  color: colors.palette.neutral100,
 })
 
 const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
@@ -115,7 +131,7 @@ const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderTopRightRadius: spacing.xxl,
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.lg,
-  marginTop: -spacing.lg, // para sobrepor o header
+  // marginTop: -spacing.lg, // para sobrepor o header
 })
 
 const $form: ThemedStyle<ViewStyle> = ({ spacing }) => ({
@@ -124,18 +140,9 @@ const $form: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingBottom: spacing.xl,
 })
 
-const $title: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  fontSize: spacing.xxl,
-  fontWeight: "bold",
-  color: colors.palette.primary500,
-  marginBottom: spacing.md,
-})
-
 const $input: ThemedStyle<ViewStyle & TextInputProps> = ({ spacing, colors }) => ({
   width: "100%",
-  borderRadius: spacing.md,
   padding: spacing.md,
-  backgroundColor: colors.palette.neutral200,
   color: colors.text,
 })
 
