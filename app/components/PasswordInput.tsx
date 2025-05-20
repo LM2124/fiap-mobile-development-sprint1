@@ -1,4 +1,3 @@
-import { observer } from "mobx-react-lite" 
 import { useAppTheme } from "@/utils/useAppTheme"
 import { TextField, TextFieldAccessoryProps, TextFieldProps } from "./TextField"
 import { ComponentType, useMemo, useState } from "react"
@@ -10,7 +9,7 @@ export interface PasswordInputProps extends Omit<TextFieldProps, 'RightAccessory
 /**
  * Wrapper em volta do `TextField`, adicionando um botão para mostrar/ocultar o texto dentro do componente.
  */
-export const PasswordInput = observer(function PasswordInput(props: PasswordInputProps) {
+export const PasswordInput = (props: PasswordInputProps) => {
   const { ...rest } = props
   const { theme } = useAppTheme();
 
@@ -43,5 +42,4 @@ export const PasswordInput = observer(function PasswordInput(props: PasswordInpu
       {...rest} // propagar o resto dos props pro TextField
     />
   )
-
-})
+}

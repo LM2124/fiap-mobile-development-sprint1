@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { View, ScrollView, ViewStyle, TextStyle, TextInputProps } from "react-native"
+import { View, ScrollView, ViewStyle, TextStyle } from "react-native"
 import { Screen, Text, Button, TextField, PasswordInput } from "@/components"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { type ThemedStyle } from "@/theme"
@@ -20,87 +20,79 @@ export const SignUpScreen: FC = () => {
         <Text style={themed($title)}>Criar Conta</Text>
       </View>
 
-      <View style={themed($formContainer)}>
-        <ScrollView contentContainerStyle={themed($form)} showsVerticalScrollIndicator={false}>
+      <ScrollView style={themed($formContainer)} contentContainerStyle={themed($formContent)} showsVerticalScrollIndicator={false} id="aadasd">
 
-          <TextField
-            label="Nome Completo"
-            placeholder="Exemplo da Silva"
-            autoComplete="name"
-            autoCorrect={true} // acho que podemos ligar o corretor para o nome
-            value={name}
-            onChangeText={setName}
-            containerStyle={themed($input)}
-            inputWrapperStyle={themed($inputWrapper)}
-          />
-          <TextField
-            label="Email"
-            placeholder="exemplo@exemplo.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            autoCorrect={false}
-            value={email}
-            onChangeText={setEmail}
-            containerStyle={themed($input)}
-            inputWrapperStyle={themed($inputWrapper)}
-          />
-          <TextField
-            label="Número de Celular"
-            placeholder="+123 456 789"
-            keyboardType="phone-pad"
-            autoComplete="tel-device"
-            value={phone}
-            onChangeText={setPhone}
-            containerStyle={themed($input)}
-            inputWrapperStyle={themed($inputWrapper)}
-          />
-          <TextField
-            label="Data de Nascimento"
-            // TODO: usar o seletor de data do expo
-            placeholder="DD/MM/YY (placeholder)"
-            autoComplete="birthdate-full"
-            value={birthdate}
-            onChangeText={setBirthdate}
-            containerStyle={themed($input)}
-            inputWrapperStyle={themed($inputWrapper)}
-          />
-          <PasswordInput
-            label="Senha"
-            // p.s. o placeholder do TextInput ignora
-            // a opção de censurar ou não o texto
-            placeholder="Digite a senha"
-            autoComplete="new-password"
-            value={password}
-            onChangeText={setPassword}
-            containerStyle={themed($input)}
-            inputWrapperStyle={themed($inputWrapper)}
-          />
-          <PasswordInput
-            label="Confirmar Senha"
-            placeholder="Confirme a senha"
-            autoComplete="new-password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            containerStyle={themed($input)}
-            inputWrapperStyle={themed($inputWrapper)}
-          />
+        <TextField
+          label="Nome Completo"
+          placeholder="Exemplo da Silva"
+          autoComplete="name"
+          autoCorrect={true} // acho que podemos ligar o corretor para o nome
+          value={name}
+          onChangeText={setName}
+          inputWrapperStyle={themed($inputWrapper)}
+        />
+        <TextField
+          label="Email"
+          placeholder="exemplo@exemplo.com"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+          autoCorrect={false}
+          value={email}
+          onChangeText={setEmail}
+          inputWrapperStyle={themed($inputWrapper)}
+        />
+        <TextField
+          label="Número de Celular"
+          placeholder="+123 456 789"
+          keyboardType="phone-pad"
+          autoComplete="tel-device"
+          value={phone}
+          onChangeText={setPhone}
+          inputWrapperStyle={themed($inputWrapper)}
+        />
+        <TextField
+          label="Data de Nascimento"
+          // TODO: usar o seletor de data do expo
+          placeholder="DD/MM/YY (placeholder)"
+          autoComplete="birthdate-full"
+          value={birthdate}
+          onChangeText={setBirthdate}
+          inputWrapperStyle={themed($inputWrapper)}
+        />
+        <PasswordInput
+          label="Senha"
+          // p.s. o placeholder do TextInput ignora
+          // a opção de censurar ou não o texto
+          placeholder="Digite a senha"
+          autoComplete="new-password"
+          value={password}
+          onChangeText={setPassword}
+          inputWrapperStyle={themed($inputWrapper)}
+        />
+        <PasswordInput
+          label="Confirmar Senha"
+          placeholder="Confirme a senha"
+          autoComplete="new-password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          inputWrapperStyle={themed($inputWrapper)}
+        />
 
-          <Text style={themed($termsText)}>
-            Continuando, Você Concorda com os{" "}
-            <Text style={themed($link)}>Termos de Uso</Text> e{" "}
-            <Text style={themed($link)}>Política de Privacidade</Text>.
-          </Text>
+        <Text style={themed($termsText)}>
+          Continuando, Você Concorda com os{" "}
+          <Text style={themed($link)}>Termos de Uso</Text> e{" "}
+          <Text style={themed($link)}>Política de Privacidade</Text>.
+        </Text>
 
-          <Button style={themed($button)} textStyle={themed($buttonText)}>
-            Cadastrar
-          </Button>
+        <Button style={themed($button)} textStyle={themed($buttonText)}>
+          Cadastrar
+        </Button>
 
-          <Text style={themed($footerText)}>
-            Você já tem uma conta? <Text style={themed($link)}>Entrar</Text>
-          </Text>
-        </ScrollView>
-      </View>
+        <Text style={themed($footerText)}>
+          Você já tem uma conta? <Text style={themed($link)}>Entrar</Text>
+        </Text>
+      </ScrollView>
     </Screen>
   )
 }
@@ -125,39 +117,22 @@ const $title: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
 })
 
 const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  flex: 1,
   backgroundColor: colors.background,
   borderTopLeftRadius: spacing.xxl,
   borderTopRightRadius: spacing.xxl,
-  paddingHorizontal: spacing.lg,
-  paddingTop: spacing.lg,
-  // marginTop: -spacing.lg, // para sobrepor o header
+  // marginTop: -spacing.lg, // para se aproximar do header
 })
 
-const $form: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  alignItems: "center",
-  gap: spacing.sm,
-  paddingBottom: spacing.xl,
-})
-
-const $input: ThemedStyle<ViewStyle & TextInputProps> = ({ spacing, colors }) => ({
-  width: "100%",
-  padding: spacing.md,
-  color: colors.text,
+const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  paddingVertical: spacing.lg,
+  paddingHorizontal: spacing.xl,
+  gap: spacing.md,
 })
 
 const $inputWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
   borderRadius: spacing.md,
-  paddingHorizontal: spacing.md,
-  backgroundColor: colors.palette.neutral200,
-})
-
-const $inputWithIcon: ThemedStyle<TextStyle> = () => ({
-  flex: 1,
+  paddingHorizontal: spacing.sm,
+  backgroundColor: colors.palette.neutral100,
 })
 
 const $termsText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
