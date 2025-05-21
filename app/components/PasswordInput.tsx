@@ -2,6 +2,7 @@ import { useAppTheme } from "@/utils/useAppTheme"
 import { TextField, TextFieldAccessoryProps, TextFieldProps } from "./TextField"
 import { ComponentType, useMemo, useState } from "react"
 import { PressableIcon } from "./Icon"
+import { ViewStyle } from "react-native"
 
 // Remover os props `RightAccessory` e `secureTextEntry` pois já estamos usando eles nesse componente
 export interface PasswordInputProps extends Omit<TextFieldProps, 'RightAccessory' | 'secureTextEntry'> {}
@@ -10,7 +11,7 @@ export interface PasswordInputProps extends Omit<TextFieldProps, 'RightAccessory
  * Wrapper em volta do `TextField`, adicionando um botão para mostrar/ocultar o texto dentro do componente.
  */
 export const PasswordInput = (props: PasswordInputProps) => {
-  const { ...rest } = props
+  const { style, ...rest } = props
   const { theme } = useAppTheme();
 
   const [isHidden, setHidden] = useState(true)
@@ -39,7 +40,10 @@ export const PasswordInput = (props: PasswordInputProps) => {
       // 2 props de conveniência
       autoCapitalize="none"
       autoCorrect={false}
-      {...rest} // propagar o resto dos props pro TextField
+      // Em telas muito apertadas, a minWidth do input jogava o accessory pra fora do container
+      style={[{ minWidth: 100 }, style]}
+      // propagar o resto dos props pro TextField
+      {...rest}
     />
   )
 }

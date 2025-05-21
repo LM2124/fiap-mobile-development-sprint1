@@ -1,8 +1,9 @@
-import { FC, useState } from "react"
-import { View, ScrollView, ViewStyle, TextStyle } from "react-native"
-import { Screen, Text, Button, TextField, PasswordInput } from "@/components"
+import { Button, Link, PasswordInput, Screen, Text, TextField } from "@/components"
+import { $styles, ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
-import { type ThemedStyle } from "@/theme"
+import { FC, useState } from "react"
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { $loginStyles } from "./Login/styles"
 
 export const SignUpScreen: FC = () => {
   const { theme, themed } = useAppTheme()
@@ -15,13 +16,16 @@ export const SignUpScreen: FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("")
 
   return (
-    <Screen preset="fixed" contentContainerStyle={themed($root)}>
-      <View style={themed($header)}>
-        <Text style={themed($title)}>Criar Conta</Text>
+    <Screen contentContainerStyle={themed($root)} preset="fixed">
+      <View style={$styles.header}>
+        <Text style={themed($styles.$title)}>Criar Conta</Text>
       </View>
 
-      <ScrollView style={themed($formContainer)} contentContainerStyle={themed($formContent)} showsVerticalScrollIndicator={false} id="aadasd">
-
+      <ScrollView
+        style={themed($loginStyles.$formContainer)}
+        contentContainerStyle={themed($loginStyles.$formContent)}
+        showsVerticalScrollIndicator={false}
+      >
         <TextField
           label="Nome Completo"
           placeholder="Exemplo da Silva"
@@ -29,7 +33,7 @@ export const SignUpScreen: FC = () => {
           autoCorrect={true} // acho que podemos ligar o corretor para o nome
           value={name}
           onChangeText={setName}
-          inputWrapperStyle={themed($inputWrapper)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
         <TextField
           label="Email"
@@ -40,7 +44,7 @@ export const SignUpScreen: FC = () => {
           autoCorrect={false}
           value={email}
           onChangeText={setEmail}
-          inputWrapperStyle={themed($inputWrapper)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
         <TextField
           label="Número de Celular"
@@ -49,7 +53,7 @@ export const SignUpScreen: FC = () => {
           autoComplete="tel-device"
           value={phone}
           onChangeText={setPhone}
-          inputWrapperStyle={themed($inputWrapper)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
         <TextField
           label="Data de Nascimento"
@@ -58,7 +62,7 @@ export const SignUpScreen: FC = () => {
           autoComplete="birthdate-full"
           value={birthdate}
           onChangeText={setBirthdate}
-          inputWrapperStyle={themed($inputWrapper)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
         <PasswordInput
           label="Senha"
@@ -68,7 +72,7 @@ export const SignUpScreen: FC = () => {
           autoComplete="new-password"
           value={password}
           onChangeText={setPassword}
-          inputWrapperStyle={themed($inputWrapper)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
         <PasswordInput
           label="Confirmar Senha"
@@ -76,63 +80,32 @@ export const SignUpScreen: FC = () => {
           autoComplete="new-password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          inputWrapperStyle={themed($inputWrapper)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
 
         <Text style={themed($termsText)}>
           Continuando, Você Concorda com os{" "}
-          <Text style={themed($link)}>Termos de Uso</Text> e{" "}
-          <Text style={themed($link)}>Política de Privacidade</Text>.
+          <Link href="" style={themed($styles.$link)}>Termos de Uso</Link> e{" "}
+          <Link href="" style={themed($styles.$link)}>Política de Privacidade</Link>.
         </Text>
 
-        <Button style={themed($button)} textStyle={themed($buttonText)}>
+        <Button style={themed($styles.$buttonPrimary)} textStyle={themed($styles.$buttonText)}>
           Cadastrar
         </Button>
 
         <Text style={themed($footerText)}>
-          Você já tem uma conta? <Text style={themed($link)}>Entrar</Text>
+          Você já tem uma conta? <Link href="" style={themed($styles.$link)}>Entrar</Link>
         </Text>
       </ScrollView>
     </Screen>
   )
 }
 
-const $root: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   flex: 1,
   backgroundColor: colors.tint,
   justifyContent: "center",
   alignItems: "center",
-})
-
-const $header: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  height: 150,
-  justifyContent: "center",
-})
-
-const $title: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  fontSize: spacing.xl,
-  lineHeight: spacing.xl,
-  fontWeight: "bold",
-  color: colors.palette.neutral100,
-})
-
-const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  backgroundColor: colors.background,
-  borderTopLeftRadius: spacing.xxl,
-  borderTopRightRadius: spacing.xxl,
-  // marginTop: -spacing.lg, // para se aproximar do header
-})
-
-const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingVertical: spacing.lg,
-  paddingHorizontal: spacing.xl,
-  gap: spacing.md,
-})
-
-const $inputWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  borderRadius: spacing.md,
-  paddingHorizontal: spacing.sm,
-  backgroundColor: colors.palette.neutral100,
 })
 
 const $termsText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
@@ -140,25 +113,6 @@ const $termsText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   textAlign: "center",
   color: colors.palette.neutral600,
   marginTop: spacing.sm,
-})
-
-const $link: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.primary500,
-  textDecorationLine: "underline",
-})
-
-const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  width: "100%",
-  backgroundColor: colors.tint,
-  borderRadius: spacing.xl,
-  paddingVertical: spacing.sm,
-  marginTop: spacing.md,
-})
-
-const $buttonText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.neutral100,
-  textAlign: "center",
-  fontWeight: "bold",
 })
 
 const $footerText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
