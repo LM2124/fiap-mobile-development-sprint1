@@ -4,7 +4,7 @@ import { $styles, ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { FC, useState } from "react"
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
-import { $loginStyles } from "./Login/styles"
+import { $loginStyles } from "./styles"
 
 interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
 
