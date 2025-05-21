@@ -3,7 +3,7 @@ import { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Text, Screen, Button } from "@/components"
 import { AppStackScreenProps } from "../navigators"
-import { type ThemedStyle } from "@/theme"
+import { $styles, type ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
 
 const welcomeLogo = require("../../assets/images/xpLogo.png")
@@ -13,6 +13,8 @@ interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> { }
 export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen() {
   const { themed, theme } = useAppTheme()
 
+  // FIXME: tela não cabe no modo horizontal.
+  // Considerando forçar o modo vertical para essa tela e durante o onboarding.
   return (
     <Screen preset="fixed" contentContainerStyle={themed($container)}>
       <Image style={themed($welcomeLogo)} source={welcomeLogo} resizeMode="contain" />
@@ -24,8 +26,8 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
           Acesse sua conta com segurança e praticidade.<br />
           Insira seus dados para continuar gerenciando suas finanças de forma simples e protegida.
         </Text>
-        <Button style={themed($button)} textStyle={themed($buttonText)}>Entrar</Button>
-        <Button style={themed($buttonAlt)} textStyle={themed($buttonText)}>Cadastre-se</Button>
+        <Button style={themed($styles.$buttonPrimary)} textStyle={themed($styles.$buttonText)}>Entrar</Button>
+        <Button style={themed($styles.$buttonSecondary)} textStyle={themed($styles.$buttonText)}>Cadastre-se</Button>
       </View>
     </Screen>
   )
@@ -61,22 +63,4 @@ const $containerNarrow: ThemedStyle<ViewStyle> = () => ({
 const $welcomeText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   textAlign: "center",
   marginBottom: spacing.sm,
-})
-
-const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  backgroundColor: colors.tint,
-  borderColor: colors.transparent,
-  borderRadius: spacing.xl,
-  marginTop: spacing.sm,
-})
-
-const $buttonAlt: ThemedStyle<ViewStyle> = (theme) => ({
-  ...$button(theme),
-  // FIXME: não gostei dessa cor && E vc acha que eu gostei.
-  backgroundColor: theme.colors.palette.primary300
-})
-
-const $buttonText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  color: colors.palette.neutral100,
-  fontSize: spacing.lg,
 })
