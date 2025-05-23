@@ -1,11 +1,14 @@
 import { Button, Link, PasswordInput, Screen, Text, TextField } from "@/components"
+import { AppStackScreenProps } from "@/navigators"
 import { $styles, ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { FC, useState } from "react"
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
 import { $loginStyles } from "./styles"
 
-export const SignUpScreen: FC = () => {
+interface SignUpScreenProps extends AppStackScreenProps<"SignUp"> {}
+
+export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
 
   const [name, setName] = useState("")
@@ -14,6 +17,14 @@ export const SignUpScreen: FC = () => {
   const [birthdate, setBirthdate] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+
+  const signIn = () => {
+    navigation.navigate("SignIn")
+  }
+
+  const signUp = () => {
+    console.log("Sign Up Flow")
+  }
 
   return (
     <Screen contentContainerStyle={themed($root)} preset="fixed">
@@ -89,12 +100,15 @@ export const SignUpScreen: FC = () => {
           <Link href="" style={themed($styles.$link)}>Política de Privacidade</Link>.
         </Text>
 
-        <Button style={themed($styles.$buttonPrimary)} textStyle={themed($styles.$buttonText)}>
-          Cadastrar
-        </Button>
+        <Button
+          text="Cadastrar"
+          onPress={signUp}
+          style={themed($styles.$buttonPrimary)}
+          textStyle={themed($styles.$buttonText)}
+        />
 
         <Text style={themed($footerText)}>
-          Você já tem uma conta? <Link href="" style={themed($styles.$link)}>Entrar</Link>
+          Você já tem uma conta? <Link onPress={signIn} style={themed($styles.$link)}>Entrar</Link>
         </Text>
       </ScrollView>
     </Screen>

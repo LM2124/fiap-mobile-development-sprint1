@@ -9,10 +9,22 @@ import { $loginStyles } from "./styles"
 interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
 
 
-export const SignInScreen: FC<SignInScreenProps> = () => {
+export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()
   const [name, setName] = useState("")
   const [password, setPassword] = useState("")
+
+  const signIn = () => {
+    console.log("Sign in flow")
+  }
+
+  const signUp = () => {
+    navigation.navigate("SignUp")
+  }
+
+  const passwdForget = () => {
+    console.log("Password Forget")
+  }
   
   return (
     <Screen contentContainerStyle={themed($root)} preset="fixed">
@@ -43,20 +55,30 @@ export const SignInScreen: FC<SignInScreenProps> = () => {
           onChangeText={setPassword}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
-
-        <Button style={themed($styles.$buttonPrimary)} textStyle={themed($styles.$buttonText)}>
-          Entrar
-        </Button>
-        <Link href="" preset="bold" style={{textAlign: "center"}}>Esqueceu a Senha?</Link>
-        <Button style={themed($styles.$buttonSecondary)} textStyle={themed($styles.$buttonText)}>
-          Cadastre-se
-        </Button>
+        <Link
+          text="Esqueceu a Senha?"
+          onPress={passwdForget}
+          preset="bold"
+          // style={{ textAlign: "center" }}
+        />
+        <Button
+          text="Entrar"
+          onPress={signIn}
+          style={themed($styles.$buttonPrimary)}
+          textStyle={themed($styles.$buttonText)}
+        />
+        <Text preset="formLabel" style={themed($footerText)}>
+          Não tem uma conta?
+        </Text>
+        <Button
+          text="Cadastre-se"
+          onPress={signUp}
+          // Style temporário; ajustar CSS dos botões depois
+          style={[themed($styles.$buttonSecondary), {marginTop: -8}]}
+          textStyle={themed($styles.$buttonText)}
+        />
 
         {/* TODO: Ícones de login Facebook e Google */}
-
-        <Text style={themed($footerText)}>
-          Não tem uma conta? <Link href="">Cadastre-se</Link>
-        </Text>
       </ScrollView>
     </Screen>
   )
@@ -70,8 +92,8 @@ const $root: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 })
 
 const $footerText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.md,
-  fontSize: spacing.sm,
+  // marginTop: spacing.md,
+  // fontSize: spacing.sm,
   textAlign: "center",
   color: colors.palette.neutral600,
 })
