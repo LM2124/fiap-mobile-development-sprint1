@@ -15,7 +15,7 @@ export const Link = (props: LinkProps) => {
   const { themed } = useAppTheme()
 
   return (
-    <Text style={[themed($styles.$link), style]} {...rest}>
+    <Text style={[style, themed($styles.$link)]} {...rest}>
       <a href={href}>{children}</a>
     </Text>
   )

@@ -37,7 +37,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
         <Button
           text="Entrar"
           onPress={signIn}
-          style={themed($styles.$buttonPrimary)}
+          style={[themed($styles.$buttonPrimary), { marginVertical: theme.spacing.md }]}
           textStyle={themed($styles.$buttonText)}
         />
         <Button

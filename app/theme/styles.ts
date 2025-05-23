@@ -15,7 +15,6 @@ const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   backgroundColor: colors.tint,
   borderRadius: spacing.xl,
   paddingVertical: spacing.sm,
-  marginTop: spacing.md,
 })
 
 const $buttonAlt: ThemedStyle<ViewStyle> = (theme) => ({

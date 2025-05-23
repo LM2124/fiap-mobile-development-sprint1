@@ -10,7 +10,7 @@ interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
 
 
 export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
-  const { themed } = useAppTheme()
+  const { theme, themed } = useAppTheme()
   const [name, setName] = useState("")
   const [password, setPassword] = useState("")
 
@@ -59,24 +59,27 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           text="Esqueceu a Senha?"
           onPress={passwdForget}
           preset="bold"
-          // style={{ textAlign: "center" }}
+          style={{ marginTop: -theme.spacing.sm }}
         />
-        <Button
-          text="Entrar"
-          onPress={signIn}
-          style={themed($styles.$buttonPrimary)}
-          textStyle={themed($styles.$buttonText)}
-        />
-        <Text preset="formLabel" style={themed($footerText)}>
-          Não tem uma conta?
-        </Text>
-        <Button
-          text="Cadastre-se"
-          onPress={signUp}
-          // Style temporário; ajustar CSS dos botões depois
-          style={[themed($styles.$buttonSecondary), {marginTop: -8}]}
-          textStyle={themed($styles.$buttonText)}
-        />
+
+        <View style={{ alignSelf: "center", width: "66%" }}>
+          <Button
+            text="Entrar"
+            onPress={signIn}
+            style={themed($styles.$buttonPrimary)}
+            textStyle={themed($styles.$buttonText)}
+          />
+          <Text preset="formLabel" style={themed($footerText)}>
+            Não tem uma conta?
+          </Text>
+          <Button
+            text="Cadastre-se"
+            onPress={signUp}
+            // Style temporário; ajustar CSS dos botões depois
+            style={themed($styles.$buttonSecondary)}
+            textStyle={themed($styles.$buttonText)}
+          />
+        </View>
 
         {/* TODO: Ícones de login Facebook e Google */}
       </ScrollView>
@@ -92,8 +95,7 @@ const $root: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 })
 
 const $footerText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  // marginTop: spacing.md,
-  // fontSize: spacing.sm,
+  marginTop: spacing.sm,
   textAlign: "center",
   color: colors.palette.neutral600,
 })

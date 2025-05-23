@@ -26,6 +26,14 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     console.log("Sign Up Flow")
   }
 
+  const pressTos = () => {
+    console.log("Show TOS")
+  }
+
+  const pressPrivacy = () => {
+    console.log("Show Privacy Policy")
+  }
+
   return (
     <Screen contentContainerStyle={themed($root)} preset="fixed">
       <View style={$styles.header}>
@@ -95,9 +103,10 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
         />
 
         <Text style={themed($termsText)}>
-          Continuando, Você Concorda com os{" "}
-          <Link href="" style={themed($styles.$link)}>Termos de Uso</Link> e{" "}
-          <Link href="" style={themed($styles.$link)}>Política de Privacidade</Link>.
+          {"Continuando, Você Concorda com os "}
+          <Link style={themed($termsText)} onPress={pressTos}>Termos de Uso</Link>
+          {" e "}
+          <Link style={themed($termsText)} onPress={pressPrivacy}>Política de Privacidade</Link>.
         </Text>
 
         <Button
@@ -108,7 +117,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
         />
 
         <Text style={themed($footerText)}>
-          Você já tem uma conta? <Link onPress={signIn} style={themed($styles.$link)}>Entrar</Link>
+          Já tem uma conta? <Link onPress={signIn} style={themed($footerText)}>Entrar</Link>
         </Text>
       </ScrollView>
     </Screen>
@@ -123,15 +132,16 @@ const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
 })
 
 const $termsText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  fontSize: spacing.sm,
+  fontSize: spacing.md,
+  lineHeight: spacing.md,
   textAlign: "center",
   color: colors.palette.neutral600,
   marginTop: spacing.sm,
 })
 
 const $footerText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  marginTop: spacing.md,
-  fontSize: spacing.sm,
+  fontSize: spacing.md,
+  lineHeight: spacing.md,
   textAlign: "center",
   color: colors.palette.neutral600,
 })
