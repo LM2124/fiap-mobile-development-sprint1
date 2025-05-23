@@ -53,6 +53,9 @@ const AppStack = observer(function AppStack() {
     theme: { colors },
   } = useAppTheme()
 
+  // Manual; mudar aqui quando autenticação tiver pronta
+  const isAuthenticated = false
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -63,12 +66,23 @@ const AppStack = observer(function AppStack() {
         },
       }}
     >
-      {/* Comentar as outras telas pra fora por enquanto, até eu ver como mexe com a navigation direito */}
-      {/* <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} /> */}
-      {/** 🔥 Your screens go here */}
-      {/* <Stack.Screen name="SignUp" component={Screens.SignUpScreen} /> */}
-			<Stack.Screen name="SignIn" component={Screens.SignInScreen} />
-			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {!isAuthenticated ? (
+        // Flow não autenticado
+        <>
+          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+          <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
+          <Stack.Screen name="SignIn" component={Screens.SignInScreen} />
+          {/* PasswordForget */}
+          {/* Onboarding */}
+        </>
+      ) : (
+        <>
+        {/* Flow autenticado; vai ter Home e etc depois */}
+        {/** 🔥 Your screens go here */}
+        {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+        </>
+      )}
+
     </Stack.Navigator>
   )
 })

@@ -10,8 +10,16 @@ const welcomeLogo = require("../../assets/images/xpLogo.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> { }
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen() {
+export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen({ navigation }) {
   const { themed, theme } = useAppTheme()
+
+  const signIn = () => {
+    navigation.navigate("SignIn")
+  }
+
+  const signUp = () => {
+    navigation.navigate("SignUp")
+  }
 
   // FIXME: tela não cabe no modo horizontal.
   // Considerando forçar o modo vertical para essa tela e durante o onboarding.
@@ -26,8 +34,18 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
           Acesse sua conta com segurança e praticidade.<br />
           Insira seus dados para continuar gerenciando suas finanças de forma simples e protegida.
         </Text>
-        <Button style={themed($styles.$buttonPrimary)} textStyle={themed($styles.$buttonText)}>Entrar</Button>
-        <Button style={themed($styles.$buttonSecondary)} textStyle={themed($styles.$buttonText)}>Cadastre-se</Button>
+        <Button
+          text="Entrar"
+          onPress={signIn}
+          style={themed($styles.$buttonPrimary)}
+          textStyle={themed($styles.$buttonText)}
+        />
+        <Button
+          text="Cadastre-se"
+          onPress={signUp}
+          style={themed($styles.$buttonSecondary)}
+          textStyle={themed($styles.$buttonText)}
+        />
       </View>
     </Screen>
   )
