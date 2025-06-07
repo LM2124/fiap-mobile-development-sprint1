@@ -18,11 +18,16 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
-  const signIn = () => {
-    navigation.navigate("SignIn")
+  const toSignIn = () => {
+    navigation.replace("SignIn")
   }
 
   const signUp = () => {
+    // validateEmptyFields()
+    // validateValidEmail()
+    // validatePhoneNumber()
+    // validateBirthdate()
+    // validateMatchingPasswords()
     console.log("Sign Up Flow")
   }
 
@@ -117,7 +122,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
         />
 
         <Text style={themed($footerText)}>
-          Já tem uma conta? <Link onPress={signIn} style={themed($footerText)}>Entrar</Link>
+          Já tem uma conta? <Link onPress={toSignIn} style={themed($footerText)}>Entrar</Link>
         </Text>
       </ScrollView>
     </Screen>

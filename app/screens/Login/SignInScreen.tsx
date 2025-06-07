@@ -15,15 +15,16 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("")
 
   const signIn = () => {
+    // validateEmptyFields()
     console.log("Sign in flow")
   }
 
-  const signUp = () => {
-    navigation.navigate("SignUp")
+  const toSignUp = () => {
+    navigation.replace("SignUp")
   }
 
   const passwdForget = () => {
-    console.log("Password Forget")
+    navigation.navigate("ForgetPassword")
   }
   
   return (
@@ -74,7 +75,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           </Text>
           <Button
             text="Cadastre-se"
-            onPress={signUp}
+            onPress={toSignUp}
             // Style temporário; ajustar CSS dos botões depois
             style={themed($styles.$buttonSecondary)}
             textStyle={themed($styles.$buttonText)}
