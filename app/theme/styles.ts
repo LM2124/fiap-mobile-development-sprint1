@@ -1,4 +1,5 @@
 import { TextStyle, ViewStyle } from "react-native"
+
 import { ThemedStyle } from "./index"
 
 /* Use this file to define styles that are used in multiple places in your app. */
@@ -20,7 +21,7 @@ const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 const $buttonAlt: ThemedStyle<ViewStyle> = (theme) => ({
   ...$button(theme),
   // FIXME: não gostei dessa cor
-  backgroundColor: theme.colors.palette.primary300
+  backgroundColor: theme.colors.palette.primary300,
 })
 
 const $buttonText: ThemedStyle<TextStyle> = ({ colors }) => ({

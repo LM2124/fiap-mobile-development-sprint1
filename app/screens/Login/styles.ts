@@ -1,6 +1,6 @@
-import { ThemedStyle } from "@/theme";
-import { useWindowDimensions, ViewStyle } from "react-native";
+import { useWindowDimensions, ViewStyle } from "react-native"
 
+import { ThemedStyle } from "@/theme"
 
 const $inputWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.md,

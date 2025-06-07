@@ -1,13 +1,14 @@
+import { FC, useState } from "react"
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+
 import { Button, Link, PasswordInput, Screen, Text, TextField } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
 import { $styles, ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
-import { FC, useState } from "react"
-import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+
 import { $loginStyles } from "./styles"
 
 interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
-
 
 export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
@@ -26,7 +27,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const passwdForget = () => {
     navigation.navigate("ForgetPassword")
   }
-  
+
   return (
     <Screen contentContainerStyle={themed($root)} preset="fixed">
       <View style={themed($styles.header)}>
@@ -63,7 +64,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           style={{ marginTop: -theme.spacing.sm }}
         />
 
-        <View style={{ alignSelf: "center", width: "66%" }}>
+        <View style={$narrowContainer}>
           <Button
             text="Entrar"
             onPress={signIn}
@@ -88,22 +89,20 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   )
 }
 
-const $root: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   flex: 1,
   backgroundColor: colors.tint,
   justifyContent: "center",
   alignItems: "center",
 })
 
+const $narrowContainer: ViewStyle = {
+  alignSelf: "center",
+  width: "66%",
+}
+
 const $footerText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   marginTop: spacing.sm,
   textAlign: "center",
   color: colors.palette.neutral600,
-})
-
-const $socialContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  justifyContent: "center",
-  gap: spacing.md,
-  marginTop: spacing.md,
 })

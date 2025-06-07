@@ -10,15 +10,15 @@ module.exports = {
     "plugin:react/jsx-runtime",
     "prettier",
   ],
-  plugins: ["reactotron", "prettier"],
+  plugins: ["reactotron", "prettier", "simple-import-sort"],
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", { endOfLine: "crlf" }],
     // typescript-eslint
     "@typescript-eslint/array-type": 0,
     "@typescript-eslint/ban-ts-comment": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-unused-vars": [
-      "error",
+      "warn",
       {
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_",
@@ -63,5 +63,7 @@ module.exports = {
     "no-global-assign": 0,
     "quotes": 0,
     "space-before-function-paren": 0,
+    // import sorting
+    "simple-import-sort/imports": "error",
   },
 }

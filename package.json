@@ -37,6 +37,7 @@
     "@shopify/flash-list": "1.7.3",
     "apisauce": "3.0.1",
     "date-fns": "^4.1.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "expo": "^52.0.44",
     "expo-build-properties": "~0.13.1",
     "expo-dev-client": "~5.0.1",

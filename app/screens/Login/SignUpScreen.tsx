@@ -1,15 +1,17 @@
+import { FC, useState } from "react"
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+
 import { Button, Link, PasswordInput, Screen, Text, TextField } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
 import { $styles, ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
-import { FC, useState } from "react"
-import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+
 import { $loginStyles } from "./styles"
 
 interface SignUpScreenProps extends AppStackScreenProps<"SignUp"> {}
 
 export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
-  const { theme, themed } = useAppTheme()
+  const { themed } = useAppTheme()
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -109,9 +111,14 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
 
         <Text style={themed($termsText)}>
           {"Continuando, Você Concorda com os "}
-          <Link style={themed($termsText)} onPress={pressTos}>Termos de Uso</Link>
+          <Link style={themed($termsText)} onPress={pressTos}>
+            Termos de Uso
+          </Link>
           {" e "}
-          <Link style={themed($termsText)} onPress={pressPrivacy}>Política de Privacidade</Link>.
+          <Link style={themed($termsText)} onPress={pressPrivacy}>
+            Política de Privacidade
+          </Link>
+          .
         </Text>
 
         <Button
@@ -122,7 +129,10 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
         />
 
         <Text style={themed($footerText)}>
-          Já tem uma conta? <Link onPress={toSignIn} style={themed($footerText)}>Entrar</Link>
+          Já tem uma conta?{" "}
+          <Link onPress={toSignIn} style={themed($footerText)}>
+            Entrar
+          </Link>
         </Text>
       </ScrollView>
     </Screen>

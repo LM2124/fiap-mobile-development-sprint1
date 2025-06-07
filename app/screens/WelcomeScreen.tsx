@@ -1,16 +1,20 @@
 import { observer } from "mobx-react-lite"
 import { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { Text, Screen, Button } from "@/components"
-import { AppStackScreenProps } from "../navigators"
+
+import { Button, Screen, Text } from "@/components"
 import { $styles, type ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
 
+import { AppStackScreenProps } from "../navigators"
+
 const welcomeLogo = require("../../assets/images/xpLogo.png")
 
-interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> { }
+interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen({ navigation }) {
+export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen({
+  navigation,
+}) {
   const { themed, theme } = useAppTheme()
 
   const signIn = () => {
@@ -30,8 +34,10 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
 
       <View style={themed($containerNarrow)}>
         <Text style={themed($welcomeText)}>
-          Bem Vindo.<br />
-          Acesse sua conta com segurança e praticidade.<br />
+          Bem Vindo.
+          <br />
+          Acesse sua conta com segurança e praticidade.
+          <br />
           Insira seus dados para continuar gerenciando suas finanças de forma simples e protegida.
         </Text>
         <Button
@@ -62,7 +68,7 @@ const $welcomeLogo: ThemedStyle<ImageStyle> = ({ spacing }) => ({
   height: 150,
   width: "100%",
   aspectRatio: 1,
-  marginBottom: 8,
+  marginBottom: spacing.xs,
 })
 
 const $welcomeHeading: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({

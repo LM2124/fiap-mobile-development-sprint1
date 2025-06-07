@@ -7,11 +7,13 @@
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
+import { ComponentProps } from "react"
+
 import * as Screens from "@/screens"
+import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
+
 import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
-import { ComponentProps } from "react"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -30,10 +32,10 @@ export type AppStackParamList = {
   Welcome: undefined
   // 🔥 Your screens go here
   SignUp: undefined
-	SignIn: undefined
-	ForgetPassword: undefined
-	ResetPassword: undefined
-	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  SignIn: undefined
+  ForgetPassword: undefined
+  ResetPassword: undefined
+  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -81,12 +83,11 @@ const AppStack = observer(function AppStack() {
         </>
       ) : (
         <>
-        {/* Flow autenticado; vai ter Home e etc depois */}
-        {/** 🔥 Your screens go here */}
-        {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+          {/* Flow autenticado; vai ter Home e etc depois */}
+          {/** 🔥 Your screens go here */}
+          {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
         </>
       )}
-
     </Stack.Navigator>
   )
 })

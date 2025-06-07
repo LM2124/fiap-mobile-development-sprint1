@@ -1,0 +1,16 @@
+{
+	"editor.codeActionsOnSave": {
+		// Autoformatação ao salvar o arquivo
+		"source.fixAll.eslint": "explicit",
+	},
+
+	"[typescriptreact]": {
+		// Editar ou renomear uma tag edita o correspondente dela ao mesmo tempo
+		"editor.linkedEditing": true,
+	},
+
+	// Esse emmet abbreviation tava tentando oferecer
+	// autocomplete de tags HTML nos arquivos .tsx
+	// Isso já me incomodou o suficiente pra me fazer buscar como desliga 👍
+	"emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
+}

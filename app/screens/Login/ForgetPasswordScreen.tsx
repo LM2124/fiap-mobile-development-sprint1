@@ -1,18 +1,18 @@
-import { FC, useState } from "react"
 import { observer } from "mobx-react-lite"
+import { FC, useState } from "react"
 import { ScrollView, View, ViewStyle } from "react-native"
-import { AppStackScreenProps } from "@/navigators"
-import { Button, Link, PasswordInput, Screen, Text, TextField } from "@/components"
-import { useAppTheme } from "@/utils/useAppTheme"
-import { $styles, ThemedStyle } from "@/theme"
-import { $loginStyles } from "./styles"
 
+import { Button, Screen, Text, TextField } from "@/components"
+import { AppStackScreenProps } from "@/navigators"
+import { $styles, ThemedStyle } from "@/theme"
+import { useAppTheme } from "@/utils/useAppTheme"
+
+import { $loginStyles } from "./styles"
 
 interface ForgetPasswordScreenProps extends AppStackScreenProps<"ForgetPassword"> {}
 
-
 export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ navigation }) => {
-  const { theme, themed } = useAppTheme()
+  const { themed } = useAppTheme()
 
   const [email, setEmail] = useState("")
 
@@ -42,7 +42,7 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
         />
 
-        <View style={{ alignSelf: "center", width: "66%" }}>
+        <View style={$narrowContainer}>
           <Button
             text="Enviar código de verificação"
             onPress={submitEmail}
@@ -50,11 +50,9 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
             textStyle={themed($styles.$buttonText)}
           />
         </View>
-
       </ScrollView>
     </Screen>
   )
-
 })
 
 const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
@@ -63,3 +61,8 @@ const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   justifyContent: "center",
   alignItems: "center",
 })
+
+const $narrowContainer: ViewStyle = {
+  alignSelf: "center",
+  width: "66%",
+}
