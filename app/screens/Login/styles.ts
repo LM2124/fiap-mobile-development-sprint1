@@ -4,7 +4,7 @@ import { ThemedStyle } from "@/theme"
 
 const $inputWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.md,
-  paddingHorizontal: spacing.sm,
+  paddingHorizontal: spacing.xs,
   backgroundColor: colors.palette.neutral100,
 })
 

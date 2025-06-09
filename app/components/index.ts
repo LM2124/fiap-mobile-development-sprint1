@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+// O generator do Ignite quebra um pouco quando esse arquivo tem CRLF
 export * from "./AutoImage"
 export * from "./Button"
 export * from "./Card"
@@ -12,3 +14,4 @@ export * from "./Toggle"
 export * from "./EmptyState"
 export * from "./PasswordInput"
 export * from "./Link"
+export * from "./PhoneInput"

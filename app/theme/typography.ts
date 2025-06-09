@@ -1,15 +1,6 @@
 // TODO: write documentation about fonts and typography along with guides on how to add custom fonts in own
 // markdown file and add links from here
 
-import { Platform } from "react-native"
-import {
-  SpaceGrotesk_300Light as spaceGroteskLight,
-  SpaceGrotesk_400Regular as spaceGroteskRegular,
-  SpaceGrotesk_500Medium as spaceGroteskMedium,
-  SpaceGrotesk_600SemiBold as spaceGroteskSemiBold,
-  SpaceGrotesk_700Bold as spaceGroteskBold,
-} from "@expo-google-fonts/space-grotesk"
-
 import {
   Poppins_300Light as poppinsLight,
   Poppins_400Regular as poppinsRegular,
@@ -17,6 +8,15 @@ import {
   Poppins_600SemiBold as poppinsSemiBold,
   Poppins_700Bold as poppinsBold,
 } from "@expo-google-fonts/poppins"
+import {
+  SpaceGrotesk_300Light as spaceGroteskLight,
+  SpaceGrotesk_400Regular as spaceGroteskRegular,
+  SpaceGrotesk_500Medium as spaceGroteskMedium,
+  SpaceGrotesk_600SemiBold as spaceGroteskSemiBold,
+  SpaceGrotesk_700Bold as spaceGroteskBold,
+} from "@expo-google-fonts/space-grotesk"
+import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill"
+import { Platform } from "react-native"
 
 export const customFontsToLoad = {
   spaceGroteskLight,
@@ -30,6 +30,9 @@ export const customFontsToLoad = {
   poppinsSemiBold,
   poppinsBold,
 }
+
+// Para as bandeiras do `react-native-international-phone-number`
+polyfillCountryFlagEmojis("TwemojiMozilla")
 
 const fonts = {
   spaceGrotesk: {

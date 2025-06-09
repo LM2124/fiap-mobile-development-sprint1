@@ -10,11 +10,13 @@ import {
   View,
   ViewStyle,
 } from "react-native"
+
 import { isRTL, translate } from "@/i18n"
 import type { ThemedStyle, ThemedStyleArray } from "@/theme"
+import { useAppTheme } from "@/utils/useAppTheme"
+
 import { $styles } from "../theme"
 import { Text, TextProps } from "./Text"
-import { useAppTheme } from "@/utils/useAppTheme"
 
 export interface TextFieldAccessoryProps {
   style: StyleProp<ViewStyle | TextStyle | ImageStyle>
@@ -263,6 +265,7 @@ const $inputStyle: ThemedStyle<ViewStyle> = ({ colors, typography, spacing }) =>
   color: colors.text,
   fontSize: 16,
   height: 24,
+  width: "100%", // Impede o input de "vazar" quando o container estiver apertado. flex-shrink não bastava.
   // https://github.com/facebook/react-native/issues/21720#issuecomment-532642093
   paddingVertical: 0,
   paddingHorizontal: 0,

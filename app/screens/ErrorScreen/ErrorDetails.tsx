@@ -1,8 +1,10 @@
 import { ErrorInfo } from "react"
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
-import { Button, Icon, Screen, Text } from "../../components"
+
 import type { ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
+
+import { Button, Icon, Screen, Text } from "../../components"
 
 export interface ErrorDetailsProps {
   error: Error
@@ -73,6 +75,7 @@ const $errorSection: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   backgroundColor: colors.separator,
   marginVertical: spacing.md,
   borderRadius: 6,
+  width: "100%",
 })
 
 const $errorSectionContentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({

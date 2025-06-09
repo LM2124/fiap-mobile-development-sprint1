@@ -12,7 +12,8 @@ module.exports = {
   ],
   plugins: ["reactotron", "prettier", "simple-import-sort"],
   rules: {
-    "prettier/prettier": ["error", { endOfLine: "crlf" }],
+    "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "linebreak-style": ["error", "windows"],
     // typescript-eslint
     "@typescript-eslint/array-type": 0,
     "@typescript-eslint/ban-ts-comment": 0,
