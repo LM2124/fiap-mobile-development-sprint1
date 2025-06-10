@@ -27,11 +27,10 @@ import { $loginStyles } from "./styles"
 
 interface SignUpScreenProps extends AppStackScreenProps<"SignUp"> {}
 
-type FormKeys = "Name" | "Email" | "Phone" | "Birthdate" | "Password" | "PasswordConfirm"
-
 export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()
 
+  type FormKeys = "Name" | "Email" | "Phone" | "Birthdate" | "Password" | "PasswordConfirm"
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -39,6 +38,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const [birthdate, setBirthdate] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+
   const [isSigningUp, setIsSigningUp] = useState(false)
   const [validationErrors, setValidationErrors] = useState<Map<FormKeys, string>>(new Map())
 
@@ -48,39 +48,30 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
 
   const validateForm = () => {
     const errors = new Map<FormKeys, string>()
-    if (!name) {
-      errors.set("Name", "Nome não pode estar vazio")
-    }
+    if (!name) errors.set("Name", "Nome não pode estar vazio")
 
-    let emailError
-    if ((emailError = validateEmail(email))) {
-      errors.set("Email", emailError)
-    }
+    const emailError = validateEmail(email)
+    if (emailError) errors.set("Email", emailError)
 
-    let passwordError
-    if ((passwordError = validatePassword(password))) {
-      errors.set("Password", passwordError)
+    const passwordError = validatePassword(password)
+    if (passwordError) {
       // Questão de comportamento: Com as duas senhas vazias,
       // Achei estranho a segunda senha não bandeirar um erro,
       // então decidi duplicar o erro da primeira senha.
       // Note que o erro das senhas diferentes terá prioridade.
+      errors.set("Password", passwordError)
       errors.set("PasswordConfirm", passwordError)
     }
-    if (password !== confirmPassword) {
-      errors.set("PasswordConfirm", "Senhas não são iguais")
-    }
 
-    let phoneNumberError
-    if ((phoneNumberError = validatePhone(phone, selectedCountry))) {
-      errors.set("Phone", phoneNumberError)
-    }
+    if (password !== confirmPassword) errors.set("PasswordConfirm", "Senhas não são iguais")
 
-    let birthdateError
-    if ((birthdateError = validateBirthdate(birthdate))) {
-      errors.set("Birthdate", birthdateError)
-    }
+    const phoneNumberError = validatePhone(phone, selectedCountry)
+    if (phoneNumberError) errors.set("Phone", phoneNumberError)
 
-    if (__DEV__) {
+    const birthdateError = validateBirthdate(birthdate)
+    if (birthdateError) errors.set("Birthdate", birthdateError)
+
+    if (__DEV__ && errors.size > 0) {
       console.log(errors)
     }
     return errors
@@ -88,7 +79,6 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
 
   const pressSignUp = async () => {
     try {
-      console.log("Sign Up Flow")
       setIsSigningUp(true)
 
       const errors = validateForm()

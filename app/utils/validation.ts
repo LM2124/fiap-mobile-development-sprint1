@@ -15,7 +15,7 @@ export function validatePassword(password?: string) {
 
 export function validatePhone(phone?: string, country?: ICountry) {
   if (!phone) return "Número não pode estar vazio"
-  console.log(country)
+
   if (country) {
     if (!isValidPhoneNumber(phone, country)) {
       return `Número inválido para país: ${country.name.pt}`

@@ -1,23 +1,64 @@
 import { FC, useState } from "react"
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
 
-import { Button, Link, PasswordInput, Screen, Text, TextField } from "@/components"
+import {
+  Button,
+  Link,
+  PasswordInput,
+  Screen,
+  Text,
+  TextField,
+  type TextFieldProps,
+} from "@/components"
 import { AppStackScreenProps } from "@/navigators"
 import { $styles, ThemedStyle } from "@/theme"
+import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
 
 import { $loginStyles } from "./styles"
 
 interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
 
+type FormKeys = "User" | "Password"
+
 export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
   const [name, setName] = useState("")
   const [password, setPassword] = useState("")
 
-  const signIn = () => {
-    // validateEmptyFields()
-    console.log("Sign in flow")
+  const [isSigningIn, setIsSigningIn] = useState(false)
+  const [validationErrors, setValidationErrors] = useState<Map<FormKeys, string>>(new Map())
+
+  const getStatus = (key?: FormKeys): TextFieldProps["status"] => {
+    return (isSigningIn && "disabled") || (key && validationErrors.get(key) && "error") || undefined
+  }
+
+  const validateForm = () => {
+    const errors = new Map<FormKeys, string>()
+    // FIXME: O cadastro pede o nome completo,
+    // e não um username ou qualquer outra coisa...
+    // É meio estranho poder logar com o nome completo,
+    // na verdade é um problema de segurança também :/
+    // ...Considerar mudar para pedir só o email.
+    if (!name) errors.set("User", "Nome não pode estar vazio")
+    if (!password) errors.set("Password", "Nome não pode estar vazio")
+    if (__DEV__ && errors.size > 0) console.log(errors)
+    return errors
+  }
+
+  const signIn = async () => {
+    try {
+      setIsSigningIn(true)
+
+      const errors = validateForm()
+      setValidationErrors(errors)
+      if (errors.size > 0) return
+
+      await delay(500 + Math.random() * 1000)
+      // await signIn(user, password)
+    } finally {
+      setIsSigningIn(false)
+    }
   }
 
   const toSignUp = () => {
@@ -48,6 +89,8 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           value={name}
           onChangeText={setName}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
+          helper={validationErrors.get("User")}
+          status={getStatus("User")}
         />
         <PasswordInput
           label="Senha"
@@ -56,6 +99,8 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
+          helper={validationErrors.get("Password")}
+          status={getStatus("Password")}
         />
         <Link
           text="Esqueceu a Senha?"

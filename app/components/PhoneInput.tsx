@@ -1,10 +1,4 @@
-import {
-  Platform,
-  type StyleProp,
-  type TextStyle,
-  TouchableOpacity,
-  type ViewStyle,
-} from "react-native"
+import { Platform, type StyleProp, type TextStyle, View, type ViewStyle } from "react-native"
 import _PhoneInput from "react-native-international-phone-number"
 import { PhoneInputProps as _PhoneInputProps } from "react-native-international-phone-number/lib/interfaces/phoneInputProps"
 
@@ -32,16 +26,27 @@ export type PhoneInputProps = _PhoneInputProps & {
  * Um modo *deve* ter `ref`, e outro *não pode* ter `ref`,
  * e isso tinha complicado a tipagem desse wrapper.
  */
-type WithRef = Extract<PhoneInputProps, { ref: React.Ref<any> }>
 type WithoutRef = Exclude<PhoneInputProps, { ref: React.Ref<any> }>
 
 /**
  * Uma cópia descarada do TextField, em volta deste componente:
  * https://github.com/AstrOOnauta/react-native-international-phone-number
- * Dando defaults para nosso caso, e ajustando a estilização para alinhar
- * com a aparência padrão dos nossos TextFields.
+ * Dando wrap com um label e helper, defaults para nosso caso,
+ * e ajustando a estilização para alinhar com a aparência padrão dos nossos TextFields.
  */
 export const PhoneInput = (props: PhoneInputProps) => {
+  /*
+   * Uma feature que os TextFields têm, que esse componente não vai ter, é que o usuário
+   * pode clicar em qualquer lugar no container, que ele repassa o foco para o input.
+   * Isso não vai ser possível porque usar `ref` com o componente... Simplesmente não funciona.
+   *
+   * Copiando um exemplo básico do repositório do PhoneInput usando o "modo ref",
+   * o react jogou um errozão avisando que ele não está fazendo direito.
+   *
+   * Tirando a possibilidade de re-escrever o código do package na marra,
+   * esse segmento do nosso form não terá essa funcionalidade.
+   * ...E eu já joguei fora tempo suficiente tentando fazer isso funcionar.
+   */
   const {
     status,
     label,
@@ -56,7 +61,18 @@ export const PhoneInput = (props: PhoneInputProps) => {
     themed,
   } = useAppTheme()
 
-  const disabled = status === "disabled"
+  // Juntando estilos estáticos com condicionais e overwrites
+  const $inputContainerStyles = [
+    themed($inputContainer),
+    status === "error" && { borderColor: colors.error },
+    inputWrapperStyleOverride,
+  ]
+  const $inputStyles = [
+    themed($input),
+    status === "disabled" && { color: colors.textDim },
+    inputTextStyleOverride,
+  ]
+  const $helperStyles = [status === "error" && { color: colors.error }, themed($helperStyle)]
 
   const defaultPhoneProps: Partial<PhoneInputProps> = {
     defaultCountry: "BR",
@@ -65,12 +81,8 @@ export const PhoneInput = (props: PhoneInputProps) => {
     placeholder: "## #### ####",
     placeholderTextColor: colors.textDim,
     phoneInputStyles: {
-      container: [
-        themed($inputContainer),
-        status === "error" && { borderColor: colors.error },
-        inputWrapperStyleOverride,
-      ],
-      input: [themed($input), disabled && { color: colors.textDim }, inputTextStyleOverride],
+      container: $inputContainerStyles,
+      input: $inputStyles,
 
       // O PhoneInput só usa essa fontFamily se ele acha que está na Web *E* no Windows;
       // E o modo de teste mobile do browser emula o userAgent para parecer ser Android.
@@ -87,37 +99,12 @@ export const PhoneInput = (props: PhoneInputProps) => {
     },
   }
 
-  function focusInput() {
-    if (disabled) return
-    // todo: fazer isso funcionar
-    // para isso, acho que vamos ter que nos travar no modo "ref" de qualquer forma
-    // https://github.com/AstrOOnauta/react-native-international-phone-number/
-    // input.current?.focus()
-  }
-  // todo: descobrir o que isso é pra fazer
-  // useImperativeHandle(ref, () => input.current as TextInput)
-
-  const isRefMode = "ref" in props
-
-  const $helperStyles = [status === "error" && { color: colors.error }, themed($helperStyle)]
-
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      style={containerStyleOverride}
-      onPress={focusInput}
-      accessibilityState={{ disabled }}
-    >
+    <View style={containerStyleOverride}>
       {label && <Text preset="formLabel" text={label} style={themed($labelStyle)} />}
-
-      {isRefMode ? (
-        <_PhoneInput {...(defaultPhoneProps as WithRef)} {...(rest as WithRef)} />
-      ) : (
-        <_PhoneInput {...(defaultPhoneProps as WithoutRef)} {...(rest as WithoutRef)} />
-      )}
-
+      <_PhoneInput {...(defaultPhoneProps as WithoutRef)} {...(rest as WithoutRef)} />
       {helper && <Text preset="formHelper" text={helper} style={$helperStyles} />}
-    </TouchableOpacity>
+    </View>
   )
 }
 
