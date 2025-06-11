@@ -31,6 +31,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()
 
   type FormKeys = "Name" | "Email" | "Phone" | "Birthdate" | "Password" | "PasswordConfirm"
+
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")

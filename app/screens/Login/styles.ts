@@ -31,6 +31,7 @@ const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingVertical: spacing.lg,
   paddingHorizontal: spacing.xl,
   gap: spacing.md,
+  alignItems: "stretch",
 })
 
 export const $loginStyles = {

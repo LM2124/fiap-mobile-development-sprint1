@@ -1,11 +1,13 @@
 import { observer } from "mobx-react-lite"
 import { FC, useState } from "react"
-import { ScrollView, View, ViewStyle } from "react-native"
+import { ActivityIndicator, ScrollView, View, ViewStyle } from "react-native"
 
-import { Button, Screen, Text, TextField } from "@/components"
+import { Button, Screen, Text, TextField, type TextFieldProps } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
 import { $styles, ThemedStyle } from "@/theme"
+import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
+import { validateEmail } from "@/utils/validation"
 
 import { $loginStyles } from "./styles"
 
@@ -14,12 +16,43 @@ interface ForgetPasswordScreenProps extends AppStackScreenProps<"ForgetPassword"
 export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ navigation }) => {
   const { themed } = useAppTheme()
 
+  type FormKeys = "Email"
+
   const [email, setEmail] = useState("")
 
-  const submitEmail = () => {
-    // validateEmptyFields()
-    // validateValidEmail()
-    navigation.navigate("ResetPassword")
+  const [isSending, setIsSending] = useState(false)
+  const [validationErrors, setValidationErrors] = useState<Map<FormKeys, string>>(new Map())
+
+  const getStatus = (key?: FormKeys): TextFieldProps["status"] => {
+    return (isSending && "disabled") || (key && validationErrors.get(key) && "error") || undefined
+  }
+
+  const validateForm = () => {
+    const errors = new Map<FormKeys, string>()
+
+    const emailError = validateEmail(email)
+    if (emailError) errors.set("Email", emailError)
+
+    if (__DEV__ && errors.size > 0) {
+      console.log(errors)
+    }
+    return errors
+  }
+
+  const submitEmail = async () => {
+    try {
+      setIsSending(true)
+
+      const errors = validateForm()
+      setValidationErrors(errors)
+      if (errors.size > 0) return
+
+      await delay(500 + Math.random() * 1000)
+      // await sendEmail(email)
+      navigation.navigate("SecurityCode")
+    } finally {
+      setIsSending(false)
+    }
   }
 
   return (
@@ -40,7 +73,12 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
           value={email}
           onChangeText={setEmail}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
+          helper={validationErrors.get("Email")}
+          status={getStatus("Email")}
         />
+
+        {/* Não sei se gosto desse ActivityIndicator. */}
+        {isSending && <ActivityIndicator />}
 
         <View style={$narrowContainer}>
           <Button
@@ -48,6 +86,8 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
             onPress={submitEmail}
             style={themed($styles.$buttonPrimary)}
             textStyle={themed($styles.$buttonText)}
+            disabled={isSending}
+            disabledStyle={themed($styles.$buttonDisabled)}
           />
         </View>
       </ScrollView>

@@ -24,6 +24,10 @@ const $buttonAlt: ThemedStyle<ViewStyle> = (theme) => ({
   backgroundColor: theme.colors.palette.primary300,
 })
 
+const $buttonDisabled: ThemedStyle<ViewStyle> = (theme) => ({
+  backgroundColor: theme.colors.tintInactive,
+})
+
 const $buttonText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.neutral100,
   textAlign: "center",
@@ -43,6 +47,7 @@ export const $styles = {
   $title: $title,
   $buttonPrimary: $button,
   $buttonSecondary: $buttonAlt,
+  $buttonDisabled: $buttonDisabled,
   $buttonText: $buttonText,
   $link: $link,
 
