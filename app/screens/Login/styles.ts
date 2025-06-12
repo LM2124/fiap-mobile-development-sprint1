@@ -1,4 +1,4 @@
-import { useWindowDimensions, ViewStyle } from "react-native"
+import { type TextStyle, useWindowDimensions, ViewStyle } from "react-native"
 
 import { ThemedStyle } from "@/theme"
 
@@ -6,6 +6,14 @@ const $inputWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.md,
   paddingHorizontal: spacing.xs,
   backgroundColor: colors.palette.neutral100,
+  alignItems: "center", // Centraliza os Accessories verticalmente
+})
+
+const $input: ThemedStyle<TextStyle> = () => ({
+  textAlignVertical: "bottom",
+  // Estilo alternativo; Ainda considerando.
+  // fontFamily: "System",
+  // textAlignVertical: "center",
 })
 
 const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => {
@@ -36,6 +44,7 @@ const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 
 export const $loginStyles = {
   $inputWrapper: $inputWrapper,
+  $input: $input,
   $formContainer: $formContainer,
   $formContent: $formContent,
 }

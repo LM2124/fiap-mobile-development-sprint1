@@ -88,6 +88,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           autoComplete="email"
           value={name}
           onChangeText={setName}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("User")}
           status={getStatus("User")}
@@ -98,6 +99,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           autoComplete="password"
           value={password}
           onChangeText={setPassword}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Password")}
           status={getStatus("Password")}
@@ -111,10 +113,11 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
 
         <View style={$narrowContainer}>
           <Button
-            text="Entrar"
+            text={isSigningIn ? "Entrando..." : "Entrar"}
             onPress={signIn}
             style={themed($styles.$buttonPrimary)}
             textStyle={themed($styles.$buttonText)}
+            disabled={isSigningIn}
           />
           <Text preset="formLabel" style={themed($footerText)}>
             Não tem uma conta?
@@ -125,6 +128,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
             // Style temporário; ajustar CSS dos botões depois
             style={themed($styles.$buttonSecondary)}
             textStyle={themed($styles.$buttonText)}
+            disabled={isSigningIn}
           />
         </View>
 

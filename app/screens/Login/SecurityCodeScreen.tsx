@@ -42,7 +42,10 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
       // TODO - Request e Backend
       // if(await sendConfirmationCode(code)) {}
       // setValidationError("Código Incorreto - Verifique seu Email")
-      navigation.navigate("ResetPassword")
+
+      // Replace - Não queremos deixar o usuário voltar
+      // para uma autenticação que já invalidou
+      navigation.replace("ResetPassword")
     } finally {
       setIsSending(false)
     }
@@ -87,7 +90,7 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
 
         <View style={$narrowContainer}>
           <Button
-            text="Confirmar"
+            text={isSending ? "Verificando..." : "Confirmar"}
             onPress={() => submitCode(inputCode)}
             style={themed($styles.$buttonPrimary)}
             textStyle={themed($styles.$buttonText)}

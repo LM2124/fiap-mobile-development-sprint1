@@ -258,13 +258,20 @@ const $inputWrapperStyle: ThemedStyle<ViewStyle> = ({ colors }) => ({
   overflow: "hidden",
 })
 
-const $inputStyle: ThemedStyle<ViewStyle> = ({ colors, typography, spacing }) => ({
+const $inputStyle: ThemedStyle<TextStyle> = ({ colors, typography, spacing }) => ({
   flex: 1,
   alignSelf: "stretch",
   fontFamily: typography.primary.normal,
   color: colors.text,
   fontSize: 16,
-  height: 24,
+  /*
+   * Ter uma height setada causava o input no Android ter um pouquinho
+   * de "scroll" dentro do container; nunca entendi exatamente por quê.
+   * Desse jeito, a altura será ditada pelo tamanho da fonte,
+   * que creio que seja um comportamento melhor de qualquer forma.
+   * Update: Depende da fonte, por algum motivo. font-size é uma mera sugestão pro Android.
+   */
+  // height: 24,
   width: "100%", // Impede o input de "vazar" quando o container estiver apertado. flex-shrink não bastava.
   // https://github.com/facebook/react-native/issues/21720#issuecomment-532642093
   paddingVertical: 0,

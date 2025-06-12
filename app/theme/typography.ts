@@ -1,6 +1,3 @@
-// TODO: write documentation about fonts and typography along with guides on how to add custom fonts in own
-// markdown file and add links from here
-
 import {
   Poppins_300Light as poppinsLight,
   Poppins_400Regular as poppinsRegular,
@@ -32,7 +29,9 @@ export const customFontsToLoad = {
 }
 
 // Para as bandeiras do `react-native-international-phone-number`
-polyfillCountryFlagEmojis("TwemojiMozilla")
+if (Platform.OS === "web") {
+  polyfillCountryFlagEmojis("TwemojiMozilla")
+}
 
 const fonts = {
   spaceGrotesk: {

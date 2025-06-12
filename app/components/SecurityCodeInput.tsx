@@ -94,7 +94,7 @@ export const SecurityCodeInput = (props: SecurityCodeInputProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.66}
-      accessibilityState={{ disabled: !editable }}
+      accessibilityState={{ disabled: editable === false }}
       style={[$containerStyle, containerStyleOverride]}
       // Passar foco para o TextInput invisível, como se essa região fosse o próprio input
       onPress={focusInput}
@@ -107,7 +107,7 @@ export const SecurityCodeInput = (props: SecurityCodeInputProps) => {
         autoComplete="off"
         autoCorrect={false}
         editable={editable}
-        keyboardType="decimal-pad"
+        inputMode="numeric"
         maxLength={maxLength}
         style={$hiddenTextInput}
         {...rest}
@@ -127,8 +127,8 @@ export const SecurityCodeInput = (props: SecurityCodeInputProps) => {
             <Text
               text={value[index] || (isFocused ? "_" : "")}
               preset="subheading"
-              size="lg"
-              style={textStyleOverride}
+              allowFontScaling={false}
+              style={[$textStyle, textStyleOverride]}
             />
           </Animated.View>
         )
@@ -140,8 +140,11 @@ export const SecurityCodeInput = (props: SecurityCodeInputProps) => {
 const $hiddenTextInput: TextStyle = {
   position: "absolute",
   opacity: 0,
-  width: 0,
-  height: 0,
+  zIndex: -1,
+  // Vou deixar esses dois comentados como um lembrete de que
+  // o Android NÃO deixa focar em um input com dimensões zero
+  // width: 0,
+  // height: 0,
 }
 
 const $containerStyle: ViewStyle = {
@@ -157,4 +160,8 @@ const $digitContainerStyle: TextStyle = {
   height: 40,
   borderRadius: 20,
   borderWidth: 2,
+}
+const $textStyle: TextStyle = {
+  fontSize: 20,
+  includeFontPadding: false,
 }

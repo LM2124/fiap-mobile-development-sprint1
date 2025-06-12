@@ -98,7 +98,7 @@ export interface NavigationProps
 
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
   const { themeScheme, navigationTheme, setThemeContextOverride, ThemeProvider } =
-    useThemeProvider()
+    useThemeProvider("light") // FIXME: Fazer um tema escuro
 
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
 

@@ -15,7 +15,6 @@ export type PhoneInputProps = _PhoneInputProps & {
   label?: TextProps["text"]
   helper?: TextProps["text"]
   containerStyle?: StyleProp<ViewStyle>
-  inputTextStyle?: StyleProp<TextStyle>
   inputWrapperStyle?: StyleProp<ViewStyle>
 }
 
@@ -51,8 +50,8 @@ export const PhoneInput = (props: PhoneInputProps) => {
     status,
     label,
     helper,
+    style: inputTextStyleOverride,
     containerStyle: containerStyleOverride,
-    inputTextStyle: inputTextStyleOverride,
     inputWrapperStyle: inputWrapperStyleOverride,
     ...rest
   } = props
@@ -126,11 +125,15 @@ const $input: ThemedStyle<TextStyle> = ({ colors, spacing, typography }) => ({
   color: colors.text,
   fontSize: 16,
 
-  height: 24,
   padding: 0,
   marginVertical: spacing.xs,
   marginRight: spacing.sm,
   marginLeft: spacing.xs,
+  // Eu não sei por que isso é necessário.
+  // Na web, não faz diferença.
+  // No Android, ele tem paddingVertical = 8.
+  // Não sei se vem do Android ou do componente sendo bizarro de novo. Não ligo.
+  paddingVertical: 0,
 })
 
 const $flagContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({

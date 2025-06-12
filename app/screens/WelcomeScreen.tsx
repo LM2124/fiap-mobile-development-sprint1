@@ -34,10 +34,8 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
 
       <View style={themed($containerNarrow)}>
         <Text style={themed($welcomeText)}>
-          Bem Vindo.
-          <br />
-          Acesse sua conta com segurança e praticidade.
-          <br />
+          Bem Vindo.{"\n"}
+          Acesse sua conta com segurança e praticidade.{"\n"}
           Insira seus dados para continuar gerenciando suas finanças de forma simples e protegida.
         </Text>
         <Button

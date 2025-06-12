@@ -49,7 +49,10 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
 
       await delay(500 + Math.random() * 1000)
       // await sendEmail(email)
-      navigation.navigate("SecurityCode")
+
+      // Replace - Não queremos deixar o usuário voltar
+      // para uma autenticação que já invalidou
+      navigation.replace("SecurityCode")
     } finally {
       setIsSending(false)
     }

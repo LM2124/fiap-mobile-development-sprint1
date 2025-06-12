@@ -28,7 +28,7 @@ import { $loginStyles } from "./styles"
 interface SignUpScreenProps extends AppStackScreenProps<"SignUp"> {}
 
 export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
-  const { themed } = useAppTheme()
+  const { theme, themed } = useAppTheme()
 
   type FormKeys = "Name" | "Email" | "Phone" | "Birthdate" | "Password" | "PasswordConfirm"
 
@@ -123,6 +123,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           autoCorrect={true} // acho que podemos ligar o corretor para o nome
           value={name}
           onChangeText={setName}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Name")}
           status={getStatus("Name")}
@@ -130,25 +131,27 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
         <TextField
           label="Email"
           placeholder="exemplo@exemplo.com"
-          keyboardType="email-address"
+          inputMode="email"
           autoCapitalize="none"
           autoComplete="email"
           autoCorrect={false}
           value={email}
           onChangeText={setEmail}
-          inputWrapperStyle={[themed($loginStyles.$inputWrapper)]}
+          style={themed($loginStyles.$input)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Email")}
           status={getStatus("Email")}
         />
         <PhoneInput
           label="Número de Celular"
           placeholder="## #### ####"
-          keyboardType="phone-pad"
+          inputMode="tel"
           autoComplete="tel-device"
           value={phone}
           onChangePhoneNumber={setPhone}
           selectedCountry={selectedCountry}
           onChangeSelectedCountry={setSelectedCountry}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Phone")}
           status={getStatus("Phone")}
@@ -161,6 +164,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           autoComplete="birthdate-full"
           value={birthdate}
           onChangeText={setBirthdate}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Birthdate")}
           status={getStatus("Birthdate")}
@@ -173,6 +177,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           autoComplete="new-password"
           value={password}
           onChangeText={setPassword}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Password")}
           status={getStatus("Password")}
@@ -183,12 +188,13 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           autoComplete="new-password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
+          style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("PasswordConfirm")}
           status={getStatus("PasswordConfirm")}
         />
 
-        <Text style={themed($termsText)}>
+        <Text style={[themed($termsText), { marginTop: theme.spacing.sm }]}>
           {"Continuando, você concorda com os "}
           <Link disabled={isSigningUp} style={themed($termsText)} onPress={pressTos}>
             Termos de Uso
@@ -228,15 +234,14 @@ const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
 
 const $termsText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   fontSize: spacing.md,
-  lineHeight: spacing.md,
+  lineHeight: spacing.md * 1.2, // Espaço para acentos, etc
   textAlign: "center",
-  color: colors.palette.neutral600,
-  marginTop: spacing.sm,
+  color: colors.textDim,
 })
 
 const $footerText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   fontSize: spacing.md,
-  lineHeight: spacing.md,
+  lineHeight: spacing.md * 1.2,
   textAlign: "center",
-  color: colors.palette.neutral600,
+  color: colors.textDim,
 })
