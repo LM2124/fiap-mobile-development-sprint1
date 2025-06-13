@@ -14,10 +14,12 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
     "linebreak-style": ["error", "windows"],
+    "no-unused-expressions": "off",
     // typescript-eslint
     "@typescript-eslint/array-type": 0,
     "@typescript-eslint/ban-ts-comment": 0,
     "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-unused-expressions": ["warn", { allowTernary: true }],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {

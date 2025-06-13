@@ -20,8 +20,13 @@ const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
 
 const $buttonAlt: ThemedStyle<ViewStyle> = (theme) => ({
   ...$button(theme),
-  // FIXME: não gostei dessa cor
-  backgroundColor: theme.colors.palette.primary300,
+  // O Figma que se dane, essa cor é melhor e não conflita com a tintInactive
+  backgroundColor: theme.colors.palette.primary600,
+})
+
+const $buttonThin: ThemedStyle<ViewStyle> = (theme) => ({
+  minHeight: 0, // deixar o texto ditar - deve ser 20px por linha
+  paddingVertical: theme.spacing.xs,
 })
 
 const $buttonDisabled: ThemedStyle<ViewStyle> = (theme) => ({
@@ -47,6 +52,7 @@ export const $styles = {
   $title: $title,
   $buttonPrimary: $button,
   $buttonSecondary: $buttonAlt,
+  $buttonThin: $buttonThin,
   $buttonDisabled: $buttonDisabled,
   $buttonText: $buttonText,
   $link: $link,

@@ -41,7 +41,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
     // na verdade é um problema de segurança também :/
     // ...Considerar mudar para pedir só o email.
     if (!name) errors.set("User", "Nome não pode estar vazio")
-    if (!password) errors.set("Password", "Nome não pode estar vazio")
+    if (!password) errors.set("Password", "Senha não pode estar vazia")
     if (__DEV__ && errors.size > 0) console.log(errors)
     return errors
   }
@@ -70,7 +70,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <Screen contentContainerStyle={themed($root)} preset="fixed">
+    <Screen contentContainerStyle={themed([$root, $styles.toggleInner])} preset="fixed">
       <View style={themed($styles.header)}>
         <Text style={themed($styles.$title)}>Bem Vindo</Text>
       </View>
@@ -83,7 +83,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <TextField
-          label="Usuario/Email"
+          label="Usuário/Email"
           placeholder="exemplo@exemplo.com"
           autoComplete="email"
           value={name}
@@ -139,10 +139,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
 }
 
 const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  flex: 1,
   backgroundColor: colors.tint,
-  justifyContent: "center",
-  alignItems: "center",
 })
 
 const $narrowContainer: ViewStyle = {

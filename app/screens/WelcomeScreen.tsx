@@ -28,7 +28,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
   // FIXME: tela não cabe no modo horizontal.
   // Considerando forçar o modo vertical para essa tela e durante o onboarding.
   return (
-    <Screen preset="fixed" contentContainerStyle={themed($container)}>
+    <Screen preset="fixed" contentContainerStyle={themed([$root, $styles.toggleInner])}>
       <Image style={themed($welcomeLogo)} source={welcomeLogo} resizeMode="contain" />
       <Text style={themed($welcomeHeading)} tx="common:productName" />
 
@@ -41,7 +41,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
         <Button
           text="Entrar"
           onPress={signIn}
-          style={[themed($styles.$buttonPrimary), { marginVertical: theme.spacing.md }]}
+          style={themed([$styles.$buttonPrimary, { marginVertical: theme.spacing.md }])}
           textStyle={themed($styles.$buttonText)}
         />
         <Button
@@ -55,10 +55,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
   )
 })
 
-const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
+const $root: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.lg,
 })
 

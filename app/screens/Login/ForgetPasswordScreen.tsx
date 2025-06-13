@@ -1,6 +1,5 @@
-import { observer } from "mobx-react-lite"
 import { FC, useState } from "react"
-import { ActivityIndicator, ScrollView, View, ViewStyle } from "react-native"
+import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
 
 import { Button, Screen, Text, TextField, type TextFieldProps } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
@@ -13,7 +12,7 @@ import { $loginStyles } from "./styles"
 
 interface ForgetPasswordScreenProps extends AppStackScreenProps<"ForgetPassword"> {}
 
-export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ navigation }) => {
+export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()
 
   type FormKeys = "Email"
@@ -50,9 +49,13 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
       await delay(500 + Math.random() * 1000)
       // await sendEmail(email)
 
-      // Replace - Não queremos deixar o usuário voltar
-      // para uma autenticação que já invalidou
-      navigation.replace("SecurityCode")
+      if (__DEV__) {
+        navigation.navigate("SecurityCode")
+      } else {
+        // Replace - Não queremos deixar o usuário voltar
+        // para uma autenticação que já invalidou
+        navigation.replace("SecurityCode")
+      }
     } finally {
       setIsSending(false)
     }
@@ -69,6 +72,15 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
         contentContainerStyle={themed($loginStyles.$formContent)}
         showsVerticalScrollIndicator={false}
       >
+        <View style={themed($welcomeText)}>
+          <Text preset="heading" size="lg">
+            Resetar Senha?
+          </Text>
+          <Text>
+            Informe o e-mail cadastrado para que possamos ajudar você a redefinir sua senha com
+            segurança.
+          </Text>
+        </View>
         <TextField
           label="Informe Seu Endereço de Email"
           placeholder="exemplo@exemplo.com"
@@ -87,7 +99,7 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
           <Button
             text="Enviar código de verificação"
             onPress={submitEmail}
-            style={themed($styles.$buttonPrimary)}
+            style={themed([$styles.$buttonPrimary, $styles.$buttonThin])}
             textStyle={themed($styles.$buttonText)}
             disabled={isSending}
             disabledStyle={themed($styles.$buttonDisabled)}
@@ -96,13 +108,18 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = observer(({ n
       </ScrollView>
     </Screen>
   )
-})
+}
 
 const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   flex: 1,
   backgroundColor: colors.tint,
   justifyContent: "center",
   alignItems: "center",
+})
+
+const $welcomeText: ThemedStyle<TextStyle> = ({ spacing }) => ({
+  textAlign: "center",
+  marginBottom: spacing.sm,
 })
 
 const $narrowContainer: ViewStyle = {

@@ -1,29 +1,125 @@
-import { observer } from "mobx-react-lite"
-import { FC } from "react"
-import { ViewStyle } from "react-native"
+import { FC, useState } from "react"
+import { ScrollView, View, ViewStyle } from "react-native"
 
-import { Screen, Text } from "@/components"
+import { Button, PasswordInput, Screen, Text, type TextFieldProps } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "@/models"
+import { $styles, type ThemedStyle } from "@/theme"
+import { delay } from "@/utils/delay"
+import { useAppTheme } from "@/utils/useAppTheme"
+import { validatePassword } from "@/utils/validation"
+
+import { $loginStyles } from "./styles"
 
 interface ResetPasswordScreenProps extends AppStackScreenProps<"ResetPassword"> {}
 
-export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = observer(
-  function ResetPasswordScreen() {
-    // Pull in one of our MST stores
-    // const { someStore, anotherStore } = useStores()
+export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetPasswordScreen({
+  navigation,
+}) {
+  const { themed } = useAppTheme()
 
-    // Pull in navigation via hook
-    // const navigation = useNavigation()
-    return (
-      <Screen style={$root} preset="scroll">
-        <Text text="resetPassword" />
-      </Screen>
-    )
-  },
-)
+  type FormKeys = "Password" | "PasswordConfirm"
 
-const $root: ViewStyle = {
-  flex: 1,
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  const [isSending, setIsSending] = useState(false)
+  const [validationErrors, setValidationErrors] = useState<Map<FormKeys, string>>(new Map())
+
+  const getStatus = (key?: FormKeys): TextFieldProps["status"] => {
+    return (isSending && "disabled") || (key && validationErrors.get(key) && "error") || undefined
+  }
+
+  const validateForm = () => {
+    const errors = new Map<FormKeys, string>()
+
+    const passwordError = validatePassword(password)
+    if (passwordError) {
+      // Questão de comportamento: Com as duas senhas vazias,
+      // Achei estranho a segunda senha não bandeirar um erro,
+      // então decidi duplicar o erro da primeira senha.
+      // Note que o erro das senhas diferentes terá prioridade.
+      errors.set("Password", passwordError)
+      errors.set("PasswordConfirm", passwordError)
+    }
+
+    if (password !== confirmPassword) errors.set("PasswordConfirm", "Senhas não são iguais")
+
+    if (__DEV__ && errors.size > 0) {
+      console.log(errors)
+    }
+    return errors
+  }
+
+  const submitEmail = async () => {
+    try {
+      setIsSending(true)
+
+      const errors = validateForm()
+      setValidationErrors(errors)
+      if (errors.size > 0) return
+
+      await delay(500 + Math.random() * 1000)
+      // await sendNewPassword(password)
+
+      // Splash: Senha Alterada com Sucesso!
+
+      __DEV__ ? navigation.navigate("SignIn") : navigation.popTo("SignIn")
+    } finally {
+      setIsSending(false)
+    }
+  }
+
+  return (
+    <Screen contentContainerStyle={themed([$root, $styles.toggleInner])} preset="fixed">
+      <View style={themed($styles.header)}>
+        <Text style={themed($styles.$title)}>Nova Senha</Text>
+      </View>
+
+      <ScrollView
+        style={themed($loginStyles.$formContainer)}
+        contentContainerStyle={themed($loginStyles.$formContent)}
+        showsVerticalScrollIndicator={false}
+      >
+        <PasswordInput
+          label="Nova Senha"
+          placeholder="Digite a nova senha"
+          autoComplete="new-password"
+          value={password}
+          onChangeText={setPassword}
+          style={themed($loginStyles.$input)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
+          helper={validationErrors.get("Password")}
+          status={getStatus("Password")}
+        />
+        <PasswordInput
+          label="Confirmar Nova Senha"
+          placeholder="Confirme a nova senha"
+          autoComplete="new-password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          style={themed($loginStyles.$input)}
+          inputWrapperStyle={themed($loginStyles.$inputWrapper)}
+          helper={validationErrors.get("PasswordConfirm")}
+          status={getStatus("PasswordConfirm")}
+        />
+
+        <View style={$styles.toggleInner}>
+          {/* Centralizado verticalmente desse jeito é
+          meio bizarro mas é assim que tá no Figma 👍 */}
+          <Button
+            text="Alterar Senha"
+            onPress={submitEmail}
+            style={themed($styles.$buttonPrimary)}
+            textStyle={themed($styles.$buttonText)}
+            disabled={isSending}
+            disabledStyle={themed($styles.$buttonDisabled)}
+          />
+        </View>
+      </ScrollView>
+    </Screen>
+  )
 }
+
+const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
+  backgroundColor: colors.tint,
+})

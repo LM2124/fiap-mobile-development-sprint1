@@ -106,7 +106,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <Screen contentContainerStyle={themed($root)} preset="fixed">
+    <Screen contentContainerStyle={themed([$root, $styles.toggleInner])} preset="fixed">
       <View style={$styles.header}>
         <Text style={themed($styles.$title)}>Criar Conta</Text>
       </View>
@@ -194,7 +194,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           status={getStatus("PasswordConfirm")}
         />
 
-        <Text style={[themed($termsText), { marginTop: theme.spacing.sm }]}>
+        <Text style={themed([$termsText, { marginTop: theme.spacing.sm }])}>
           {"Continuando, você concorda com os "}
           <Link disabled={isSigningUp} style={themed($termsText)} onPress={pressTos}>
             Termos de Uso
@@ -226,10 +226,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
 }
 
 const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  flex: 1,
   backgroundColor: colors.tint,
-  justifyContent: "center",
-  alignItems: "center",
 })
 
 const $termsText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({

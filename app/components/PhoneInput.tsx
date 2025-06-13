@@ -96,6 +96,9 @@ export const PhoneInput = (props: PhoneInputProps) => {
       caret: { color: colors.text, marginTop: -4 },
       divider: { backgroundColor: colors.border },
     },
+    modalStyles: {
+      flag: __DEV__ && Platform.OS === "web" ? { fontFamily: "TwemojiMozilla" } : {},
+    },
   }
 
   return (

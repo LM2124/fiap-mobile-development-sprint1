@@ -16,6 +16,7 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
 
   const [inputCode, setCode] = useState("")
   const [isSending, setIsSending] = useState(false)
+  const [resendStatus, setResendStatus] = useState<"Sending" | "Cooldown" | undefined>()
   const [validationError, setValidationError] = useState("")
 
   const [codeInputFocused, setCodeInputFocused] = useState(false)
@@ -43,26 +44,41 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
       // if(await sendConfirmationCode(code)) {}
       // setValidationError("Código Incorreto - Verifique seu Email")
 
-      // Replace - Não queremos deixar o usuário voltar
-      // para uma autenticação que já invalidou
-      navigation.replace("ResetPassword")
+      if (__DEV__) {
+        navigation.navigate("ResetPassword")
+      } else {
+        // Replace - Não queremos deixar o usuário voltar
+        // para uma autenticação que já invalidou
+        navigation.replace("ResetPassword")
+      }
     } finally {
       setIsSending(false)
     }
   }
 
+  const resendCode = async () => {
+    setResendStatus("Sending")
+    // await api.sendCodeAgain()
+    await delay(500 + Math.random() * 1000)
+
+    setResendStatus("Cooldown")
+    await delay(5000)
+
+    setResendStatus(undefined)
+  }
+
   return (
-    <Screen contentContainerStyle={themed($root)} preset="fixed">
+    <Screen contentContainerStyle={themed([$root, $styles.toggleInner])} preset="fixed">
       <View style={themed($styles.header)}>
         <Text style={themed($styles.$title)}>Código De Segurança</Text>
       </View>
 
       <ScrollView
         style={themed($loginStyles.$formContainer)}
-        contentContainerStyle={[themed($loginStyles.$formContent), $formContent]}
+        contentContainerStyle={themed([$loginStyles.$formContent, $formContent])}
         showsVerticalScrollIndicator={false}
       >
-        <Text preset="subheading" style={themed($labelText)} text="Insira Código de Segurança:" />
+        <Text preset="subheading" style={themed($codeLabel)} text="Insira Código de Segurança:" />
         <SecurityCodeInput
           maxLength={codeLength}
           value={inputCode}
@@ -71,7 +87,7 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
           autoFocus={true}
           onFocus={() => setCodeInputFocused(true)}
           onBlur={() => setCodeInputFocused(false)}
-          style={[themed($inputStyle), codeInputFocused && themed($inputFocusedStyle)]}
+          style={themed([$inputStyle, codeInputFocused && $inputFocusedStyle])}
           digitStyle={themed($digitStyle)}
         />
 
@@ -82,21 +98,35 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
               <Text
                 text={validationError}
                 preset="formHelper"
-                style={{ color: theme.colors.error, fontFamily: theme.typography.primary.semiBold }}
+                style={themed($validationErrorText)}
               />
             )}
           </>
         </View>
 
-        <View style={$narrowContainer}>
+        <View style={themed($buttonsContainer)}>
           <Button
             text={isSending ? "Verificando..." : "Confirmar"}
             onPress={() => submitCode(inputCode)}
-            style={themed($styles.$buttonPrimary)}
+            style={themed([$styles.$buttonPrimary, $styles.$buttonThin])}
             textStyle={themed($styles.$buttonText)}
             disabled={isSending || !canSend(inputCode)}
             disabledStyle={themed($styles.$buttonDisabled)}
           />
+          <Button
+            text={"Reenviar"}
+            onPress={resendCode}
+            style={themed([$styles.$buttonSecondary, $styles.$buttonThin])}
+            textStyle={themed($styles.$buttonText)}
+            disabled={isSending || !!resendStatus}
+            disabledStyle={themed($styles.$buttonDisabled)}
+          />
+          <>
+            {resendStatus === "Sending" && <ActivityIndicator />}
+            {resendStatus === "Cooldown" && (
+              <Text text={"Código enviado!"} preset="formHelper" style={$resendStatusText} />
+            )}
+          </>
         </View>
       </ScrollView>
     </Screen>
@@ -104,17 +134,14 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
 }
 
 const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  flex: 1,
   backgroundColor: colors.tint,
-  justifyContent: "center",
-  alignItems: "center",
 })
 
 const $formContent: ViewStyle = {
   alignItems: "center",
 }
 
-const $labelText: ThemedStyle<TextStyle> = ({ spacing }) => ({
+const $codeLabel: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginTop: spacing.xl,
   marginBottom: -spacing.sm,
 })
@@ -140,7 +167,16 @@ const $digitStyle: ThemedStyle<TextStyle> = ({ colors }) => ({
   borderColor: colors.tint,
 })
 
-const $narrowContainer: ViewStyle = {
-  alignSelf: "center",
-  width: "66%",
+const $validationErrorText: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
+  color: colors.error,
+  fontFamily: typography.primary.semiBold,
+})
+
+const $buttonsContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: "50%",
+  gap: spacing.md,
+})
+
+const $resendStatusText: TextStyle = {
+  textAlign: "center",
 }
