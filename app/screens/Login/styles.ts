@@ -16,7 +16,7 @@ const $input: ThemedStyle<TextStyle> = () => ({
   // textAlignVertical: "center",
 })
 
-const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => {
+const $aspectRatioSmartSizing: () => ViewStyle = () => {
   const { width, height } = useWindowDimensions()
   return {
     /**
@@ -28,12 +28,15 @@ const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => {
      * arbitrariamente, e isso cobre esse caso. É overkill? Sim! Importa? Não!
      */
     width: Math.max(width * 0.75, Math.min(width, height)),
-
-    backgroundColor: colors.background,
-    borderTopLeftRadius: spacing.xxl,
-    borderTopRightRadius: spacing.xxl,
   }
 }
+
+const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+  ...$aspectRatioSmartSizing(),
+  backgroundColor: colors.background,
+  borderTopLeftRadius: spacing.xxl,
+  borderTopRightRadius: spacing.xxl,
+})
 
 const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingVertical: spacing.lg,
@@ -45,6 +48,7 @@ const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 export const $loginStyles = {
   $inputWrapper: $inputWrapper,
   $input: $input,
+  $aspectRatioSmartSizing: $aspectRatioSmartSizing,
   $formContainer: $formContainer,
   $formContent: $formContent,
 }
