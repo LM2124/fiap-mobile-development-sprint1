@@ -52,9 +52,12 @@ export async function signOut(): Promise<void> {
   storage.remove(STORAGE_KEYS.AUTHTOKEN)
 }
 
-export async function sendPasswordResetEmail(_email: User["email"]): Promise<ApiResponse> {
+export async function sendPasswordResetEmail(email: User["email"]): Promise<ApiResponse> {
   await fakeApiDelay()
 
+  if (!users.find((u) => u.email === email)) {
+    return { status: 404, error: "Email não cadastrado" }
+  }
   // haha eu com certeza acabei de mandar aquele email :)
   return { status: 200 }
 }

@@ -102,7 +102,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
       </>
 
       <ScrollView
-        contentContainerStyle={themed($loginStyles.$formContent)}
+        contentContainerStyle={themed($optionsContainer)}
         showsVerticalScrollIndicator={true}
       >
         {questionario[page].alternativas.map(optionButton)}
@@ -116,8 +116,8 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
           style={themed($controlButton)}
           textStyle={themed($controlButtonsText)}
           disabled={page === 0}
+          disabledStyle={themed($styles.$buttonDisabled)}
         />
-        <View style={$controlButtonsSpacer} />
         {page === questionario.length - 1 ? (
           <Button
             text={"Finalizar"}
@@ -125,6 +125,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
             style={themed($controlButton)}
             textStyle={themed($controlButtonsText)}
             disabled={!answers[page]}
+            disabledStyle={themed($styles.$buttonDisabled)}
           />
         ) : (
           <Button
@@ -174,8 +175,13 @@ const $questionText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   // Dimensionar para caber no mínimo 2 linhas.
   // Isso reduz a quantidade que a interface
   // "se mexe" de uma página pra outra.
-  // TODO: Talvez variar isso dependendo do tamanho da tela.
+  // FIXME: Talvez variar isso dependendo do tamanho da tela.
   minHeight: spacing.lg * 2,
+})
+
+const $optionsContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  paddingVertical: spacing.lg,
+  gap: spacing.md,
 })
 
 const $optionButton: ThemedStyle<ViewStyle> = (theme) => ({
@@ -193,12 +199,11 @@ const $optionText: ThemedStyle<TextStyle> = (theme) => ({
   fontFamily: theme.typography.primary.medium,
   fontWeight: "normal",
   textAlign: "left",
-  width: "100%",
 })
 const $optionTextSelected: ThemedStyle<TextStyle> = (theme) => ({
   ...$optionText(theme),
-  fontFamily: theme.typography.primary.bold,
   // fontWeight: "bold", // Não funcionou no Android por algum motivo
+  fontFamily: theme.typography.primary.bold,
 })
 
 // Botões Voltar/Próximo/Finalizar
@@ -211,17 +216,8 @@ const $controlButton: ThemedStyle<ViewStyle> = (theme) => ({
   ...$styles.$buttonPrimary(theme),
   ...$styles.$buttonThin(theme),
   width: "auto",
-  // flexGrow: 1,
-  // flexShrink: 1,
 })
-const $controlButtonsSpacer: ViewStyle = {
-  // width: "100%",
-  // flexGrow: 1,
-  // flexShrink: 0.5,
-}
 
 const $controlButtonsText: ThemedStyle<TextStyle> = (theme) => ({
   ...$styles.$buttonText(theme),
-  // flexShrink: 0,
-  // width: "100%",
 })

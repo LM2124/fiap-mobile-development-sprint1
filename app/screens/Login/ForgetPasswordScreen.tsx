@@ -5,7 +5,6 @@ import { Button, Screen, Text, TextField, type TextFieldProps } from "@/componen
 import { AppStackScreenProps } from "@/navigators"
 import { sendPasswordResetEmail } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
-import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { validateEmail } from "@/utils/validation"
 
@@ -33,9 +32,8 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation
     const emailError = validateEmail(email)
     if (emailError) errors.set("Email", emailError)
 
-    if (__DEV__ && errors.size > 0) {
-      console.log(errors)
-    }
+    if (__DEV__ && errors.size > 0) console.log(errors)
+
     return errors
   }
 
@@ -51,7 +49,12 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation
       if (res.status === 200) {
         navigation.replace("SecurityCode", { userEmail: email })
       } else {
-        alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+        setValidationErrors(
+          validationErrors.set(
+            "Email",
+            res.error || "Erro desconhecido. Tente novamente mais tarde.",
+          ),
+        )
       }
     } finally {
       setIsSending(false)

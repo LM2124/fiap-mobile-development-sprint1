@@ -3,14 +3,27 @@ import { type ICountry, isValidPhoneNumber } from "react-native-international-ph
 export function validateEmail(email?: string) {
   if (!email) return "Email não pode estar vazio"
   if (email.split("@").length !== 2) return "Email inválido"
-  return
+  if (!/^[\w-\.]+@[\w-]+\.+[\w-]{2,4}$/g.test(email)) return "Email inválido"
+
+  return undefined
 }
+
+// Facilitar a vida do dev; digitar senha complexa pra testar flow gasta tempo
+// Trocar isso pra true mas não esquecer de trocar de volta antes de commitar
+const easyPasswords = __DEV__ && false
 
 export function validatePassword(password?: string) {
   if (!password) return "Senha não pode estar vazia"
-  // TODO: Impor política de senha decente
-  if (password.length < 8) return "Senha deve ter 8 caracteres ou mais"
-  return
+  if (password.length < 8) return "Senha deve conter 8 caracteres ou mais"
+  if (easyPasswords) return undefined
+
+  if (!/[A-Z]/.test(password)) return "Senha deve conter pelo menos uma letra maiúscula"
+  if (!/[a-z]/.test(password)) return "Senha deve conter pelo menos uma letra minúscula"
+  if (!/\d/.test(password)) return "Senha deve conter pelo menos um número"
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password))
+    return "Senha deve conter pelo menos um caractere especial (ex: @, #, !, etc.)"
+
+  return undefined
 }
 
 export function validatePhone(phone?: string, country?: ICountry) {

@@ -44,7 +44,10 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
       errors.set("PasswordConfirm", passwordError)
     }
 
-    if (password !== confirmPassword) errors.set("PasswordConfirm", "Senhas não são iguais")
+    if (password !== confirmPassword) {
+      errors.set("Password", "Senhas não são iguais")
+      errors.set("PasswordConfirm", "Senhas não são iguais")
+    }
 
     if (__DEV__ && errors.size > 0) {
       console.log(errors)
@@ -63,7 +66,7 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
       const res = await submitPasswordChange(route.params.userEmail, password, route.params.auth)
       if (res.status === 200) {
         alert("Sucesso", "Senha Alterada com Sucesso!")
-        __DEV__ ? navigation.navigate("SignIn") : navigation.popTo("SignIn")
+        navigation.popTo("SignIn")
       } else {
         alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }

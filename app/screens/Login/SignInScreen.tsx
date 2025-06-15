@@ -40,7 +40,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
 
   const validateForm = () => {
     const errors = new Map<FormKeys, string>()
-    if (!email) errors.set("Email", "Nome não pode estar vazio")
+    if (!email) errors.set("Email", "Email não pode estar vazio")
     if (!password) errors.set("Password", "Senha não pode estar vazia")
     if (__DEV__ && errors.size > 0) console.log(errors)
     return errors
