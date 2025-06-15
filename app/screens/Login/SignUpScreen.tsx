@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { Alert, ScrollView, TextStyle, View, ViewStyle } from "react-native"
 import { type ICountry } from "react-native-international-phone-number"
 
 import {
@@ -13,8 +13,8 @@ import {
   type TextFieldProps,
 } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
+import { signUp } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
-import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
 import {
   validateBirthdate,
@@ -43,8 +43,12 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const [isSigningUp, setIsSigningUp] = useState(false)
   const [validationErrors, setValidationErrors] = useState<Map<FormKeys, string>>(new Map())
 
-  const getStatus = (key?: FormKeys): TextFieldProps["status"] => {
-    return (isSigningUp && "disabled") || (key && validationErrors.get(key) && "error") || undefined
+  const getStatus = (formKey?: FormKeys): TextFieldProps["status"] => {
+    return (
+      (isSigningUp && "disabled") ||
+      (formKey && validationErrors.get(formKey) && "error") ||
+      undefined
+    )
   }
 
   const validateForm = () => {
@@ -64,7 +68,12 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       errors.set("PasswordConfirm", passwordError)
     }
 
-    if (password !== confirmPassword) errors.set("PasswordConfirm", "Senhas não são iguais")
+    if (password !== confirmPassword) {
+      // Mesma ideia aqui. Se as senhas não são iguais,
+      // o erro é em ambas, não só na segunda.
+      errors.set("Password", "Senhas não são iguais")
+      errors.set("PasswordConfirm", "Senhas não são iguais")
+    }
 
     const phoneNumberError = validatePhone(phone, selectedCountry)
     if (phoneNumberError) errors.set("Phone", phoneNumberError)
@@ -72,9 +81,8 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     const birthdateError = validateBirthdate(birthdate)
     if (birthdateError) errors.set("Birthdate", birthdateError)
 
-    if (__DEV__ && errors.size > 0) {
-      console.log(errors)
-    }
+    if (__DEV__ && errors.size > 0) console.log(errors)
+
     return errors
   }
 
@@ -86,8 +94,12 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       setValidationErrors(errors)
       if (errors.size > 0) return
 
-      await delay(500 + Math.random() * 1000)
-      // await signUp(email, phone, birthdate, password)
+      const res = await signUp({ name, email, phone, birthdate, password })
+      if (res.status === 200 && res.data) {
+        navigation.replace("Questionnaire")
+      } else {
+        Alert.alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+      }
     } finally {
       setIsSigningUp(false)
     }

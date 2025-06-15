@@ -18,11 +18,11 @@
       "**/*"
     ],
     "android": {
-      "icon": "./assets/images/app-icon-android-legacy.png",
+      "icon": "./assets/images/xpLogo.png",
       "package": "gtech.xp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
-        "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
+        "foregroundImage": "./assets/images/xpLogo.png",
+        "backgroundImage": "./assets/images/xpLogo.png"
       },
       "allowBackup": false
     },
@@ -32,16 +32,17 @@
       "bundleIdentifier": "gtech.xp"
     },
     "web": {
-      "favicon": "./assets/images/app-icon-web-favicon.png",
+      "favicon": "./assets/images/xpLogo.png",
       "bundler": "metro"
     },
     "plugins": [
       "expo-localization",
+      "expo-secure-store",
       "expo-font",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/app-icon-android-adaptive-foreground.png",
+          "image": "./assets/images/xpLogo.png",
           "imageWidth": 300,
           "resizeMode": "contain",
           "backgroundColor": "#0068FF"

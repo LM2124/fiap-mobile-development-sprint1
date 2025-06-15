@@ -1,10 +1,10 @@
 import { FC, useState } from "react"
-import { ScrollView, View, ViewStyle } from "react-native"
+import { Alert, ScrollView, View, ViewStyle } from "react-native"
 
 import { Button, PasswordInput, Screen, Text, type TextFieldProps } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
+import { submitPasswordChange } from "@/services/fakeApi"
 import { $styles, type ThemedStyle } from "@/theme"
-import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { validatePassword } from "@/utils/validation"
 
@@ -14,6 +14,7 @@ interface ResetPasswordScreenProps extends AppStackScreenProps<"ResetPassword"> 
 
 export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetPasswordScreen({
   navigation,
+  route,
 }) {
   const { themed } = useAppTheme()
 
@@ -50,7 +51,7 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
     return errors
   }
 
-  const submitEmail = async () => {
+  const submitNewPassword = async () => {
     try {
       setIsSending(true)
 
@@ -58,12 +59,13 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
       setValidationErrors(errors)
       if (errors.size > 0) return
 
-      await delay(500 + Math.random() * 1000)
-      // await sendNewPassword(password)
-
-      // Splash: Senha Alterada com Sucesso!
-
-      __DEV__ ? navigation.navigate("SignIn") : navigation.popTo("SignIn")
+      const res = await submitPasswordChange(route.params.userEmail, password, route.params.auth)
+      if (res.status === 200) {
+        Alert.prompt("Sucesso", "Senha Alterada com Sucesso!")
+        __DEV__ ? navigation.navigate("SignIn") : navigation.popTo("SignIn")
+      } else {
+        Alert.prompt("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+      }
     } finally {
       setIsSending(false)
     }
@@ -108,7 +110,7 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
           meio bizarro mas é assim que tá no Figma 👍 */}
           <Button
             text="Alterar Senha"
-            onPress={submitEmail}
+            onPress={submitNewPassword}
             style={themed($styles.$buttonPrimary)}
             textStyle={themed($styles.$buttonText)}
             disabled={isSending}

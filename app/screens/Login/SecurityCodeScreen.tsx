@@ -3,6 +3,7 @@ import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "
 
 import { Button, Screen, SecurityCodeInput, Text } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
+import { submitConfirmationCode } from "@/services/fakeApi"
 import { $styles, type ThemedStyle } from "@/theme"
 import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
@@ -11,7 +12,7 @@ import { $loginStyles } from "./styles"
 
 interface SecurityCodeScreenProps extends AppStackScreenProps<"SecurityCode"> {}
 
-export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) => {
+export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation, route }) => {
   const { theme, themed } = useAppTheme()
 
   const [inputCode, setCode] = useState("")
@@ -38,18 +39,16 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation }) 
         return
       }
 
-      await delay(500 + Math.random() * 1000)
-
-      // TODO - Request e Backend
-      // if(await sendConfirmationCode(code)) {}
-      // setValidationError("Código Incorreto - Verifique seu Email")
-
-      if (__DEV__) {
-        navigation.navigate("ResetPassword")
+      const res = await submitConfirmationCode(route.params.userEmail, code)
+      if (res.status === 200 && res.data?.token) {
+        navigation.replace("ResetPassword", {
+          userEmail: route.params.userEmail,
+          auth: res.data.token,
+        })
       } else {
-        // Replace - Não queremos deixar o usuário voltar
-        // para uma autenticação que já invalidou
-        navigation.replace("ResetPassword")
+        // Nunca vai acontecer porque o código
+        // sempre vai ser aceito por enquanto :)
+        setValidationError("Código Incorreto - Verifique seu Email")
       }
     } finally {
       setIsSending(false)

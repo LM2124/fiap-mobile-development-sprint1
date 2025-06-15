@@ -8,8 +8,10 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
 import { ComponentProps } from "react"
+import type { User } from "types/User"
 
 import * as Screens from "@/screens"
+import type { AuthToken } from "@/services/fakeApi"
 import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
 
 import Config from "../config"
@@ -34,8 +36,10 @@ export type AppStackParamList = {
   SignUp: undefined
   SignIn: undefined
   ForgetPassword: undefined
-  ResetPassword: undefined
-  SecurityCode: undefined
+  SecurityCode: { userEmail: User["email"] }
+  ResetPassword: { userEmail: User["email"]; auth: AuthToken }
+  Questionnaire: undefined
+  Home: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -80,12 +84,12 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="ForgetPassword" component={Screens.ForgetPasswordScreen} />
           <Stack.Screen name="ResetPassword" component={Screens.ResetPasswordScreen} />
           <Stack.Screen name="SecurityCode" component={Screens.SecurityCodeScreen} />
-          {/* Onboarding */}
+          <Stack.Screen name="Questionnaire" component={Screens.QuestionnaireScreen} />
+          <Stack.Screen name="Home" component={Screens.HomeScreen} />
         </>
       ) : (
         <>
           {/* Flow autenticado; vai ter Home e etc depois */}
-          {/** 🔥 Your screens go here */}
           {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
         </>
       )}

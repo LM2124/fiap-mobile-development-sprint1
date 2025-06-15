@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { Alert, ScrollView, TextStyle, View, ViewStyle } from "react-native"
 
 import {
   Button,
@@ -11,42 +11,41 @@ import {
   type TextFieldProps,
 } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
+import { signIn } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
-import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
 
 import { $loginStyles } from "./styles"
 
 interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
 
-type FormKeys = "User" | "Password"
+type FormKeys = "Email" | "Password"
 
 export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
-  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const [isSigningIn, setIsSigningIn] = useState(false)
   const [validationErrors, setValidationErrors] = useState<Map<FormKeys, string>>(new Map())
 
-  const getStatus = (key?: FormKeys): TextFieldProps["status"] => {
-    return (isSigningIn && "disabled") || (key && validationErrors.get(key) && "error") || undefined
+  const getStatus = (formKey?: FormKeys): TextFieldProps["status"] => {
+    return (
+      (isSigningIn && "disabled") ||
+      (formKey && validationErrors.get(formKey) && "error") ||
+      undefined
+    )
   }
 
   const validateForm = () => {
     const errors = new Map<FormKeys, string>()
-    // FIXME: O cadastro pede o nome completo,
-    // e não um username ou qualquer outra coisa...
-    // É meio estranho poder logar com o nome completo,
-    // na verdade é um problema de segurança também :/
-    // ...Considerar mudar para pedir só o email.
-    if (!name) errors.set("User", "Nome não pode estar vazio")
+    if (!email) errors.set("Email", "Nome não pode estar vazio")
     if (!password) errors.set("Password", "Senha não pode estar vazia")
     if (__DEV__ && errors.size > 0) console.log(errors)
     return errors
   }
 
-  const signIn = async () => {
+  const pressSignIn = async () => {
     try {
       setIsSigningIn(true)
 
@@ -54,14 +53,18 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
       setValidationErrors(errors)
       if (errors.size > 0) return
 
-      await delay(500 + Math.random() * 1000)
-      // await signIn(user, password)
+      const res = await signIn(email, password)
+      if (res.status === 200 && res.data) {
+        navigation.navigate("Home")
+      } else {
+        Alert.alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+      }
     } finally {
       setIsSigningIn(false)
     }
   }
 
-  const toSignUp = () => {
+  const pressSignUp = () => {
     navigation.replace("SignUp")
   }
 
@@ -83,15 +86,15 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <TextField
-          label="Usuário/Email"
+          label="Email"
           placeholder="exemplo@exemplo.com"
           autoComplete="email"
-          value={name}
-          onChangeText={setName}
+          value={email}
+          onChangeText={setEmail}
           style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
-          helper={validationErrors.get("User")}
-          status={getStatus("User")}
+          helper={validationErrors.get("Email")}
+          status={getStatus("Email")}
         />
         <PasswordInput
           label="Senha"
@@ -114,7 +117,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
         <View style={$narrowContainer}>
           <Button
             text={isSigningIn ? "Entrando..." : "Entrar"}
-            onPress={signIn}
+            onPress={pressSignIn}
             style={themed($styles.$buttonPrimary)}
             textStyle={themed($styles.$buttonText)}
             disabled={isSigningIn}
@@ -124,8 +127,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
           </Text>
           <Button
             text="Cadastre-se"
-            onPress={toSignUp}
-            // Style temporário; ajustar CSS dos botões depois
+            onPress={pressSignUp}
             style={themed($styles.$buttonSecondary)}
             textStyle={themed($styles.$buttonText)}
             disabled={isSigningIn}

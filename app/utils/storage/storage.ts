@@ -1,5 +1,27 @@
+import * as Crypto from "expo-crypto"
+import * as SecureStore from "expo-secure-store"
+import { Platform } from "react-native"
 import { MMKV } from "react-native-mmkv"
-export const storage = new MMKV()
+
+// https://ignitecookbook.com/docs/recipes/Authentication/#encrypting-the-user-session
+const fetchOrGenerateEncryptionKey = (): string => {
+  const encryptionKey = SecureStore.getItem("session-encryption-key")
+
+  if (encryptionKey) {
+    return encryptionKey
+  } else {
+    const uuid = Crypto.randomUUID()
+    SecureStore.setItem("session-encryption-key", uuid)
+    return uuid
+  }
+}
+
+// Usando criptografia para armazenar dados no Android e iOS
+export const storage = new MMKV({
+  id: "gtech-xp",
+  // MMKV não suporta encryptionKey na web
+  encryptionKey: Platform.OS === "web" ? undefined : fetchOrGenerateEncryptionKey(),
+})
 
 /**
  * Loads a string from storage.

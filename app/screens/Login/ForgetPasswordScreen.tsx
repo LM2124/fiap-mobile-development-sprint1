@@ -1,10 +1,10 @@
 import { FC, useState } from "react"
-import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Alert, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
 
 import { Button, Screen, Text, TextField, type TextFieldProps } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
+import { sendPasswordResetEmail } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
-import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { validateEmail } from "@/utils/validation"
 
@@ -46,15 +46,11 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation
       setValidationErrors(errors)
       if (errors.size > 0) return
 
-      await delay(500 + Math.random() * 1000)
-      // await sendEmail(email)
-
-      if (__DEV__) {
-        navigation.navigate("SecurityCode")
+      const res = await sendPasswordResetEmail(email)
+      if (res.status === 200) {
+        navigation.replace("SecurityCode", { userEmail: email })
       } else {
-        // Replace - Não queremos deixar o usuário voltar
-        // para uma autenticação que já invalidou
-        navigation.replace("SecurityCode")
+        Alert.alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }
     } finally {
       setIsSending(false)
