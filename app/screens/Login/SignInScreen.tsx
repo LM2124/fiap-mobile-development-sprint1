@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { Alert, ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
 
 import {
   Button,
@@ -13,6 +13,7 @@ import {
 import { AppStackScreenProps } from "@/navigators"
 import { signIn } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
+import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
 
 import { $loginStyles } from "./styles"
@@ -57,7 +58,7 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
       if (res.status === 200 && res.data) {
         navigation.navigate("Home")
       } else {
-        Alert.alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+        alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }
     } finally {
       setIsSigningIn(false)

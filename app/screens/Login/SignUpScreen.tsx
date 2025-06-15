@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import { Alert, ScrollView, TextStyle, View, ViewStyle } from "react-native"
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
 import { type ICountry } from "react-native-international-phone-number"
 
 import {
@@ -15,6 +15,7 @@ import {
 import { AppStackScreenProps } from "@/navigators"
 import { signUp } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
+import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
 import {
   validateBirthdate,
@@ -98,7 +99,7 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       if (res.status === 200 && res.data) {
         navigation.replace("Questionnaire")
       } else {
-        Alert.alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+        alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }
     } finally {
       setIsSigningUp(false)

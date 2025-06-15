@@ -1,10 +1,11 @@
 import { FC, useState } from "react"
-import { ActivityIndicator, Alert, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
 
 import { Button, Screen, Text, TextField, type TextFieldProps } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
 import { sendPasswordResetEmail } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
+import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { validateEmail } from "@/utils/validation"
 
@@ -50,7 +51,7 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation
       if (res.status === 200) {
         navigation.replace("SecurityCode", { userEmail: email })
       } else {
-        Alert.alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
+        alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }
     } finally {
       setIsSending(false)

@@ -11,7 +11,9 @@ import { $loginStyles } from "./Login/styles"
 
 interface QuestionnaireScreenProps extends AppStackScreenProps<"Questionnaire"> {}
 
-export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function QuestionnaireScreen() {
+export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function QuestionnaireScreen({
+  navigation,
+}) {
   const {
     theme: { colors },
     themed,
@@ -28,7 +30,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
   }
 
   const finish = () => {
-    // navigation.navigate("Home")
+    navigation.navigate("Home")
     console.log(answers)
   }
 

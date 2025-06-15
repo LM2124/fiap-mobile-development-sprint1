@@ -3,7 +3,7 @@ import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "
 
 import { Button, Screen, SecurityCodeInput, Text } from "@/components"
 import { AppStackScreenProps } from "@/navigators"
-import { submitConfirmationCode } from "@/services/fakeApi"
+import { sendPasswordResetEmail, submitConfirmationCode } from "@/services/fakeApi"
 import { $styles, type ThemedStyle } from "@/theme"
 import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
@@ -57,8 +57,7 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation, ro
 
   const resendCode = async () => {
     setResendStatus("Sending")
-    // await api.sendCodeAgain()
-    await delay(500 + Math.random() * 1000)
+    await sendPasswordResetEmail(route.params.userEmail)
 
     setResendStatus("Cooldown")
     await delay(5000)
