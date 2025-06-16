@@ -78,6 +78,7 @@ const AppStack = observer(function AppStack() {
       {!isAuthenticated ? (
         // Flow não autenticado
         <>
+          <Stack.Screen name="Home" component={Screens.HomeScreen} />
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
           <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
           <Stack.Screen name="SignIn" component={Screens.SignInScreen} />
@@ -85,7 +86,6 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="ResetPassword" component={Screens.ResetPasswordScreen} />
           <Stack.Screen name="SecurityCode" component={Screens.SecurityCodeScreen} />
           <Stack.Screen name="Questionnaire" component={Screens.QuestionnaireScreen} />
-          <Stack.Screen name="Home" component={Screens.HomeScreen} />
         </>
       ) : (
         <>

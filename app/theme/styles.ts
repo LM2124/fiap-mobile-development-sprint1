@@ -11,6 +11,10 @@ const $title: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   color: colors.palette.neutral100,
 })
 
+const $negativeText: ThemedStyle<TextStyle> = ({ colors }) => ({
+  color: colors.palette.neutral100,
+})
+
 const $button: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   width: "100%",
   backgroundColor: colors.tint,
@@ -50,6 +54,7 @@ const $link: ThemedStyle<TextStyle> = ({ colors }) => ({
  */
 export const $styles = {
   $title: $title,
+  $negativeText: $negativeText,
   $buttonPrimary: $button,
   $buttonSecondary: $buttonAlt,
   $buttonThin: $buttonThin,

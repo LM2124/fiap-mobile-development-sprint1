@@ -1,7 +1,15 @@
 import { FC, useMemo, useState } from "react"
 import { ScrollView, type TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 
-import { Button, type ButtonAccessoryProps, Icon, ProgressBar, Screen, Text } from "@/components"
+import {
+  Button,
+  type ButtonAccessoryProps,
+  Icon,
+  ProgressBar,
+  type ProgressBarContainerStyle,
+  Screen,
+  Text,
+} from "@/components"
 import { questionario } from "@/data/Questionario"
 import { AppStackScreenProps } from "@/navigators"
 import { $styles, type ThemedStyle } from "@/theme"
@@ -92,7 +100,10 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
           style={themed($progressText)}
           text={`${page + 1}/${questionario.length}`}
         />
-        <ProgressBar progress={page / (questionario.length - 1)} style={themed($progressBar)} />
+        <ProgressBar
+          progress={page / (questionario.length - 1)}
+          containerStyle={themed($progressBar)}
+        />
         <Text
           size="lg"
           weight="bold"
@@ -155,7 +166,7 @@ const $titleText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   marginBottom: spacing.md,
 })
 
-const $progressBar: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+const $progressBar: ThemedStyle<ProgressBarContainerStyle> = ({ colors, spacing }) => ({
   height: spacing.sm,
   borderRadius: spacing.sm,
   backgroundColor: colors.border,
