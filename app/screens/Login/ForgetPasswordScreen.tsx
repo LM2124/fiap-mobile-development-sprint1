@@ -2,8 +2,8 @@ import { FC, useState } from "react"
 import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
 
 import { Button, Screen, Text, TextField, type TextFieldProps } from "@/components"
+import { useAuth } from "@/contexts/AuthContext"
 import { AppStackScreenProps } from "@/navigators"
-import { sendPasswordResetEmail } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
 import { useAppTheme } from "@/utils/useAppTheme"
 import { validateEmail } from "@/utils/validation"
@@ -14,6 +14,7 @@ interface ForgetPasswordScreenProps extends AppStackScreenProps<"ForgetPassword"
 
 export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()
+  const { sendPasswordResetEmail } = useAuth()
 
   type FormKeys = "Email"
 
@@ -46,7 +47,7 @@ export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation
       if (errors.size > 0) return
 
       const res = await sendPasswordResetEmail(email)
-      if (res.status === 200) {
+      if (res.success) {
         navigation.replace("SecurityCode", { userEmail: email })
       } else {
         setValidationErrors(

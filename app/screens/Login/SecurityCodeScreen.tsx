@@ -2,8 +2,8 @@ import { FC, useState } from "react"
 import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
 
 import { Button, Screen, SecurityCodeInput, Text } from "@/components"
+import { useAuth } from "@/contexts/AuthContext"
 import { AppStackScreenProps } from "@/navigators"
-import { sendPasswordResetEmail, submitConfirmationCode } from "@/services/fakeApi"
 import { $styles, type ThemedStyle } from "@/theme"
 import { delay } from "@/utils/delay"
 import { useAppTheme } from "@/utils/useAppTheme"
@@ -14,6 +14,7 @@ interface SecurityCodeScreenProps extends AppStackScreenProps<"SecurityCode"> {}
 
 export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation, route }) => {
   const { theme, themed } = useAppTheme()
+  const { sendPasswordResetEmail, submitConfirmationCode } = useAuth()
 
   const [inputCode, setCode] = useState("")
   const [isSending, setIsSending] = useState(false)
@@ -39,12 +40,12 @@ export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation, ro
         return
       }
 
-      const res = await submitConfirmationCode(route.params.userEmail, code)
-      if (res.status === 200 && res.data?.token) {
-        navigation.replace("ResetPassword", {
-          userEmail: route.params.userEmail,
-          auth: res.data.token,
-        })
+      const email = route.params.userEmail
+      console.log(`SubmitCode - ${route.params.userEmail}`)
+      const res = await submitConfirmationCode(email, code)
+      if (res.success) {
+        console.log(`Success - ${route.params.userEmail}`)
+        navigation.replace("ResetPassword", { userEmail: email })
       } else {
         // Nunca vai acontecer porque o código
         // sempre vai ser aceito por enquanto :)

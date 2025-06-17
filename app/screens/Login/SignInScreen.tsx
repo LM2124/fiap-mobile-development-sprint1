@@ -10,8 +10,8 @@ import {
   TextField,
   type TextFieldProps,
 } from "@/components"
+import { useAuth } from "@/contexts/AuthContext"
 import { AppStackScreenProps } from "@/navigators"
-import { signIn } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
 import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
@@ -24,6 +24,8 @@ type FormKeys = "Email" | "Password"
 
 export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
+  const { signIn } = useAuth()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -55,8 +57,9 @@ export const SignInScreen: FC<SignInScreenProps> = ({ navigation }) => {
       if (errors.size > 0) return
 
       const res = await signIn(email, password)
-      if (res.status === 200 && res.data) {
-        navigation.navigate("Home")
+      if (res.success) {
+        // Navegação deve acontecer automaticamente
+        // navigation.navigate("Home")
       } else {
         alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }

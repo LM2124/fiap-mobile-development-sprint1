@@ -10,8 +10,8 @@ import { observer } from "mobx-react-lite"
 import { ComponentProps } from "react"
 import type { User } from "types/User"
 
+import { useAuth } from "@/contexts/AuthContext"
 import * as Screens from "@/screens"
-import type { AuthToken } from "@/services/fakeApi"
 import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
 
 import Config from "../config"
@@ -32,12 +32,11 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 export type AppStackParamList = {
   Welcome: undefined
-  // 🔥 Your screens go here
   SignUp: undefined
   SignIn: undefined
   ForgetPassword: undefined
   SecurityCode: { userEmail: User["email"] }
-  ResetPassword: { userEmail: User["email"]; auth: AuthToken }
+  ResetPassword: { userEmail: User["email"] }
   Questionnaire: undefined
   Home: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
@@ -62,8 +61,7 @@ const AppStack = observer(function AppStack() {
     theme: { colors },
   } = useAppTheme()
 
-  // Manual; mudar aqui quando autenticação tiver pronta
-  const isAuthenticated = false
+  const { isAuthenticated } = useAuth()
 
   return (
     <Stack.Navigator
@@ -76,23 +74,27 @@ const AppStack = observer(function AppStack() {
       }}
     >
       {!isAuthenticated ? (
-        // Flow não autenticado
         <>
-          <Stack.Screen name="Home" component={Screens.HomeScreen} />
+          {/* Flow não autenticado */}
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
           <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
           <Stack.Screen name="SignIn" component={Screens.SignInScreen} />
           <Stack.Screen name="ForgetPassword" component={Screens.ForgetPasswordScreen} />
-          <Stack.Screen name="ResetPassword" component={Screens.ResetPasswordScreen} />
           <Stack.Screen name="SecurityCode" component={Screens.SecurityCodeScreen} />
-          <Stack.Screen name="Questionnaire" component={Screens.QuestionnaireScreen} />
         </>
       ) : (
         <>
-          {/* Flow autenticado; vai ter Home e etc depois */}
-          {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+          {/* Flow autenticado */}
+          <Stack.Screen name="Home" component={Screens.HomeScreen} />
+          <Stack.Screen name="Questionnaire" component={Screens.QuestionnaireScreen} />
         </>
       )}
+
+      {/* Flow independente de autenticação */}
+      {/* ResetPassword poderá ser acessado a partir do flow de recuperação de conta,
+      ou pela redefinição de senha nas configurações de usuário */}
+      <Stack.Screen name="ResetPassword" component={Screens.ResetPasswordScreen} />
+      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })

@@ -5,4 +5,5 @@ export type User = {
   phone: string
   birthdate: string
   password: string
+  questionnaireAnswers?: Record<number, string>
 }

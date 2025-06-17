@@ -10,6 +10,7 @@ import {
   Screen,
   Text,
 } from "@/components"
+import { useAuth } from "@/contexts/AuthContext"
 import { questionario } from "@/data/Questionario"
 import { AppStackScreenProps } from "@/navigators"
 import { $styles, type ThemedStyle } from "@/theme"
@@ -26,9 +27,11 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
     theme: { colors },
     themed,
   } = useAppTheme()
+  const { submitQuestionnaire } = useAuth()
 
   const [page, setPage] = useState<number>(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [isSending, setSending] = useState(false)
 
   const setAnswer = (page: number, answer: string) => {
     // Eu odeio o fato de que o React funciona assim, mas o React funciona assim
@@ -37,9 +40,15 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
     setAnswers({ ...answers })
   }
 
-  const finish = () => {
-    navigation.navigate("Home")
-    console.log(answers)
+  const finish = async () => {
+    setSending(true)
+    try {
+      await submitQuestionnaire(answers)
+      navigation.navigate("Home")
+      console.log(answers)
+    } finally {
+      setSending(false)
+    }
   }
 
   const optionButton = useMemo(
@@ -131,11 +140,11 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
         />
         {page === questionario.length - 1 ? (
           <Button
-            text={"Finalizar"}
+            text={isSending ? "Enviando respostas..." : "Finalizar"}
             onPress={finish}
             style={themed($controlButton)}
             textStyle={themed($controlButtonsText)}
-            disabled={!answers[page]}
+            disabled={!answers[page] || isSending}
             disabledStyle={themed($styles.$buttonDisabled)}
           />
         ) : (

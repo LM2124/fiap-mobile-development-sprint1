@@ -4,6 +4,7 @@ import { type ICountry } from "react-native-international-phone-number"
 
 import {
   Button,
+  DateInput,
   Link,
   PasswordInput,
   PhoneInput,
@@ -12,8 +13,8 @@ import {
   TextField,
   type TextFieldProps,
 } from "@/components"
+import { useAuth } from "@/contexts/AuthContext"
 import { AppStackScreenProps } from "@/navigators"
-import { signUp } from "@/services/fakeApi"
 import { $styles, ThemedStyle } from "@/theme"
 import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
@@ -30,6 +31,7 @@ interface SignUpScreenProps extends AppStackScreenProps<"SignUp"> {}
 
 export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
+  const { signUp } = useAuth()
 
   type FormKeys = "Name" | "Email" | "Phone" | "Birthdate" | "Password" | "PasswordConfirm"
 
@@ -96,8 +98,9 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       if (errors.size > 0) return
 
       const res = await signUp({ name, email, phone, birthdate, password })
-      if (res.status === 200 && res.data) {
-        navigation.replace("Questionnaire")
+      if (res.success) {
+        // Navegação deve acontecer automaticamente
+        // navigation.navigate("Home")
       } else {
         alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }
@@ -170,13 +173,13 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           status={getStatus("Phone")}
           disabled={isSigningUp}
         />
-        <TextField
+        <DateInput
           label="Data de Nascimento"
           // TODO: usar o seletor de data do expo
-          placeholder="DD/MM/YY (placeholder)"
+          placeholder="DD/MM/AAAA"
           autoComplete="birthdate-full"
           value={birthdate}
-          onChangeText={setBirthdate}
+          onChange={setBirthdate}
           style={themed($loginStyles.$input)}
           inputWrapperStyle={themed($loginStyles.$inputWrapper)}
           helper={validationErrors.get("Birthdate")}

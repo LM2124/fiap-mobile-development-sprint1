@@ -25,7 +25,7 @@ export const ProgressBar = function ProgressBar(props: ProgressBarProps) {
   const { theme } = useAppTheme()
   const {
     progress,
-    reversed = true,
+    reversed = false,
     smoothingDuration = 500,
     barColor = theme.colors.tint,
     style,

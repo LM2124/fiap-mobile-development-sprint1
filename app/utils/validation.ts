@@ -41,8 +41,23 @@ export function validatePhone(phone?: string, country?: ICountry) {
   return
 }
 
-export function validateBirthdate(date?: string) {
-  if (!date) return "Data inválida"
-  // TODO
+const requiredUserAge = 16
+export function validateBirthdate(inputDate?: string) {
+  if (!inputDate) return "Data não pode estar vazia"
+
+  const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/
+  const match = inputDate.match(dateRegex)
+
+  if (!match) return "Data inválida"
+
+  const [, day, month, year] = match
+  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+  const today = new Date()
+  const maxDate = new Date(new Date().setFullYear(new Date().getFullYear() - requiredUserAge))
+
+  if (date >= today) return "Data inválida"
+  if (date > maxDate)
+    return `Acesso não permitido:\nUsuário precisa ter pelo menos ${requiredUserAge} anos para usar este aplicativo.`
+
   return
 }

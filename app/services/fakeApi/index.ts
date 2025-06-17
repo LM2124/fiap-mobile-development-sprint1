@@ -1,5 +1,6 @@
 export * from "./fakeBackend"
 export * from "./types"
+export { STORAGE_KEYS } from "./storage"
 
 /*
  * Nota: Todos os arquivos nessa pasta são puramente

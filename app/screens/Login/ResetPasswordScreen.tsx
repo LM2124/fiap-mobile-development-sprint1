@@ -2,8 +2,8 @@ import { FC, useState } from "react"
 import { ScrollView, View, ViewStyle } from "react-native"
 
 import { Button, PasswordInput, Screen, Text, type TextFieldProps } from "@/components"
+import { useAuth } from "@/contexts/AuthContext"
 import { AppStackScreenProps } from "@/navigators"
-import { submitPasswordChange } from "@/services/fakeApi"
 import { $styles, type ThemedStyle } from "@/theme"
 import { alert } from "@/utils/alert"
 import { useAppTheme } from "@/utils/useAppTheme"
@@ -18,6 +18,7 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
   route,
 }) {
   const { themed } = useAppTheme()
+  const { user, submitPasswordChange } = useAuth()
 
   type FormKeys = "Password" | "PasswordConfirm"
 
@@ -63,10 +64,10 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
       setValidationErrors(errors)
       if (errors.size > 0) return
 
-      const res = await submitPasswordChange(route.params.userEmail, password, route.params.auth)
-      if (res.status === 200) {
+      const res = await submitPasswordChange(route.params.userEmail, password)
+      if (res.success) {
         alert("Sucesso", "Senha Alterada com Sucesso!")
-        navigation.popTo("SignIn")
+        user ? navigation.popTo("Home") : navigation.popTo("SignIn")
       } else {
         alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }
