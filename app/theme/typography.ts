@@ -1,3 +1,4 @@
+import { Platform } from "react-native"
 import {
   Poppins_300Light as poppinsLight,
   Poppins_400Regular as poppinsRegular,
@@ -13,7 +14,6 @@ import {
   SpaceGrotesk_700Bold as spaceGroteskBold,
 } from "@expo-google-fonts/space-grotesk"
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill"
-import { Platform } from "react-native"
 
 export const customFontsToLoad = {
   spaceGroteskLight,

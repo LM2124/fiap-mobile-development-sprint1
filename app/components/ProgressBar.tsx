@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { Animated, StyleProp, View, ViewStyle } from "react-native"
 
-import { useAppTheme } from "@/utils/useAppTheme"
+import { useAppTheme } from "@/theme/context"
 
 // "Estou usando isso pra fazer o componente funcionar, por favor não encoste"
 export type ProgressBarStyle = StyleProp<Omit<ViewStyle, "width" | "marginLeft">>

@@ -1,20 +1,19 @@
-import { observer } from "mobx-react-lite"
 import { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 
-import { Button, Screen, Text } from "@/components"
-import { $styles, type ThemedStyle } from "@/theme"
-import { useAppTheme } from "@/utils/useAppTheme"
+import { Button } from "@/components/Button"
+import { Screen } from "@/components/Screen"
+import { Text } from "@/components/Text"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 
-import { AppStackScreenProps } from "../navigators"
-
-const welcomeLogo = require("../../assets/images/xpLogo.png")
+const welcomeLogo = require("@assets/images/xpLogo.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen({
-  navigation,
-}) {
+export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen({ navigation }) {
   const { themed, theme } = useAppTheme()
 
   const signIn = () => {
@@ -53,7 +52,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
       </View>
     </Screen>
   )
-})
+}
 
 const $root: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.lg,

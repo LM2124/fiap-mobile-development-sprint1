@@ -2,8 +2,8 @@ import { Platform, type StyleProp, type TextStyle, View, type ViewStyle } from "
 import _PhoneInput from "react-native-international-phone-number"
 import { PhoneInputProps as _PhoneInputProps } from "react-native-international-phone-number/lib/interfaces/phoneInputProps"
 
-import { type ThemedStyle } from "@/theme"
-import { useAppTheme } from "@/utils/useAppTheme"
+import { useAppTheme } from "@/theme/context"
+import { type ThemedStyle } from "@/theme/types"
 
 import { Text, type TextProps } from "./Text"
 

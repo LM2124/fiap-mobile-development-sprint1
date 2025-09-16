@@ -8,7 +8,8 @@ import {
   ViewProps,
   ViewStyle,
 } from "react-native"
-import { useAppTheme } from "@/utils/useAppTheme"
+
+import { useAppTheme } from "@/theme/context"
 
 export type IconTypes = keyof typeof iconRegistry
 
@@ -71,7 +72,12 @@ export function PressableIcon(props: PressableIconProps) {
 
   return (
     <TouchableOpacity {...pressableProps} style={$containerStyleOverride}>
-      <Image style={$imageStyle} source={iconRegistry[icon]} tintColor={color ?? theme.colors.text} resizeMode="contain"/>
+      <Image
+        style={$imageStyle}
+        source={iconRegistry[icon]}
+        tintColor={color ?? theme.colors.text}
+        resizeMode="contain"
+      />
     </TouchableOpacity>
   )
 }
@@ -105,25 +111,30 @@ export function Icon(props: IconProps) {
 
   return (
     <View {...viewProps} style={$containerStyleOverride}>
-      <Image style={$imageStyle} source={iconRegistry[icon]} tintColor={color ?? theme.colors.text} resizeMode="contain" />
+      <Image
+        style={$imageStyle}
+        source={iconRegistry[icon]}
+        tintColor={color ?? theme.colors.text}
+        resizeMode="contain"
+      />
     </View>
   )
 }
 
 export const iconRegistry = {
-  back: require("../../assets/icons/back.png"),
-  bell: require("../../assets/icons/bell.png"),
-  caretLeft: require("../../assets/icons/caretLeft.png"),
-  caretRight: require("../../assets/icons/caretRight.png"),
-  check: require("../../assets/icons/check.png"),
-  hidden: require("../../assets/icons/hidden.png"),
-  ladybug: require("../../assets/icons/ladybug.png"),
-  lock: require("../../assets/icons/lock.png"),
-  menu: require("../../assets/icons/menu.png"),
-  more: require("../../assets/icons/more.png"),
-  settings: require("../../assets/icons/settings.png"),
-  view: require("../../assets/icons/view.png"),
-  x: require("../../assets/icons/x.png"),
+  back: require("@assets/icons/back.png"),
+  bell: require("@assets/icons/bell.png"),
+  caretLeft: require("@assets/icons/caretLeft.png"),
+  caretRight: require("@assets/icons/caretRight.png"),
+  check: require("@assets/icons/check.png"),
+  hidden: require("@assets/icons/hidden.png"),
+  ladybug: require("@assets/icons/ladybug.png"),
+  lock: require("@assets/icons/lock.png"),
+  menu: require("@assets/icons/menu.png"),
+  more: require("@assets/icons/more.png"),
+  settings: require("@assets/icons/settings.png"),
+  view: require("@assets/icons/view.png"),
+  x: require("@assets/icons/x.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

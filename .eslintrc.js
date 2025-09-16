@@ -1,5 +1,6 @@
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
+  root: true,
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
@@ -50,7 +51,7 @@ module.exports = {
           {
             name: "react-native",
             importNames: ["Text", "Button", "TextInput"],
-            message: "Use the custom wrapper component from 'app/src/components'.",
+            message: "Use the custom wrapper component from '@/components'.",
           },
         ],
       },
@@ -66,7 +67,42 @@ module.exports = {
     "no-global-assign": 0,
     "quotes": 0,
     "space-before-function-paren": 0,
-    // import sorting
-    "simple-import-sort/imports": "error",
+    // eslint-import
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          order: "asc",
+          caseInsensitive: true,
+        },
+        "newlines-between": "always",
+        "groups": [["builtin", "external"], "internal", "unknown", ["parent", "sibling"], "index"],
+        "distinctGroup": false,
+        "pathGroups": [
+          {
+            pattern: "react",
+            group: "external",
+            position: "before",
+          },
+          {
+            pattern: "react-native",
+            group: "external",
+            position: "before",
+          },
+          {
+            pattern: "expo{,-*}",
+            group: "external",
+            position: "before",
+          },
+          {
+            pattern: "@/**",
+            group: "unknown",
+            position: "after",
+          },
+        ],
+        "pathGroupsExcludedImportTypes": ["react", "react-native", "expo", "expo-*"],
+      },
+    ],
+    "import/newline-after-import": 1,
   },
 }

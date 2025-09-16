@@ -4,16 +4,14 @@
  * @see https://github.com/infinitered/reactotron
  */
 import { Platform, NativeModules } from "react-native"
-
 import { ArgType } from "reactotron-core-client"
-import { mst } from "reactotron-mst"
+import { ReactotronReactNative } from "reactotron-react-native"
 import mmkvPlugin from "reactotron-react-native-mmkv"
 
-import { storage, clear } from "@/utils/storage"
 import { goBack, resetRoot, navigate } from "@/navigators/navigationUtilities"
+import { storage } from "@/utils/storage"
 
 import { Reactotron } from "./ReactotronClient"
-import { ReactotronReactNative } from "reactotron-react-native"
 
 const reactotron = Reactotron.configure({
   name: require("../../package.json").name,
@@ -22,13 +20,6 @@ const reactotron = Reactotron.configure({
     Reactotron.clear()
   },
 })
-
-reactotron.use(
-  mst({
-    /* ignore some chatty `mobx-state-tree` actions */
-    filter: (event) => /postProcessSnapshot|@APPLY_SNAPSHOT/.test(event.name) === false,
-  }),
-)
 
 reactotron.use(mmkvPlugin<ReactotronReactNative>({ storage }))
 
@@ -62,16 +53,6 @@ reactotron.onCustomCommand({
 })
 
 reactotron.onCustomCommand({
-  title: "Reset Root Store",
-  description: "Resets the MST store",
-  command: "resetStore",
-  handler: () => {
-    Reactotron.log("resetting store")
-    clear()
-  },
-})
-
-reactotron.onCustomCommand({
   title: "Reset Navigation State",
   description: "Resets the navigation state",
   command: "resetNavigation",
@@ -87,6 +68,7 @@ reactotron.onCustomCommand<[{ name: "route"; type: ArgType.String }]>({
     const { route } = args ?? {}
     if (route) {
       Reactotron.log(`Navigating to: ${route}`)
+      // @ts-ignore
       navigate(route as any) // this should be tied to the navigator, but since this is for debugging, we can navigate to illegal routes
     } else {
       Reactotron.log("Could not navigate. No route provided.")

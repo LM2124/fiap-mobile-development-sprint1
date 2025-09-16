@@ -1,59 +1,68 @@
 {
   "name": "xp",
   "displayName": "xp",
-  "expo": {
-    "name": "xp",
-    "slug": "xp",
-    "scheme": "xp",
-    "version": "1.0.0",
-    "orientation": "default",
-    "userInterfaceStyle": "automatic",
-    "icon": "./assets/images/app-icon-all.png",
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "newArchEnabled": false,
-    "jsEngine": "hermes",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "android": {
-      "icon": "./assets/images/xpLogo.png",
-      "package": "gtech.xp",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/xpLogo.png",
-        "backgroundImage": "./assets/images/xpLogo.png"
-      },
-      "allowBackup": false
-    },
-    "ios": {
-      "icon": "./assets/images/app-icon-ios.png",
-      "supportsTablet": true,
-      "bundleIdentifier": "gtech.xp"
-    },
-    "web": {
-      "favicon": "./assets/images/xpLogo.png",
-      "bundler": "metro"
-    },
-    "plugins": [
-      "expo-localization",
-      "expo-secure-store",
-      "expo-font",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/xpLogo.png",
-          "imageWidth": 300,
-          "resizeMode": "contain",
-          "backgroundColor": "#0068FF"
-        }
-      ]
-    ],
-    "experiments": {
-      "tsconfigPaths": true
-    }
+  "slug": "xp",
+  "scheme": "xp",
+  "version": "1.0.0",
+  "orientation": "default",
+  "userInterfaceStyle": "automatic",
+  "icon": "./assets/images/app-icon-all.png",
+  "updates": {
+    "fallbackToCacheTimeout": 0
   },
-  "ignite": {
-    "version": "10.5.3"
+  "newArchEnabled": true,
+  "jsEngine": "hermes",
+  "assetBundlePatterns": [
+    "**/*"
+  ],
+  "android": {
+    "icon": "./assets/images/xpLogo.png",
+    "package": "gtech.xp",
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/xpLogo.png",
+      "backgroundImage": "./assets/images/xpLogo.png"
+    },
+    "allowBackup": false,
+    "edgeToEdgeEnabled": true
+  },
+  "ios": {
+    "icon": "./assets/images/app-icon-ios.png",
+    "supportsTablet": true,
+    "bundleIdentifier": "gtech.xp"
+  },
+  "web": {
+    "favicon": "./assets/images/xpLogo.png",
+    "bundler": "metro"
+  },
+  "plugins": [
+    "expo-localization",
+    "expo-secure-store",
+    "expo-font",
+    [
+      "expo-splash-screen",
+      {
+        "image": "./assets/images/xpLogo.png",
+        "imageWidth": 300,
+        "resizeMode": "contain",
+        "backgroundColor": "#0068FF"
+      }
+    ],
+    [
+      "react-native-edge-to-edge",
+      {
+        "android": {
+          "parentTheme": "Light",
+          "enforceNavigationBarContrast": false
+        }
+      }
+    ]
+  ],
+  "experiments": {
+    "tsconfigPaths": true
+  },
+  "extra": {
+    "ignite": {
+      "version": "11.1.2"
+    }
   }
 }

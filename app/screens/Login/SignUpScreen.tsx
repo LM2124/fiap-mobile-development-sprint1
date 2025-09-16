@@ -2,22 +2,20 @@ import { FC, useState } from "react"
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
 import { type ICountry } from "react-native-international-phone-number"
 
-import {
-  Button,
-  DateInput,
-  Link,
-  PasswordInput,
-  PhoneInput,
-  Screen,
-  Text,
-  TextField,
-  type TextFieldProps,
-} from "@/components"
+import { Button } from "@/components/Button"
+import { DateInput } from "@/components/DateInput"
+import { Link } from "@/components/Link"
+import { PasswordInput } from "@/components/PasswordInput"
+import { PhoneInput } from "@/components/PhoneInput"
+import { Screen } from "@/components/Screen"
+import { Text } from "@/components/Text"
+import { TextField, type TextFieldProps } from "@/components/TextField"
 import { useAuth } from "@/contexts/AuthContext"
-import { AppStackScreenProps } from "@/navigators"
-import { $styles, ThemedStyle } from "@/theme"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 import { alert } from "@/utils/alert"
-import { useAppTheme } from "@/utils/useAppTheme"
 import {
   validateBirthdate,
   validateEmail,

@@ -1,13 +1,16 @@
 import { FC, useEffect } from "react"
 import { Image, type ImageStyle, type TextStyle, View, ViewStyle } from "react-native"
 
-import { PressableIcon, Screen, Text } from "@/components"
+import { PressableIcon } from "@/components/Icon"
+import { Screen } from "@/components/Screen"
+import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import { dadosDashboard } from "@/data/DadosDashboard"
-import { AppStackScreenProps } from "@/navigators"
-import { $styles, type ThemedStyle } from "@/theme"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 import { alert } from "@/utils/alert"
-import { useAppTheme } from "@/utils/useAppTheme"
 
 import { $loginStyles } from "./Login/styles"
 

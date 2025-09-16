@@ -1,20 +1,17 @@
 import { FC, useMemo, useState } from "react"
 import { ScrollView, type TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 
-import {
-  Button,
-  type ButtonAccessoryProps,
-  Icon,
-  ProgressBar,
-  type ProgressBarContainerStyle,
-  Screen,
-  Text,
-} from "@/components"
+import { Button, type ButtonAccessoryProps } from "@/components/Button"
+import { Icon } from "@/components/Icon"
+import { ProgressBar, type ProgressBarContainerStyle } from "@/components/ProgressBar"
+import { Screen } from "@/components/Screen"
+import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import { questionario } from "@/data/Questionario"
-import { AppStackScreenProps } from "@/navigators"
-import { $styles, type ThemedStyle } from "@/theme"
-import { useAppTheme } from "@/utils/useAppTheme"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 
 import { $loginStyles } from "./Login/styles"
 
@@ -31,6 +28,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
 
   const [page, setPage] = useState<number>(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
+
   const [isSending, setSending] = useState(false)
 
   const setAnswer = (page: number, answer: string) => {

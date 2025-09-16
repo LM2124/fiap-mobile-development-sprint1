@@ -1,6 +1,6 @@
 import { type TextStyle, useWindowDimensions, ViewStyle } from "react-native"
 
-import { ThemedStyle } from "@/theme"
+import type { ThemedStyle } from "@/theme/types"
 
 const $inputWrapper: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: spacing.md,
@@ -17,6 +17,8 @@ const $input: ThemedStyle<TextStyle> = () => ({
 })
 
 const $aspectRatioSmartSizing: () => ViewStyle = () => {
+  // FIXME: Linter tá reclamando disso; arrumar uma solução menos hacky
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { width, height } = useWindowDimensions()
   return {
     /**

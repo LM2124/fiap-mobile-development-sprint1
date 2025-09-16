@@ -1,12 +1,16 @@
 import { FC, useState } from "react"
 import { ActivityIndicator, ScrollView, type TextStyle, View, ViewStyle } from "react-native"
 
-import { Button, Screen, SecurityCodeInput, Text } from "@/components"
+import { Button } from "@/components/Button"
+import { Screen } from "@/components/Screen"
+import { SecurityCodeInput } from "@/components/SecurityCodeInput"
+import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
-import { AppStackScreenProps } from "@/navigators"
-import { $styles, type ThemedStyle } from "@/theme"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 import { delay } from "@/utils/delay"
-import { useAppTheme } from "@/utils/useAppTheme"
 
 import { $loginStyles } from "./styles"
 

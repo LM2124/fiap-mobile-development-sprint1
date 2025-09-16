@@ -4,17 +4,25 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
+import { ComponentProps } from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
-import { observer } from "mobx-react-lite"
-import { ComponentProps } from "react"
+
 import type { User } from "types/User"
 
+import Config from "@/config"
 import { useAuth } from "@/contexts/AuthContext"
-import * as Screens from "@/screens"
-import { useAppTheme, useThemeProvider } from "@/utils/useAppTheme"
+import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
+import { HomeScreen } from "@/screens/HomeScreen"
+import { ForgetPasswordScreen } from "@/screens/Login/ForgetPasswordScreen"
+import { ResetPasswordScreen } from "@/screens/Login/ResetPasswordScreen"
+import { SecurityCodeScreen } from "@/screens/Login/SecurityCodeScreen"
+import { SignInScreen } from "@/screens/Login/SignInScreen"
+import { SignUpScreen } from "@/screens/Login/SignUpScreen"
+import { QuestionnaireScreen } from "@/screens/QuestionnaireScreen"
+import { WelcomeScreen } from "@/screens/WelcomeScreen"
+import { useAppTheme } from "@/theme/context"
 
-import Config from "../config"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -56,7 +64,7 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
-const AppStack = observer(function AppStack() {
+const AppStack = function AppStack() {
   const {
     theme: { colors },
   } = useAppTheme()
@@ -76,45 +84,42 @@ const AppStack = observer(function AppStack() {
       {!isAuthenticated ? (
         <>
           {/* Flow não autenticado */}
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
-          <Stack.Screen name="SignIn" component={Screens.SignInScreen} />
-          <Stack.Screen name="ForgetPassword" component={Screens.ForgetPasswordScreen} />
-          <Stack.Screen name="SecurityCode" component={Screens.SecurityCodeScreen} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPasswordScreen} />
+          <Stack.Screen name="SecurityCode" component={SecurityCodeScreen} />
         </>
       ) : (
         <>
           {/* Flow autenticado */}
-          <Stack.Screen name="Home" component={Screens.HomeScreen} />
-          <Stack.Screen name="Questionnaire" component={Screens.QuestionnaireScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
         </>
       )}
 
       {/* Flow independente de autenticação */}
       {/* ResetPassword poderá ser acessado a partir do flow de recuperação de conta,
       ou pela redefinição de senha nas configurações de usuário */}
-      <Stack.Screen name="ResetPassword" component={Screens.ResetPasswordScreen} />
+      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
       {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
-})
+}
 
 export interface NavigationProps
   extends Partial<ComponentProps<typeof NavigationContainer<AppStackParamList>>> {}
 
-export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
-  const { themeScheme, navigationTheme, setThemeContextOverride, ThemeProvider } =
-    useThemeProvider("light") // FIXME: Fazer um tema escuro
+export const AppNavigator = (props: NavigationProps) => {
+  const { navigationTheme } = useAppTheme()
 
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
 
   return (
-    <ThemeProvider value={{ themeScheme, setThemeContextOverride }}>
-      <NavigationContainer ref={navigationRef} theme={navigationTheme} {...props}>
-        <Screens.ErrorBoundary catchErrors={Config.catchErrors}>
-          <AppStack />
-        </Screens.ErrorBoundary>
-      </NavigationContainer>
-    </ThemeProvider>
+    <NavigationContainer ref={navigationRef} theme={navigationTheme} {...props}>
+      <ErrorBoundary catchErrors={Config.catchErrors}>
+        <AppStack />
+      </ErrorBoundary>
+    </NavigationContainer>
   )
-})
+}

@@ -1,7 +1,7 @@
 import { Linking } from "react-native"
 
-import { $styles } from "@/theme"
-import { useAppTheme } from "@/utils/useAppTheme"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
 
 import { Text, TextProps } from "./Text"
 

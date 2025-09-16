@@ -11,11 +11,12 @@ import {
   ViewStyle,
 } from "react-native"
 
-import { isRTL, translate } from "@/i18n"
-import type { ThemedStyle, ThemedStyleArray } from "@/theme"
-import { useAppTheme } from "@/utils/useAppTheme"
+import { isRTL } from "@/i18n"
+import { translate } from "@/i18n/translate"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle, ThemedStyleArray } from "@/theme/types"
 
-import { $styles } from "../theme"
 import { Text, TextProps } from "./Text"
 
 export interface TextFieldAccessoryProps {

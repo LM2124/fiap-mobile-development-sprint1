@@ -7,13 +7,16 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { isRTL, translate } from "@/i18n"
-import { $styles } from "../theme"
-import { ExtendedEdge, useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
+
+import { isRTL } from "@/i18n"
+import { translate } from "@/i18n/translate"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
+import { ExtendedEdge, useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
+
 import { IconTypes, PressableIcon } from "./Icon"
 import { Text, TextProps } from "./Text"
-import { useAppTheme } from "@/utils/useAppTheme"
-import type { ThemedStyle } from "@/theme"
 
 export interface HeaderProps {
   /**

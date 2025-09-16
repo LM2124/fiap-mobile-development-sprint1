@@ -1,20 +1,18 @@
 import { FC, useState } from "react"
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native"
 
-import {
-  Button,
-  Link,
-  PasswordInput,
-  Screen,
-  Text,
-  TextField,
-  type TextFieldProps,
-} from "@/components"
+import { Button } from "@/components/Button"
+import { Link } from "@/components/Link"
+import { PasswordInput } from "@/components/PasswordInput"
+import { Screen } from "@/components/Screen"
+import { Text } from "@/components/Text"
+import { TextField, type TextFieldProps } from "@/components/TextField"
 import { useAuth } from "@/contexts/AuthContext"
-import { AppStackScreenProps } from "@/navigators"
-import { $styles, ThemedStyle } from "@/theme"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 import { alert } from "@/utils/alert"
-import { useAppTheme } from "@/utils/useAppTheme"
 
 import { $loginStyles } from "./styles"
 
