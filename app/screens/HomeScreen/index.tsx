@@ -9,10 +9,8 @@ import { dadosDashboard } from "@/data/DadosDashboard"
 import type { AppStackScreenProps } from "@/navigators/AppNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import type { ThemedStyle } from "@/theme/types"
 import { alert } from "@/utils/alert"
 
-import { $loginStyles } from "../Login/styles"
 import {
   $root,
   $rootContentContainer,
@@ -26,6 +24,7 @@ import {
   $dashSeparator,
   $dashText,
 } from "./styles"
+import { $loginStyles } from "../Login/styles"
 
 interface HomeScreenProps extends AppStackScreenProps<"Home"> {}
 

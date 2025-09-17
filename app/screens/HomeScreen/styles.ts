@@ -1,4 +1,5 @@
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native"
+
 import type { ThemedStyle } from "@/theme/types"
 
 export const $root: ViewStyle = {
