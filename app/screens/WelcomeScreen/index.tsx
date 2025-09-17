@@ -8,13 +8,7 @@ import type { AppStackScreenProps } from "@/navigators/AppNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 
-import {
-  $root,
-  $welcomeLogo,
-  $welcomeHeading,
-  $containerNarrow,
-  $welcomeText,
-} from "./styles"
+import { $root, $welcomeLogo, $welcomeHeading, $containerNarrow, $welcomeText } from "./styles"
 
 const welcomeLogo = require("@assets/images/xpLogo.png")
 
@@ -31,6 +25,8 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen({ na
     navigation.navigate("SignUp")
   }
 
+  // FIXME: tela não cabe no modo horizontal.
+  // Considerando forçar o modo vertical para essa tela e durante o onboarding.
   return (
     <Screen preset="fixed" contentContainerStyle={themed([$root, $styles.toggleInner])}>
       <Image style={themed($welcomeLogo)} source={welcomeLogo} resizeMode="contain" />
