@@ -34,6 +34,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
   const { theme, themed } = useAppTheme()
   const { user } = useAuth()
 
+  // Redirecionar para o questionário se o usuário não preencheu ainda
   useEffect(() => {
     if (user && !user.questionnaireAnswers) {
       navigation.replace("Questionnaire")
@@ -57,6 +58,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
             style={themed($styles.$negativeText)}
             text={`Olá ${user?.name}, Bem Vindo`}
           />
+          {/* FIXME: Fazer isso falar boa noite quando estiver de noite :D */}
           <Text preset="default" size="xs" style={themed($styles.$negativeText)} text="Bom dia!" />
         </View>
         <PressableIcon
@@ -79,6 +81,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
           style={themed($styles.$negativeText)}
           size="xl"
           weight="semiBold"
+          // Somando o valor de todos os dados registrados
           text={formatCurrency(dadosDashboard.map((x) => x[2]).reduce((a, b) => a + b, 0))}
         />
       </View>

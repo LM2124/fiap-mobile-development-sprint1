@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { Image, View } from "react-native"
 
 import { Button } from "@/components/Button"
 import { Screen } from "@/components/Screen"
@@ -7,7 +7,9 @@ import { Text } from "@/components/Text"
 import type { AppStackScreenProps } from "@/navigators/AppNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import type { ThemedStyle } from "@/theme/types"
+
+import { useWelcomeScreen } from "./hooks/useWelcomeScreen"
+import { $root, $welcomeLogo, $welcomeHeading, $containerNarrow, $welcomeText } from "./styles"
 
 const welcomeLogo = require("@assets/images/xpLogo.png")
 
@@ -16,13 +18,7 @@ interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen({ navigation }) {
   const { themed, theme } = useAppTheme()
 
-  const signIn = () => {
-    navigation.navigate("SignIn")
-  }
-
-  const signUp = () => {
-    navigation.navigate("SignUp")
-  }
+  const { signIn, signUp } = useWelcomeScreen(navigation)
 
   // FIXME: tela não cabe no modo horizontal.
   // Considerando forçar o modo vertical para essa tela e durante o onboarding.
@@ -53,32 +49,3 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen({ na
     </Screen>
   )
 }
-
-const $root: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.lg,
-})
-
-const $welcomeLogo: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  height: 150,
-  width: "100%",
-  aspectRatio: 1,
-  marginBottom: spacing.xs,
-})
-
-const $welcomeHeading: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
-  color: colors.palette.primary500,
-  fontWeight: "bold",
-  fontSize: spacing.xxxl,
-  lineHeight: spacing.xxxl,
-  textAlign: "center",
-  marginBottom: spacing.sm,
-})
-
-const $containerNarrow: ThemedStyle<ViewStyle> = () => ({
-  width: "70%",
-})
-
-const $welcomeText: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  textAlign: "center",
-  marginBottom: spacing.sm,
-})
