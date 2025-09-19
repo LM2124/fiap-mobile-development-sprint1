@@ -124,7 +124,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // (i.e voltar para tela de login)
       if (isAuthenticated()) {
         setUser(res.data.user)
-        storage.save(STORAGE_KEYS.USER, res.data)
+        storage.save(STORAGE_KEYS.USER, res.data.user)
       }
       return { success: true }
     }
@@ -137,7 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const res = await submitQuestionnaire(user, answers)
     if (res.ok) {
       setUser(res.data.user)
-      storage.save(STORAGE_KEYS.USER, res.data)
+      storage.save(STORAGE_KEYS.USER, res.data.user)
 
       return { success: true }
     }
