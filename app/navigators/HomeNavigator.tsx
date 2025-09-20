@@ -9,8 +9,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, type IconTypes } from "@/components/Icon"
 import { AnalysisScreen } from "@/screens/Home/AnalysisScreen"
 import { CategoriesScreen } from "@/screens/Home/CategoriesScreen"
+import { HomeHeader } from "@/screens/Home/components/HomeHeader"
 import { HomeScreen } from "@/screens/Home/DashboardScreen"
-import { SettingsScreen } from "@/screens/Home/SettingsScreen"
+import { ProfileScreen } from "@/screens/Home/ProfileScreen"
 import { TransactionScreen } from "@/screens/Home/TransactionScreen"
 import { useAppTheme } from "@/theme/context"
 
@@ -19,7 +20,7 @@ export type HomeTabParamList = {
   Analysis: undefined
   Transaction: undefined
   Categories: undefined
-  Settings: undefined
+  Profile: undefined
 }
 
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> = BottomTabScreenProps<
@@ -63,7 +64,7 @@ export const HomeTabs = function HomeTabs() {
       initialRouteName="Dashboard"
       screenOptions={{
         animation: "shift",
-        headerShown: false,
+        header: ({ options, route }) => <HomeHeader title={options.title || route.name} />,
         // Tab Bar Container
         tabBarStyle: {
           position: "absolute",
@@ -93,27 +94,27 @@ export const HomeTabs = function HomeTabs() {
       <Tab.Screen
         name="Dashboard"
         component={HomeScreen}
-        options={{ tabBarIcon: makeTabBarIcon("home") }}
+        options={{ tabBarIcon: makeTabBarIcon("home"), headerShown: false }}
       />
       <Tab.Screen
         name="Analysis"
         component={AnalysisScreen}
-        options={{ tabBarIcon: makeTabBarIcon("analysis") }}
+        options={{ tabBarIcon: makeTabBarIcon("analysis"), title: "Análise" }}
       />
       <Tab.Screen
         name="Categories"
         component={CategoriesScreen}
-        options={{ tabBarIcon: makeTabBarIcon("category") }}
+        options={{ tabBarIcon: makeTabBarIcon("category"), title: "Categorias" }}
       />
       <Tab.Screen
         name="Transaction"
         component={TransactionScreen}
-        options={{ tabBarIcon: makeTabBarIcon("transactions") }}
+        options={{ tabBarIcon: makeTabBarIcon("transactions"), title: "Transações" }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{ tabBarIcon: makeTabBarIcon("settings") }}
+        name="Profile"
+        component={ProfileScreen}
+        options={{ tabBarIcon: makeTabBarIcon("settings"), title: "Perfil" }}
       />
     </Tab.Navigator>
   )

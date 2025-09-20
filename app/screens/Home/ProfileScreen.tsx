@@ -6,9 +6,9 @@ import { Text } from "@/components/Text"
 import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
 // import { useNavigation } from "@react-navigation/native"
 
-interface SettingsScreenProps extends HomeTabScreenProps<"Settings"> {}
+interface ProfileScreenProps extends HomeTabScreenProps<"Profile"> {}
 
-export const SettingsScreen: FC<SettingsScreenProps> = () => {
+export const ProfileScreen: FC<ProfileScreenProps> = () => {
   // Pull in navigation via hook
   // const navigation = useNavigation()
   return (

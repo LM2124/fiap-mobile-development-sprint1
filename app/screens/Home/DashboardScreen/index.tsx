@@ -68,7 +68,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
           icon="bell"
           containerStyle={themed($iconContainer)}
           color={theme.colors.palette.neutral100}
-          onPress={() => alert("Erro", "Não implementado :(")}
+          onPress={() => alert("WIP", "Não implementado :(")}
         />
       </View>
 
