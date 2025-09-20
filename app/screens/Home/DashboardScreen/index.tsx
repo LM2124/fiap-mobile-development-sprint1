@@ -6,7 +6,7 @@ import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import { dadosDashboard } from "@/data/DadosDashboard"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import { alert } from "@/utils/alert"
@@ -24,9 +24,9 @@ import {
   $dashSeparator,
   $dashText,
 } from "./styles"
-import { $loginStyles } from "../Login/styles"
+import { $loginStyles } from "../../Login/styles"
 
-interface HomeScreenProps extends AppStackScreenProps<"Home"> {}
+interface HomeScreenProps extends HomeTabScreenProps<"Dashboard"> {}
 
 const graph = require("assets/images/grafico.png")
 
@@ -37,7 +37,9 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
   // Redirecionar para o questionário se o usuário não preencheu ainda
   useEffect(() => {
     if (user && !user.questionnaireAnswers) {
-      navigation.replace("Questionnaire")
+      if (__DEV__) console.log("Redirecting to Questionnaire screen")
+      // FIXME ver como fazer tipagem em nested navigation
+      // navigation.replace("Questionnaire")
     }
   }, [user, navigation])
 
@@ -50,6 +52,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
 
   return (
     <Screen style={$root} contentContainerStyle={themed($rootContentContainer)} preset="scroll">
+      {/* Header */}
       <View style={themed($headerBar)}>
         <View style={themed($headerGreeting)}>
           <Text
@@ -58,7 +61,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
             style={themed($styles.$negativeText)}
             text={`Olá ${user?.name}, Bem Vindo`}
           />
-          {/* FIXME: Fazer isso falar boa noite quando estiver de noite :D */}
+          {/* TODO: Fazer isso falar boa noite quando estiver de noite :D */}
           <Text preset="default" size="xs" style={themed($styles.$negativeText)} text="Bom dia!" />
         </View>
         <PressableIcon
@@ -69,6 +72,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
         />
       </View>
 
+      {/* Sumário */}
       <View style={themed($summaryContainer)}>
         <Text
           style={themed([$styles.$negativeText, { marginBottom: theme.spacing.md }])}
@@ -86,6 +90,7 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
         />
       </View>
 
+      {/* Gráfico e Dados */}
       <View
         style={themed([$loginStyles.$formContainer, $loginStyles.$formContent, $dashContainer])}
       >
