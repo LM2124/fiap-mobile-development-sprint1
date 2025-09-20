@@ -1,6 +1,12 @@
-import { createBottomTabNavigator, type BottomTabScreenProps } from "@react-navigation/bottom-tabs"
+import { View, type ViewStyle } from "react-native"
+import {
+  createBottomTabNavigator,
+  type BottomTabNavigationOptions,
+  type BottomTabScreenProps,
+} from "@react-navigation/bottom-tabs"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
-import { Icon } from "@/components/Icon"
+import { Icon, type IconTypes } from "@/components/Icon"
 import { AnalysisScreen } from "@/screens/Home/AnalysisScreen"
 import { CategoriesScreen } from "@/screens/Home/CategoriesScreen"
 import { HomeScreen } from "@/screens/Home/DashboardScreen"
@@ -28,45 +34,86 @@ export const HomeTabs = function HomeTabs() {
     theme: { colors, spacing },
   } = useAppTheme()
 
+  /**
+   * Receives an Icon name, and returns a component with the `Icon` wrapped in a
+   * background `View` that will change color based on if the item focused or not.
+   * The Tab Bar component didn't quite leave enough room for customization with
+   * their props to do this, so I had to make this hacky solution. It works though.
+   */
+  const makeTabBarIcon = (icon: IconTypes): BottomTabNavigationOptions["tabBarIcon"] =>
+    function tabBarIcon(props) {
+      const style = {
+        flex: 1,
+        aspectRatio: 1,
+        borderRadius: spacing.lg,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: props.focused ? colors.tint : colors.transparent,
+      } as ViewStyle
+      return (
+        <View style={style}>
+          <Icon icon={icon} {...props} />
+        </View>
+      )
+    }
+
   return (
     <Tab.Navigator
+      safeAreaInsets={useSafeAreaInsets()}
+      initialRouteName="Dashboard"
       screenOptions={{
         animation: "shift",
         headerShown: false,
-        tabBarStyle: { backgroundColor: colors.error, height: spacing.xxxl },
-        tabBarInactiveBackgroundColor: colors.tintInactive,
-        tabBarActiveBackgroundColor: colors.tint,
-        tabBarActiveTintColor: colors.palette.neutral900,
-        tabBarInactiveTintColor: colors.palette.neutral900,
-        tabBarItemStyle: { borderRadius: 999 },
+        // Tab Bar Container
+        tabBarStyle: {
+          position: "absolute",
+          height: "auto",
+          borderTopWidth: 0,
+          borderTopEndRadius: spacing.xxl,
+          borderTopLeftRadius: spacing.xxl,
+          paddingTop: spacing.sm,
+          paddingBottom: spacing.sm,
+          paddingHorizontal: spacing.lg,
+          backgroundColor: colors.palette.primary300,
+          maxHeight: spacing.xxxl * 1.5,
+        },
+        // Tab Item Container
         tabBarShowLabel: false,
+        tabBarItemStyle: {
+          aspectRatio: 1,
+        },
+        // Tab Icon
+        tabBarActiveTintColor: colors.palette.neutral100,
+        tabBarInactiveTintColor: colors.palette.neutral100,
+        tabBarIconStyle: {
+          height: "100%",
+        },
       }}
-      initialRouteName="Dashboard"
     >
       <Tab.Screen
         name="Dashboard"
         component={HomeScreen}
-        options={{ tabBarIcon: () => <Icon icon="home" /> }}
+        options={{ tabBarIcon: makeTabBarIcon("home") }}
       />
       <Tab.Screen
         name="Analysis"
         component={AnalysisScreen}
-        options={{ tabBarIcon: () => <Icon icon="analysis" /> }}
+        options={{ tabBarIcon: makeTabBarIcon("analysis") }}
       />
       <Tab.Screen
         name="Categories"
         component={CategoriesScreen}
-        options={{ tabBarIcon: () => <Icon icon="category" /> }}
+        options={{ tabBarIcon: makeTabBarIcon("category") }}
       />
       <Tab.Screen
         name="Transaction"
         component={TransactionScreen}
-        options={{ tabBarIcon: () => <Icon icon="transactions" /> }}
+        options={{ tabBarIcon: makeTabBarIcon("transactions") }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{ tabBarIcon: () => <Icon icon="settings" /> }}
+        options={{ tabBarIcon: makeTabBarIcon("settings") }}
       />
     </Tab.Navigator>
   )
