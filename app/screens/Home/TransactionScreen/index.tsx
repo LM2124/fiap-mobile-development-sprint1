@@ -27,6 +27,7 @@ import {
   $dashText,
   $dashTextNoCenter,
   $blueFont,
+  $dashTitleContainer,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
 import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
@@ -44,7 +45,11 @@ export const TransactionScreen: FC<HomeScreenProps> = function TransactionScreen
   }
 
   return (
-    <Screen style={$root} contentContainerStyle={[themed($rootContentContainer)]} preset="scroll">
+    <Screen
+      style={themed($root)}
+      contentContainerStyle={[themed($rootContentContainer)]}
+      preset="scroll"
+    >
       {/* Área Saldo Total */}
       <View style={themed([$loginStyles.$scaleWithSize, $summaryContainer])}>
         <View style={themed($saldoContainer)}>
@@ -116,21 +121,27 @@ export const TransactionScreen: FC<HomeScreenProps> = function TransactionScreen
               .filter(([monthData]) => month === monthData)
               .map(([, icon, name, dayHour, source, valueRS], index) => (
                 <View key={index} style={themed($dashItem)}>
-                  <View style={themed($iconContentContainer)}>
-                    <Icon icon={icon} color="#ffff"></Icon>
-                  </View>
-                  <View style={themed($infoContainer)}>
-                    <Text style={themed($dashTextNoCenter)} weight="medium" text={name} />
-                    <Text
-                      style={themed([$dashTextNoCenter, $blueFont])}
-                      weight="semiBold"
-                      text={`${dayHour}`}
+                  <View style={themed($dashTitleContainer)}>
+                    <Icon
+                      containerStyle={themed($iconContentContainer)}
+                      icon={icon}
+                      color="#ffff"
                     />
+                    <View style={themed($infoContainer)}>
+                      <Text style={themed($dashTextNoCenter)} weight="medium" text={name} />
+                      <Text
+                        style={themed([$dashTextNoCenter, $blueFont])}
+                        weight="semiBold"
+                        text={`${dayHour}`}
+                      />
+                    </View>
                   </View>
                   <View style={themed($dashSeparator)} />
                   <Text style={themed($dashText)} size="xs" weight="light" text={source} />
                   <View style={themed($dashSeparator)} />
                   <Text
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={1}
                     style={themed($dashText)}
                     size="xs"
                     weight="medium"

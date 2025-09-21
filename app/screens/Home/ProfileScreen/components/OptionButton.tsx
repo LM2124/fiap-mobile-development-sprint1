@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ViewStyle,
   type GestureResponderEvent,
-  type ImageStyle,
 } from "react-native"
 
 import { Icon, type IconTypes } from "@/components/Icon"
@@ -20,7 +19,7 @@ export interface OptionButtonProps {
   action?: (event: GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   titleStyle?: StyleProp<TextStyle>
-  iconStyle?: StyleProp<ImageStyle>
+  iconStyle?: StyleProp<ViewStyle>
   iconProps?: Omit<ComponentProps<typeof Icon>, "icon">
 }
 
@@ -39,15 +38,14 @@ export const OptionButton = (props: OptionButtonProps) => {
   } = props
   const { theme, themed } = useAppTheme()
   const $containerStyles = [themed($container), style]
-  const $iconStyles = [themed($iconStyle), iconStyle]
+  const $iconStyles = [themed($iconContainer), iconStyle]
 
   return (
     <TouchableOpacity style={$containerStyles} onPress={action}>
       <Icon
         icon={icon}
         size={theme.spacing.xl}
-        containerStyle={themed($iconContainer)}
-        style={$iconStyles}
+        containerStyle={$iconStyles}
         color={theme.colors.background}
         {...iconProps}
       />
@@ -61,7 +59,6 @@ export const OptionButton = (props: OptionButtonProps) => {
 const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexDirection: "row",
   gap: spacing.sm,
-  // height: spacing.xxxl * 1,
 })
 
 const $iconContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
@@ -71,11 +68,6 @@ const $iconContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   borderRadius: spacing.lg,
   justifyContent: "center",
   alignItems: "center",
-})
-
-const $iconStyle: ThemedStyle<ImageStyle> = () => ({
-  // height: "75%",
-  // width: "75%",
 })
 
 const $text: ThemedStyle<TextStyle> = () => ({

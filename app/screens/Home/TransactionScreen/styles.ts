@@ -1,16 +1,16 @@
-import { ImageStyle, StyleProp, TextStyle, ViewStyle } from "react-native"
+import { StyleProp, TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-export const $root: ViewStyle = {
+export const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
+  backgroundColor: colors.tint,
   // Com a screen em preset "scroll", alguma coisa fora do meu controle
   // adiciona uma div aleatória no final dela com paddingBottom de 1px.
   // Não tenho a menor ideia por quê, mas aqui estou compensando.
   marginBottom: -1,
-}
-export const $rootContentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+})
+export const $rootContentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexGrow: 1,
-  backgroundColor: colors.tint,
   paddingTop: spacing.sm,
   alignItems: "center",
 })
@@ -35,17 +35,8 @@ export const $incomeContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   paddingHorizontal: spacing.sm,
 })
-export const $infoContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  width: "38%",
-  paddingHorizontal: spacing.sm,
-  alignItems: "center",
-})
-export const $graph: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  aspectRatio: 750 / 456,
-  width: "100%",
-  height: "auto",
-  marginBottom: spacing.xs,
-  borderRadius: spacing.lg,
+export const $infoContainer: ThemedStyle<ViewStyle> = () => ({
+  flex: 1,
 })
 export const $saldoContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   width: "80%",
@@ -67,19 +58,29 @@ export const $dashItem: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   marginVertical: spacing.xs,
 })
-export const $dashSeparator: ThemedStyle<ViewStyle> = ({ colors }) => ({
+export const $dashTitleContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  width: "50%",
+  flex: 1,
+  flexDirection: "row",
+  alignItems: "flex-start",
+  gap: spacing.sm,
+})
+export const $dashSeparator: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   width: 2,
+  minHeight: spacing.lg,
   height: "100%",
   backgroundColor: colors.palette.primary200,
 })
 export const $dashText: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  width: "100%",
+  overflow: "visible",
+  width: "25%",
   textAlign: "center",
   textAlignVertical: "center",
   paddingHorizontal: spacing.xxs,
 })
 export const $dashTextNoCenter: ThemedStyle<TextStyle> = () => ({
   width: "100%",
+  overflow: "scroll",
   fontSize: 15,
 })
 export const $blueFont: ThemedStyle<TextStyle> = ({ colors }) => ({
@@ -88,6 +89,7 @@ export const $blueFont: ThemedStyle<TextStyle> = ({ colors }) => ({
 
 // Tá vendo, cria grambiarra mesmo pro negoço funfar, agora lide com isso aqui
 export const $progressContainer: StyleProp<Omit<ViewStyle, "overflow">> = {
+  height: 30,
   backgroundColor: "#c02b2b",
   borderRadius: 16,
 }

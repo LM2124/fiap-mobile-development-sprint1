@@ -43,7 +43,7 @@
         "image": "./assets/images/xpLogo.png",
         "imageWidth": 300,
         "resizeMode": "contain",
-        "backgroundColor": "#0068FF"
+        "backgroundColor": "#FFFFFF"
       }
     ],
     [

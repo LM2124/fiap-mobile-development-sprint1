@@ -31,7 +31,7 @@ export const LogoutModal = (props: LogoutModalProps) => {
   // `Modal` doesn't seem to do anything with `style` so we'll have to use our own `View`
   const $wrapperStyle = [$container, wrapperStyle]
   const $modalStyle = [themed($modal), style]
-  const $buttonText = themed([$styles.$buttonText, { fontWeight: "normal" }])
+  const $buttonText = themed([$styles.$buttonText, { fontWeight: "normal", flexGrow: 1 }])
 
   return (
     <Modal animationType="fade" transparent={true} onRequestClose={cancelAction} {...props}>

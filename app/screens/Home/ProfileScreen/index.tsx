@@ -7,6 +7,7 @@ import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
 
 import { LogoutModal } from "./components/LogoutModal"
@@ -54,10 +55,22 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
         </View>
       </View>
       <View style={themed([$loginStyles.$formContent, $bodyButtonsContainer])}>
-        <OptionButton icon="profile" title="Editar Perfil" />
-        <OptionButton icon="security" title="Segurança" />
-        <OptionButton icon="settings" title="Configurações" />
-        <OptionButton icon="help" title="Suporte" />
+        <OptionButton
+          icon="profile"
+          title="Editar Perfil"
+          iconStyle={themed($styles.$buttonDisabled)}
+        />
+        <OptionButton
+          icon="security"
+          title="Segurança"
+          iconStyle={themed($styles.$buttonDisabled)}
+        />
+        <OptionButton
+          icon="settings"
+          title="Configurações"
+          iconStyle={themed($styles.$buttonDisabled)}
+        />
+        <OptionButton icon="help" title="Suporte" iconStyle={themed($styles.$buttonDisabled)} />
         <OptionButton icon="exit" title="Deslogar" action={() => setLogoutModalVisible(true)} />
         <HomeBottomBarSpacer />
       </View>
