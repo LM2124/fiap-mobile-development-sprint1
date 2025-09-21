@@ -14,23 +14,6 @@ export const $rootContentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing 
   paddingTop: spacing.sm,
   alignItems: "center",
 })
-// Parte de cima (azul)
-export const $headerBar: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  width: "100%",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  paddingVertical: spacing.sm,
-  paddingHorizontal: spacing.md,
-})
-export const $headerGreeting: ThemedStyle<ViewStyle> = () => ({
-  // reservado
-})
-export const $iconContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.palette.primary600,
-  padding: spacing.xs,
-  borderRadius: spacing.sm * 2,
-})
 export const $iconContentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   alignItems: "center",
   backgroundColor: colors.palette.primary300,

@@ -1,6 +1,5 @@
 import { FC } from "react"
 import { Image, View } from "react-native"
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 
 import { PressableIcon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
@@ -26,6 +25,7 @@ import {
   $dashText,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
+import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
 
 interface DashboardScreenProps extends HomeTabScreenProps<"Dashboard"> {}
 
@@ -44,8 +44,8 @@ export const DashboardScreen: FC<DashboardScreenProps> = function DashboardScree
 
   return (
     <Screen
-      style={[themed($root), { paddingBottom: useBottomTabBarHeight() }]}
-      contentContainerStyle={themed($rootContentContainer)}
+      style={themed($root)}
+      contentContainerStyle={[themed($rootContentContainer)]}
       preset="scroll"
     >
       {/* Header */}
@@ -106,6 +106,7 @@ export const DashboardScreen: FC<DashboardScreenProps> = function DashboardScree
             />
           </View>
         ))}
+        <HomeBottomBarSpacer />
       </View>
     </Screen>
   )

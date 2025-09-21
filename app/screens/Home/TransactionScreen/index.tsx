@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { View } from "react-native"
 
-import { Icon, PressableIcon } from "@/components/Icon"
+import { Icon } from "@/components/Icon"
 import { ProgressBarWithText } from "@/components/ProgressBarWithText"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
@@ -9,14 +9,10 @@ import { dadosTransaction, dadosFluxo } from "@/data/DadosTransaction"
 import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { alert } from "@/utils/alert"
 
 import {
   $root,
   $rootContentContainer,
-  $headerBar,
-  $headerGreeting,
-  $iconContainer,
   $summaryContainer,
   $dashContainer,
   $saldoContainer,
@@ -33,11 +29,12 @@ import {
   $blueFont,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
+import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
 
 interface HomeScreenProps extends HomeTabScreenProps<"Transaction"> {}
 
 export const TransactionScreen: FC<HomeScreenProps> = function TransactionScreen() {
-  const { theme, themed } = useAppTheme()
+  const { themed } = useAppTheme()
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -47,26 +44,7 @@ export const TransactionScreen: FC<HomeScreenProps> = function TransactionScreen
   }
 
   return (
-    <Screen style={$root} contentContainerStyle={themed($rootContentContainer)} preset="scroll">
-      {/* Header */}
-      <View style={themed($headerBar)}>
-        <Text text={`           `} />
-        <View style={themed($headerGreeting)}>
-          <Text
-            preset="subheading"
-            size="xl"
-            style={themed($styles.$negativeText)}
-            text={`Transação`}
-          />
-        </View>
-        <PressableIcon
-          icon="bell"
-          containerStyle={themed($iconContainer)}
-          color={theme.colors.palette.neutral100}
-          onPress={() => alert("Erro", "Não implementado :(")}
-        />
-      </View>
-
+    <Screen style={$root} contentContainerStyle={[themed($rootContentContainer)]} preset="scroll">
       {/* Área Saldo Total */}
       <View style={themed([$loginStyles.$scaleWithSize, $summaryContainer])}>
         <View style={themed($saldoContainer)}>
@@ -162,6 +140,7 @@ export const TransactionScreen: FC<HomeScreenProps> = function TransactionScreen
               ))}
           </View>
         ))}
+        <HomeBottomBarSpacer />
       </View>
     </Screen>
   )

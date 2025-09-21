@@ -80,6 +80,8 @@ export const HomeTabs = function HomeTabs({ navigation }: AppStackScreenProps<"H
         header: ({ options, route }) => <HomeHeader title={options.title || route.name} />,
         // Tab Bar Container
         tabBarStyle: {
+          // Need `position: absolute` to have the page's background
+          // render below the tab bar's rounded borders.
           position: "absolute",
           height: "auto",
           borderTopWidth: 0,

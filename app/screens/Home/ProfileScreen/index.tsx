@@ -1,29 +1,28 @@
 /* eslint-disable react-native/no-inline-styles */
 import { FC, useState } from "react"
-import { Image, Modal, View, ViewStyle, type ImageStyle, type TextStyle } from "react-native"
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
+import { View, ViewStyle, type TextStyle } from "react-native"
 
-import { Button } from "@/components/Button"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
-import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
 
+import { LogoutModal } from "./components/LogoutModal"
 import { OptionButton } from "./components/OptionButton"
 import { $loginStyles } from "../../Login/styles"
+import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
 
 interface ProfileScreenProps extends HomeTabScreenProps<"Profile"> {}
 
-const placeholder = require("@assets/images/xpLogo.png")
+// FIXME: isso crasha a tela do mobile (mas pq não na welcomescreen??)
+// const placeholder = require("@assets/images/xpLogo.png")
 
-//FIXME: is offset by a couple pixels down
-const profileImageSize = 120
+// const profileImageSize = 120
 
 export const ProfileScreen: FC<ProfileScreenProps> = () => {
-  const { theme, themed } = useAppTheme()
+  const { themed } = useAppTheme()
   const { user, signOut } = useAuth()
 
   const [logoutModalVisible, setLogoutModalVisible] = useState(false)
@@ -31,57 +30,21 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
   return (
     <Screen
       style={themed($root)}
-      contentContainerStyle={themed([
-        $loginStyles.$formContainer,
-        $rootContentContainer,
-        { paddingBottom: useBottomTabBarHeight() },
-      ])}
+      contentContainerStyle={themed([$loginStyles.$formContainer, $rootContentContainer])}
       preset="scroll"
     >
       {/* Logout Modal */}
-      <Modal
-        animationType="fade"
-        transparent={true}
+      <LogoutModal
         visible={logoutModalVisible}
         onRequestClose={() => setLogoutModalVisible(false)}
-      >
-        <View style={[$styles.toggleInner, { backgroundColor: "#000A" }]}>
-          <View
-            style={{
-              margin: "auto",
-              backgroundColor: theme.colors.background,
-              borderRadius: theme.spacing.md,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: theme.spacing.xl,
-              borderWidth: 1,
-              borderColor: theme.colors.separator,
-              gap: theme.spacing.lg,
-            }}
-          >
-            <Text preset="heading" size="lg" text="Deslogar Da Conta" />
-            <Text text="Tem Certeza De Que Deseja Sair?" />
-            <View style={{ width: "80%", gap: theme.spacing.sm }}>
-              <Button
-                style={themed($styles.$buttonPrimary)}
-                textStyle={[themed($styles.$buttonText), { fontWeight: "normal" }]}
-                text="Deslogar"
-                onPress={() => signOut()}
-              />
-              <Button
-                style={themed([$styles.$buttonPrimary, $styles.$buttonDisabled])}
-                textStyle={[themed($styles.$buttonText), { fontWeight: "normal" }]}
-                text="Cancelar"
-                onPress={() => setLogoutModalVisible(false)}
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+        cancelAction={() => setLogoutModalVisible(false)}
+        signOutAction={() => signOut()}
+      />
 
       {/* Profile Picture and User Name */}
       <View style={themed($profileDisplay)}>
-        <Image style={themed($profilePicture)} src={placeholder} resizeMode="contain" />
+        {/* FIXME: Profile Picture */}
+        {/* <Image style={themed($profilePicture)} src={placeholder} resizeMode="contain" /> */}
         <View style={themed($userInfo)}>
           <Text preset="subheading" style={$nameText} text={user?.name} />
           <Text>
@@ -96,6 +59,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
         <OptionButton icon="settings" title="Configurações" />
         <OptionButton icon="help" title="Suporte" />
         <OptionButton icon="exit" title="Deslogar" action={() => setLogoutModalVisible(true)} />
+        <HomeBottomBarSpacer />
       </View>
     </Screen>
   )
@@ -103,7 +67,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
 
 const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   backgroundColor: colors.tint,
-  paddingTop: profileImageSize / 2,
 })
 
 const $rootContentContainer: ThemedStyle<ViewStyle> = () => ({
@@ -112,23 +75,19 @@ const $rootContentContainer: ThemedStyle<ViewStyle> = () => ({
 })
 
 const $profileDisplay: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  marginTop: 10,
-  top: -profileImageSize / 2,
-  marginBottom: -profileImageSize / 2,
   alignItems: "center",
   gap: spacing.lg,
 })
 
-const $profilePicture: ThemedStyle<ImageStyle> = () => ({
-  height: profileImageSize,
-  width: profileImageSize,
-  borderRadius: 999,
-  backgroundColor: "red",
-})
+// const $profilePicture: ThemedStyle<ImageStyle> = () => ({
+//   height: profileImageSize,
+//   width: profileImageSize,
+//   borderRadius: 999,
+//   backgroundColor: "red",
+// })
 
 const $userInfo: ThemedStyle<ViewStyle> = () => ({
   alignItems: "center",
-  // alignSelf: "center",
 })
 
 const $nameText: TextStyle = {
@@ -136,7 +95,4 @@ const $nameText: TextStyle = {
   lineHeight: 20,
 }
 
-const $bodyButtonsContainer: ThemedStyle<ViewStyle> = () => ({
-  // paddingInline: spacing.xl,
-  flex: 1,
-})
+const $bodyButtonsContainer: ThemedStyle<ViewStyle> = () => ({})
