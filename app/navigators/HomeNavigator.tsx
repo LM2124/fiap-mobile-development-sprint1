@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Icon, type IconTypes } from "@/components/Icon"
 import { useAuth } from "@/contexts/AuthContext"
-import { AnalysisScreen } from "@/screens/Home/AnalysisScreen"
+import { AnalysisScreen } from "@/screens/Home/AnalysisScreen/"
 import { CategoriesScreen } from "@/screens/Home/CategoriesScreen"
 import { HomeHeader } from "@/screens/Home/components/HomeHeader"
 import { DashboardScreen } from "@/screens/Home/DashboardScreen"
