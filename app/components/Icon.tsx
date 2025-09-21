@@ -144,6 +144,7 @@ export const iconRegistry = {
   transactions: require("@assets/icons/Transactions.png"),
   view: require("@assets/icons/view.png"),
   x: require("@assets/icons/x.png"),
+  money: require("@assets/icons/Dolar.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

@@ -14,7 +14,7 @@ import { CategoriesScreen } from "@/screens/Home/CategoriesScreen"
 import { HomeHeader } from "@/screens/Home/components/HomeHeader"
 import { DashboardScreen } from "@/screens/Home/DashboardScreen"
 import { ProfileScreen } from "@/screens/Home/ProfileScreen"
-import { TransactionScreen } from "@/screens/Home/TransactionScreen"
+import { TransactionScreen } from "@/screens/Home/TransactionScreen/"
 import { useAppTheme } from "@/theme/context"
 
 import type { AppStackScreenProps } from "./AppNavigator"
