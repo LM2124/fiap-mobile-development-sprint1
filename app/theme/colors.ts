@@ -70,7 +70,7 @@ export const colors = {
   /**
    * The inactive tinting color.
    */
-  tintInactive: palette.primary200,
+  tintInactive: palette.primary300,
   /**
    * A subtle color used for lines.
    */

@@ -1,0 +1,84 @@
+import type { ComponentProps } from "react"
+import {
+  StyleProp,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+  type GestureResponderEvent,
+  type ImageStyle,
+} from "react-native"
+
+import { Icon, type IconTypes } from "@/components/Icon"
+import { Text } from "@/components/Text"
+import { useAppTheme } from "@/theme/context"
+import type { ThemedStyle } from "@/theme/types"
+import { alert } from "@/utils/alert"
+
+export interface OptionButtonProps {
+  icon: IconTypes
+  title: string
+  action?: (event: GestureResponderEvent) => void
+  style?: StyleProp<ViewStyle>
+  titleStyle?: StyleProp<TextStyle>
+  iconStyle?: StyleProp<ImageStyle>
+  iconProps?: Omit<ComponentProps<typeof Icon>, "icon">
+}
+
+/**
+ * Receives an icon name and a title, and renders an Icon and a Title.
+ */
+export const OptionButton = (props: OptionButtonProps) => {
+  const {
+    icon,
+    title,
+    action = () => alert("WIP", "Not yet implemented"),
+    style,
+    titleStyle,
+    iconStyle,
+    iconProps,
+  } = props
+  const { theme, themed } = useAppTheme()
+  const $containerStyles = [themed($container), style]
+  const $iconStyles = [themed($iconStyle), iconStyle]
+
+  return (
+    <TouchableOpacity style={$containerStyles} onPress={action}>
+      <Icon
+        icon={icon}
+        size={theme.spacing.xl}
+        containerStyle={themed($iconContainer)}
+        style={$iconStyles}
+        color={theme.colors.background}
+        {...iconProps}
+      />
+      <Text preset="subheading" style={[themed($text), titleStyle]}>
+        {title}
+      </Text>
+    </TouchableOpacity>
+  )
+}
+
+const $container: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  flexDirection: "row",
+  gap: spacing.sm,
+  // height: spacing.xxxl * 1,
+})
+
+const $iconContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+  padding: spacing.sm,
+  backgroundColor: colors.tint,
+  aspectRatio: 1,
+  borderRadius: spacing.lg,
+  justifyContent: "center",
+  alignItems: "center",
+})
+
+const $iconStyle: ThemedStyle<ImageStyle> = () => ({
+  // height: "75%",
+  // width: "75%",
+})
+
+const $text: ThemedStyle<TextStyle> = () => ({
+  height: "100%",
+  textAlignVertical: "center",
+})

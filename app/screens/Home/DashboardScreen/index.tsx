@@ -1,5 +1,6 @@
-import { FC, useEffect } from "react"
+import { FC } from "react"
 import { Image, View } from "react-native"
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs"
 
 import { PressableIcon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
@@ -26,22 +27,13 @@ import {
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
 
-interface HomeScreenProps extends HomeTabScreenProps<"Dashboard"> {}
+interface DashboardScreenProps extends HomeTabScreenProps<"Dashboard"> {}
 
 const graph = require("assets/images/grafico.png")
 
-export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation }) {
+export const DashboardScreen: FC<DashboardScreenProps> = function DashboardScreen() {
   const { theme, themed } = useAppTheme()
   const { user } = useAuth()
-
-  // Redirecionar para o questionário se o usuário não preencheu ainda
-  useEffect(() => {
-    if (user && !user.questionnaireAnswers) {
-      if (__DEV__) console.log("Redirecting to Questionnaire screen")
-      // FIXME ver como fazer tipagem em nested navigation
-      // navigation.replace("Questionnaire")
-    }
-  }, [user, navigation])
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -51,7 +43,11 @@ export const HomeScreen: FC<HomeScreenProps> = function HomeScreen({ navigation 
   }
 
   return (
-    <Screen style={$root} contentContainerStyle={themed($rootContentContainer)} preset="scroll">
+    <Screen
+      style={[themed($root), { paddingBottom: useBottomTabBarHeight() }]}
+      contentContainerStyle={themed($rootContentContainer)}
+      preset="scroll"
+    >
       {/* Header */}
       <View style={themed($headerBar)}>
         <View style={themed($headerGreeting)}>

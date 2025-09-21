@@ -121,7 +121,7 @@ export function Icon(props: IconProps) {
   )
 }
 
-/* eslint sort-keys: "error" */
+// /* eslint sort-keys: "error" */
 export const iconRegistry = {
   analysis: require("@assets/icons/Analysis.png"),
   back: require("@assets/icons/back.png"),
@@ -130,6 +130,8 @@ export const iconRegistry = {
   caretRight: require("@assets/icons/caretRight.png"),
   category: require("@assets/icons/Category.png"),
   check: require("@assets/icons/check.png"),
+  exit: require("@assets/icons/Exit.png"),
+  help: require("@assets/icons/Help.png"),
   hidden: require("@assets/icons/hidden.png"),
   home: require("@assets/icons/Home.png"),
   ladybug: require("@assets/icons/ladybug.png"),
@@ -137,12 +139,12 @@ export const iconRegistry = {
   menu: require("@assets/icons/menu.png"),
   more: require("@assets/icons/more.png"),
   profile: require("@assets/icons/Profile.png"),
+  security: require("@assets/icons/Security.png"),
   settings: require("@assets/icons/settings.png"),
   transactions: require("@assets/icons/Transactions.png"),
   view: require("@assets/icons/view.png"),
   x: require("@assets/icons/x.png"),
 }
-/* eslint sort-keys: "off" */
 
 const $imageStyleBase: ImageStyle = {
   // Comentado para fora por causa do aviso de deprecação do react-native.

@@ -2,15 +2,14 @@ import type { ImageStyle, TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-export const $root: ViewStyle = {
+export const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   // Com a screen em preset "scroll", alguma coisa fora do meu controle
   // adiciona uma div aleatória no final dela com paddingBottom de 1px.
   // Não tenho a menor ideia por quê, mas aqui estou compensando.
   marginBottom: -1,
-}
-export const $rootContentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  flexGrow: 1,
   backgroundColor: colors.tint,
+})
+export const $rootContentContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingTop: spacing.sm,
   alignItems: "center",
 })

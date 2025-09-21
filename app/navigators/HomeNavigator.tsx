@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { View, type ViewStyle } from "react-native"
 import {
   createBottomTabNavigator,
@@ -7,13 +8,16 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Icon, type IconTypes } from "@/components/Icon"
+import { useAuth } from "@/contexts/AuthContext"
 import { AnalysisScreen } from "@/screens/Home/AnalysisScreen"
 import { CategoriesScreen } from "@/screens/Home/CategoriesScreen"
 import { HomeHeader } from "@/screens/Home/components/HomeHeader"
-import { HomeScreen } from "@/screens/Home/DashboardScreen"
+import { DashboardScreen } from "@/screens/Home/DashboardScreen"
 import { ProfileScreen } from "@/screens/Home/ProfileScreen"
 import { TransactionScreen } from "@/screens/Home/TransactionScreen"
 import { useAppTheme } from "@/theme/context"
+
+import type { AppStackScreenProps } from "./AppNavigator"
 
 export type HomeTabParamList = {
   Dashboard: undefined
@@ -30,10 +34,19 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> = BottomTabScre
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
-export const HomeTabs = function HomeTabs() {
+export const HomeTabs = function HomeTabs({ navigation }: AppStackScreenProps<"Home">) {
   const {
     theme: { colors, spacing },
   } = useAppTheme()
+  const { user } = useAuth()
+
+  // Redirecionar para o questionário se o usuário não preencheu ainda
+  useEffect(() => {
+    if (user && !user.questionnaireAnswers) {
+      if (__DEV__) console.log("Redirecting to Questionnaire screen")
+      navigation.replace("Questionnaire")
+    }
+  }, [user, navigation])
 
   /**
    * Receives an Icon name, and returns a component with the `Icon` wrapped in a
@@ -93,7 +106,7 @@ export const HomeTabs = function HomeTabs() {
     >
       <Tab.Screen
         name="Dashboard"
-        component={HomeScreen}
+        component={DashboardScreen}
         options={{ tabBarIcon: makeTabBarIcon("home"), headerShown: false }}
       />
       <Tab.Screen
@@ -114,7 +127,7 @@ export const HomeTabs = function HomeTabs() {
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ tabBarIcon: makeTabBarIcon("settings"), title: "Perfil" }}
+        options={{ tabBarIcon: makeTabBarIcon("profile"), title: "Perfil" }}
       />
     </Tab.Navigator>
   )
