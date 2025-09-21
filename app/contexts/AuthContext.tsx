@@ -4,6 +4,7 @@ import type { User } from "types/User"
 
 import {
   type AuthToken,
+  deleteQuestionnaire,
   sendPasswordResetEmail,
   signIn,
   signOut,
@@ -30,6 +31,7 @@ interface AuthContextType {
   submitConfirmationCode: (..._: Parameters<typeof submitConfirmationCode>) => Promise<AuthResult>
   submitPasswordChange: (..._: Parameters<typeof submitPasswordChange>) => Promise<AuthResult>
   submitQuestionnaire: (answers: Record<number, string>) => Promise<AuthResult>
+  deleteQuestionnaire: () => Promise<AuthResult>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -143,6 +145,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     return { success: false, error: res.error }
   }
+  const handleDeleteQuestionnaire = async (): Promise<AuthResult> => {
+    if (!user || !isAuthenticated()) return { success: false, error: "Não autenticado" }
+
+    const res = await deleteQuestionnaire(user)
+    if (res.ok) {
+      setUser(res.data.user)
+      storage.save(STORAGE_KEYS.USER, res.data.user)
+
+      return { success: true }
+    }
+    return { success: false, error: res.error }
+  }
 
   return (
     <AuthContext.Provider
@@ -157,6 +171,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         submitConfirmationCode: handleConfirmationCode,
         submitPasswordChange: handleChangePassword,
         submitQuestionnaire: handleQuestionnaire,
+        deleteQuestionnaire: handleDeleteQuestionnaire,
       }}
     >
       {children}
