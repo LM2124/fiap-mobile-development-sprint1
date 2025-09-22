@@ -7,7 +7,13 @@ import { dadosNotification } from "@/data/DadosNotification"
 import type { HomeTabParamList, HomeTabScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
 
-import { $dashItem, $dashSeparator, $dashText, $dashTextNoCenter, $blueFont } from "./styles"
+import {
+  $notificationContainer,
+  $dashItem,
+  $dashText,
+  $dashTextNoCenter,
+  $blueFont,
+} from "./styles"
 // import { useNavigation } from "@react-navigation/native"
 
 interface NotificationScreenProps extends HomeTabScreenProps<keyof HomeTabParamList> {}
@@ -20,7 +26,7 @@ export const NotificationScreen: FC<NotificationScreenProps> = () => {
 
   return (
     <Screen style={$root} preset="scroll">
-      <View>
+      <View style={themed($notificationContainer)}>
         {dadosNotification.map(([title, about, date], index) => (
           <View key={index} style={themed($dashItem)}>
             <Text

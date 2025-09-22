@@ -133,7 +133,7 @@ export const HomeTabs = function HomeTabs({ navigation }: AppStackScreenProps<"H
       <Tab.Screen
         name="Notifications"
         component={NotificationScreen}
-        options={{ tabBarIcon: makeTabBarIcon("bell"), title: "Perfil" }}
+        options={{ tabBarIcon: makeTabBarIcon("bell"), title: "Notificações" }}
       />
       <Tab.Screen
         name="Profile"
