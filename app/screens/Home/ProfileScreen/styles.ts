@@ -9,7 +9,7 @@ export const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
 })
 
 export const $rootContentContainer: ThemedStyle<ViewStyle> = () => ({
-  flex: 1,
+  minHeight: "100%",
   alignSelf: "center",
 })
 
