@@ -80,7 +80,6 @@ export const $dashText: ThemedStyle<TextStyle> = ({ spacing }) => ({
 })
 export const $dashTextNoCenter: ThemedStyle<TextStyle> = () => ({
   width: "100%",
-  overflow: "scroll",
   fontSize: 15,
 })
 export const $blueFont: ThemedStyle<TextStyle> = ({ colors }) => ({
