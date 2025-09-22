@@ -1,10 +1,5 @@
 import { FC } from "react"
-// eslint-disable-next-line import/order
 import { View, ViewStyle } from "react-native"
-
-// import { useNavigation } from "@react-navigation/native"
-
-import { useNavigation } from "@react-navigation/native"
 
 import { Button } from "@/components/Button"
 import { Icon } from "@/components/Icon"
@@ -23,10 +18,15 @@ export const AnalysisScreen: FC<AnalysisScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()
   const { deleteQuestionnaire } = useAuth()
 
+  const redoQuestionnaire = () => {
+    deleteQuestionnaire()
+    navigation.navigate("Questionnaire")
+  }
+
   return (
     <Screen contentContainerStyle={$root} style={$root} preset="scroll">
       <View style={themed([$restartFormContainer])}>
-        <Button onPress={() => deleteQuestionnaire()} style={themed($restartFormButton)}>
+        <Button onPress={redoQuestionnaire} style={themed($restartFormButton)}>
           <View style={themed($restartFormView)}>
             <Icon
               icon="analysis"

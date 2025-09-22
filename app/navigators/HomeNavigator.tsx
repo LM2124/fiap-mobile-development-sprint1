@@ -25,6 +25,7 @@ export type HomeTabParamList = {
   Transaction: undefined
   Categories: undefined
   Profile: undefined
+  Questionnaire: undefined
 }
 
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> = BottomTabScreenProps<
@@ -77,7 +78,9 @@ export const HomeTabs = function HomeTabs({ navigation }: AppStackScreenProps<"H
       initialRouteName="Dashboard"
       screenOptions={{
         animation: "shift",
-        header: ({ options, route }) => <HomeHeader title={options.title || route.name} />,
+        header: ({ options, route, navigation }) => (
+          <HomeHeader title={options.title || route.name} navigation={navigation} />
+        ),
         // Tab Bar Container
         tabBarStyle: {
           // Need `position: absolute` to have the page's background
@@ -116,11 +119,11 @@ export const HomeTabs = function HomeTabs({ navigation }: AppStackScreenProps<"H
         component={AnalysisScreen}
         options={{ tabBarIcon: makeTabBarIcon("analysis"), title: "Análise" }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Categories"
         component={CategoriesScreen}
         options={{ tabBarIcon: makeTabBarIcon("category"), title: "Categorias" }}
-      />
+      /> */}
       <Tab.Screen
         name="Transaction"
         component={TransactionScreen}

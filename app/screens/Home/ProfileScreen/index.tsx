@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { FC, useState } from "react"
-import { View, ViewStyle, type TextStyle } from "react-native"
+import { Image, View, ViewStyle, type ImageStyle, type TextStyle } from "react-native"
 
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
@@ -15,14 +15,13 @@ import { OptionButton } from "./components/OptionButton"
 import { $loginStyles } from "../../Login/styles"
 import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
 
+const placeholder = require("@assets/images/xpLogo.png")
+
+const profileImageSize = 120
+
 interface ProfileScreenProps extends HomeTabScreenProps<"Profile"> {}
 
-// FIXME: isso crasha a tela do mobile (mas pq não na welcomescreen??)
-// const placeholder = require("@assets/images/xpLogo.png")
-
-// const profileImageSize = 120
-
-export const ProfileScreen: FC<ProfileScreenProps> = () => {
+export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()
   const { user, signOut } = useAuth()
 
@@ -44,8 +43,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
 
       {/* Profile Picture and User Name */}
       <View style={themed($profileDisplay)}>
-        {/* FIXME: Profile Picture */}
-        {/* <Image style={themed($profilePicture)} src={placeholder} resizeMode="contain" /> */}
+        <View style={themed($profilePictureContainer)}>
+          <Image style={themed($profilePicture)} source={placeholder} resizeMode="contain" />
+        </View>
         <View style={themed($userInfo)}>
           <Text preset="subheading" style={$nameText} text={user?.name} />
           <Text>
@@ -54,7 +54,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
           </Text>
         </View>
       </View>
-      <View style={themed([$loginStyles.$formContent, $bodyButtonsContainer])}>
+      <View style={themed($loginStyles.$formContent)}>
         <OptionButton
           icon="profile"
           title="Editar Perfil"
@@ -92,12 +92,16 @@ const $profileDisplay: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   gap: spacing.lg,
 })
 
-// const $profilePicture: ThemedStyle<ImageStyle> = () => ({
-//   height: profileImageSize,
-//   width: profileImageSize,
-//   borderRadius: 999,
-//   backgroundColor: "red",
-// })
+const $profilePictureContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  padding: spacing.md,
+  overflow: "hidden",
+  borderRadius: 999,
+})
+
+const $profilePicture: ThemedStyle<ImageStyle> = () => ({
+  height: profileImageSize,
+  width: profileImageSize,
+})
 
 const $userInfo: ThemedStyle<ViewStyle> = () => ({
   alignItems: "center",
@@ -107,5 +111,3 @@ const $nameText: TextStyle = {
   fontSize: 20,
   lineHeight: 20,
 }
-
-const $bodyButtonsContainer: ThemedStyle<ViewStyle> = () => ({})

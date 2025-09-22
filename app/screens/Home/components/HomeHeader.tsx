@@ -1,26 +1,27 @@
 import { TextStyle, ViewStyle } from "react-native"
-import { useNavigation } from "@react-navigation/native"
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs"
+import { type ParamListBase } from "@react-navigation/native"
 
 import { Header, type HeaderProps } from "@/components/Header"
 import { PressableIcon } from "@/components/Icon"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
-import { alert } from "@/utils/alert"
 
 import { $iconContainer } from "../DashboardScreen/styles"
 
-export interface HomeHeaderProps extends HeaderProps {}
+export interface HomeHeaderProps extends HeaderProps {
+  navigation: BottomTabNavigationProp<ParamListBase, string, undefined>
+}
 
 /**
  * Header for the Home Navigation component. Wrapper on Ignite's Header component.
  */
 export const HomeHeader = (props: HomeHeaderProps) => {
-  const { containerStyle: containerStyleOverride, ...rest } = props
+  const { navigation, containerStyle: containerStyleOverride, ...rest } = props
   const {
     theme: { colors },
     themed,
   } = useAppTheme()
-  const navigation = useNavigation()
 
   return (
     <Header
@@ -32,7 +33,9 @@ export const HomeHeader = (props: HomeHeaderProps) => {
           icon="bell"
           containerStyle={themed($iconContainer)}
           color={colors.palette.neutral100}
-          onPress={() => alert("WIP", "Não implementado :(")}
+          // Cuidado: O navigation que o `Tab Navigator` nos passa
+          // não tem tipagem forte; qualquer string entra aqui
+          // onPress={() => navigation.navigate("Notifications")}
         />
       }
       LeftActionComponent={

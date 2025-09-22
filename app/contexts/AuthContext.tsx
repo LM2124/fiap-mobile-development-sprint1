@@ -145,6 +145,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     return { success: false, error: res.error }
   }
+
   const handleDeleteQuestionnaire = async (): Promise<AuthResult> => {
     if (!user || !isAuthenticated()) return { success: false, error: "Não autenticado" }
 
