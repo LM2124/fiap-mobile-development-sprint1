@@ -33,22 +33,22 @@ O aplicativo conta com as seguintes telas principais:
 ### 🤖 Formulário (futuramente com IA) para Recomendação Financeira
 O formulário inteligente faz uma análise do perfil do usuário com base em perguntas estratégicas:
 
-1. **Experiência com investimento:**  
+1. **Experiência com investimento:**
    - Iniciante ou Experiente.
 
-2. **Nível de risco desejado:**  
-   - Super conservador  
-   - Conservador tolerante  
-   - Levemente agressivo  
+2. **Nível de risco desejado:**
+   - Super conservador
+   - Conservador tolerante
+   - Levemente agressivo
    - Super agressivo
 
-3. **Liquidez desejada:**  
-   - Alta liquidez (acesso rápido ao dinheiro)  
+3. **Liquidez desejada:**
+   - Alta liquidez (acesso rápido ao dinheiro)
    - Baixa liquidez (prioriza lucros maiores)
 
-4. **Horizonte de investimento:**  
-   - Mensalmente  
-   - Anualmente  
+4. **Horizonte de investimento:**
+   - Mensalmente
+   - Anualmente
    - Colocar e esquecer
 
 5. **Critérios eliminatórios para investimento:** (Campo ainda em desenvolvimento)
@@ -90,12 +90,12 @@ O formulário inteligente faz uma análise do perfil do usuário com base em per
 
    ```bash
    npx run start # Padrão
-   # ou 
+   # ou
    npx run web # Para execução em navegadores WEB
-   # ou 
+   # ou
    npx run android # Para execução em Android
    ```
 
    ### Credenciais de acesso (para testes):
-   - **Login:** nome@exemplo.com
-   - **Senha:** Exemplo123!@#
+   - **Login:** john@example.com
+   - **Senha:** password123
