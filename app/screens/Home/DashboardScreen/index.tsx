@@ -60,12 +60,12 @@ export const DashboardScreen: FC<DashboardScreenProps> = function DashboardScree
           {/* TODO: Fazer isso falar boa noite quando estiver de noite :D */}
           <Text preset="default" size="xs" style={themed($styles.$negativeText)} text="Bom dia!" />
         </View>
-        <PressableIcon
+        {/* <PressableIcon
           icon="bell"
           containerStyle={themed($iconContainer)}
           color={theme.colors.palette.neutral100}
           onPress={() => alert("WIP", "Não implementado :(")}
-        />
+        /> */}
       </View>
 
       {/* Sumário */}
