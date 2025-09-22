@@ -28,16 +28,6 @@ export const HomeHeader = (props: HomeHeaderProps) => {
       titleStyle={themed($titleText)}
       titleMode="center"
       containerStyle={[themed($containerStyle), containerStyleOverride]}
-      RightActionComponent={
-        <PressableIcon
-          icon="bell"
-          containerStyle={themed($iconContainer)}
-          color={colors.palette.neutral100}
-          // Cuidado: O navigation que o `Tab Navigator` nos passa
-          // não tem tipagem forte; qualquer string entra aqui
-          // onPress={() => navigation.navigate("Notifications")}
-        />
-      }
       LeftActionComponent={
         <PressableIcon
           icon="back"
