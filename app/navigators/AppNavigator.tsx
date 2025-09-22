@@ -13,7 +13,6 @@ import type { User } from "types/User"
 import Config from "@/config"
 import { useAuth } from "@/contexts/AuthContext"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
-import { HomeScreen } from "@/screens/HomeScreen"
 import { ForgetPasswordScreen } from "@/screens/Login/ForgetPasswordScreen"
 import { ResetPasswordScreen } from "@/screens/Login/ResetPasswordScreen"
 import { SecurityCodeScreen } from "@/screens/Login/SecurityCodeScreen"
@@ -23,6 +22,7 @@ import { QuestionnaireScreen } from "@/screens/QuestionnaireScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { useAppTheme } from "@/theme/context"
 
+import { HomeTabs } from "./HomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -80,6 +80,7 @@ const AppStack = function AppStack() {
           backgroundColor: colors.background,
         },
       }}
+      initialRouteName={isAuthenticated ? "Home" : "Welcome"}
     >
       {!isAuthenticated ? (
         <>
@@ -93,7 +94,7 @@ const AppStack = function AppStack() {
       ) : (
         <>
           {/* Flow autenticado */}
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Home" component={HomeTabs} />
           <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
         </>
       )}

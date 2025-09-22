@@ -101,3 +101,11 @@ export async function submitQuestionnaire(
 
   return { ok: true, status: 200, data: { user } }
 }
+export async function deleteQuestionnaire(user: User): Promise<ApiResponse<{ user: User }>> {
+  await fakeApiDelay()
+
+  user.questionnaireAnswers = undefined
+  saveUsers(users)
+
+  return { ok: true, status: 200, data: { user } }
+}

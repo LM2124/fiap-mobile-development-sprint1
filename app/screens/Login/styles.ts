@@ -33,6 +33,11 @@ const $aspectRatioSmartSizing: () => ViewStyle = () => {
   }
 }
 
+// Criei essa função só para os componentes escalonarem com a viewport
+const $scaleWithSize: ThemedStyle<ViewStyle> = () => ({
+  ...$aspectRatioSmartSizing(),
+})
+
 const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   ...$aspectRatioSmartSizing(),
   backgroundColor: colors.background,
@@ -51,6 +56,7 @@ export const $loginStyles = {
   $inputWrapper: $inputWrapper,
   $input: $input,
   $aspectRatioSmartSizing: $aspectRatioSmartSizing,
+  $scaleWithSize: $scaleWithSize,
   $formContainer: $formContainer,
   $formContent: $formContent,
 }
