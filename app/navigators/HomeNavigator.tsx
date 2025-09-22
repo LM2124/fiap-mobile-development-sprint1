@@ -10,9 +10,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, type IconTypes } from "@/components/Icon"
 import { useAuth } from "@/contexts/AuthContext"
 import { AnalysisScreen } from "@/screens/Home/AnalysisScreen/"
-import { CategoriesScreen } from "@/screens/Home/CategoriesScreen"
 import { HomeHeader } from "@/screens/Home/components/HomeHeader"
 import { DashboardScreen } from "@/screens/Home/DashboardScreen"
+import { NotificationScreen } from "@/screens/Home/NotificationScreen/"
 import { ProfileScreen } from "@/screens/Home/ProfileScreen"
 import { TransactionScreen } from "@/screens/Home/TransactionScreen/"
 import { useAppTheme } from "@/theme/context"
@@ -25,6 +25,7 @@ export type HomeTabParamList = {
   Transaction: undefined
   Categories: undefined
   Profile: undefined
+  Notifications: undefined
   Questionnaire: undefined
 }
 
@@ -128,6 +129,11 @@ export const HomeTabs = function HomeTabs({ navigation }: AppStackScreenProps<"H
         name="Transaction"
         component={TransactionScreen}
         options={{ tabBarIcon: makeTabBarIcon("transactions"), title: "Transações" }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={NotificationScreen}
+        options={{ tabBarIcon: makeTabBarIcon("bell"), title: "Perfil" }}
       />
       <Tab.Screen
         name="Profile"
