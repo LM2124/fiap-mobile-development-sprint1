@@ -5,24 +5,16 @@
  * and a "main" flow which the user will use once logged in.
  */
 import { ComponentProps } from "react"
-import { NavigationContainer } from "@react-navigation/native"
+import { NavigationContainer, type NavigatorScreenParams } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
-
-import type { User } from "types/User"
 
 import Config from "@/config"
 import { useAuth } from "@/contexts/AuthContext"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
-import { ForgetPasswordScreen } from "@/screens/Login/ForgetPasswordScreen"
-import { ResetPasswordScreen } from "@/screens/Login/ResetPasswordScreen"
-import { SecurityCodeScreen } from "@/screens/Login/SecurityCodeScreen"
-import { SignInScreen } from "@/screens/Login/SignInScreen"
-import { SignUpScreen } from "@/screens/Login/SignUpScreen"
-import { QuestionnaireScreen } from "@/screens/QuestionnaireScreen"
-import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { useAppTheme } from "@/theme/context"
 
-import { HomeTabs } from "./HomeNavigator"
+import { HomeNavigator, type HomeStackParamList } from "./HomeNavigator"
+import { LoginNavigator, type LoginStackParamList } from "./LoginNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -39,14 +31,8 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Welcome: undefined
-  SignUp: undefined
-  SignIn: undefined
-  ForgetPassword: undefined
-  SecurityCode: { userEmail: User["email"] }
-  ResetPassword: { userEmail: User["email"] }
-  Questionnaire: undefined
-  Home: undefined
+  LoginNav: NavigatorScreenParams<LoginStackParamList>
+  HomeNav: NavigatorScreenParams<HomeStackParamList>
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -75,34 +61,23 @@ const AppStack = function AppStack() {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        navigationBarColor: colors.background,
         contentStyle: {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName={isAuthenticated ? "Home" : "Welcome"}
+      initialRouteName={isAuthenticated ? "HomeNav" : "LoginNav"}
     >
       {!isAuthenticated ? (
         <>
           {/* Flow não autenticado */}
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="ForgetPassword" component={ForgetPasswordScreen} />
-          <Stack.Screen name="SecurityCode" component={SecurityCodeScreen} />
+          <Stack.Screen name="LoginNav" component={LoginNavigator} />
         </>
       ) : (
         <>
           {/* Flow autenticado */}
-          <Stack.Screen name="Home" component={HomeTabs} />
-          <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
+          <Stack.Screen name="HomeNav" component={HomeNavigator} />
         </>
       )}
-
-      {/* Flow independente de autenticação */}
-      {/* ResetPassword poderá ser acessado a partir do flow de recuperação de conta,
-      ou pela redefinição de senha nas configurações de usuário */}
-      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
       {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )

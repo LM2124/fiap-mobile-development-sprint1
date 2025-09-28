@@ -11,7 +11,7 @@ import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { TextField, type TextFieldProps } from "@/components/TextField"
 import { useAuth } from "@/contexts/AuthContext"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { LoginStackScreenProps } from "@/navigators/LoginNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
@@ -25,7 +25,7 @@ import {
 
 import { $loginStyles } from "./styles"
 
-interface SignUpScreenProps extends AppStackScreenProps<"SignUp"> {}
+interface SignUpScreenProps extends LoginStackScreenProps<"SignUp"> {}
 
 export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { theme, themed } = useAppTheme()

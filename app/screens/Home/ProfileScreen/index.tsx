@@ -4,7 +4,7 @@ import { Image, View } from "react-native"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
-import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
+import type { HomeTabScreenProps } from "@/navigators/HomeTabsNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 
@@ -20,7 +20,7 @@ import {
   $userInfo,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
-import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
+import { HomeBottomBarSpacer } from "../_components/HomeBottomBarSpacer"
 
 const placeholder = require("@assets/images/welcome-face.png")
 
@@ -41,7 +41,6 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
       {/* Logout Modal */}
       <LogoutModal
         visible={logoutModalVisible}
-        onRequestClose={() => setLogoutModalVisible(false)}
         cancelAction={() => setLogoutModalVisible(false)}
         signOutAction={() => signOut()}
       />

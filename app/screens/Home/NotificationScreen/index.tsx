@@ -4,7 +4,7 @@ import { View, ViewStyle } from "react-native"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { dadosNotification } from "@/data/DadosNotification"
-import type { HomeTabParamList, HomeTabScreenProps } from "@/navigators/HomeNavigator"
+import type { HomeTabParamList, HomeTabScreenProps } from "@/navigators/HomeTabsNavigator"
 import { useAppTheme } from "@/theme/context"
 
 import {

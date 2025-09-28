@@ -27,16 +27,11 @@ const $aspectRatioSmartSizing: () => ViewStyle = () => {
      * Com o dispositivo na horizontal, ele toma 75% do espaço horizontal.
      * O Expo *tem* uma feature de detectar a orientação da tela, mas
      * versões mais modernas do Android permitem redimensionar uma tela
-     * arbitrariamente, e isso cobre esse caso. É overkill? Sim! Importa? Não!
+     * arbitrariamente, e isso cobre esse caso. É overkill? Sim! Importa? Espero que não!
      */
     width: Math.max(width * 0.75, Math.min(width, height)),
   }
 }
-
-// Criei essa função só para os componentes escalonarem com a viewport
-const $scaleWithSize: ThemedStyle<ViewStyle> = () => ({
-  ...$aspectRatioSmartSizing(),
-})
 
 const $formContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   ...$aspectRatioSmartSizing(),
@@ -53,10 +48,9 @@ const $formContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 })
 
 export const $loginStyles = {
-  $inputWrapper: $inputWrapper,
-  $input: $input,
-  $aspectRatioSmartSizing: $aspectRatioSmartSizing,
-  $scaleWithSize: $scaleWithSize,
-  $formContainer: $formContainer,
-  $formContent: $formContent,
+  $inputWrapper,
+  $input,
+  $aspectRatioSmartSizing,
+  $formContainer,
+  $formContent,
 }

@@ -38,7 +38,7 @@ export const questionario: Questao[] = [
     ],
   },
   {
-    pergunta: "Perfil de investimento que você já utilizou:",
+    pergunta: "Produtos de investimento que você possui preferência:",
     alternativas: [
       "Poupança/Tesouro Selic",
       "CDBs/Letras de Crédito",

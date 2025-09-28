@@ -8,7 +8,7 @@ import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { TextField, type TextFieldProps } from "@/components/TextField"
 import { useAuth } from "@/contexts/AuthContext"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { LoginStackScreenProps } from "@/navigators/LoginNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
@@ -16,7 +16,7 @@ import { alert } from "@/utils/alert"
 
 import { $loginStyles } from "./styles"
 
-interface SignInScreenProps extends AppStackScreenProps<"SignIn"> {}
+interface SignInScreenProps extends LoginStackScreenProps<"SignIn"> {}
 
 type FormKeys = "Email" | "Password"
 

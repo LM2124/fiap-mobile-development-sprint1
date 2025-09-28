@@ -7,7 +7,7 @@ import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import type { TextFieldProps } from "@/components/TextField"
 import { useAuth } from "@/contexts/AuthContext"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { LoginStackScreenProps } from "@/navigators/LoginNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
@@ -16,12 +16,9 @@ import { validatePassword } from "@/utils/validation"
 
 import { $loginStyles } from "./styles"
 
-interface ResetPasswordScreenProps extends AppStackScreenProps<"ResetPassword"> {}
+interface ResetPasswordScreenProps extends LoginStackScreenProps<"ResetPassword"> {}
 
-export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetPasswordScreen({
-  navigation,
-  route,
-}) {
+export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = ({ navigation, route }) => {
   const { themed } = useAppTheme()
   const { user, submitPasswordChange } = useAuth()
 
@@ -45,7 +42,7 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
       // Questão de comportamento: Com as duas senhas vazias,
       // Achei estranho a segunda senha não bandeirar um erro,
       // então decidi duplicar o erro da primeira senha.
-      // Note que o erro das senhas diferentes terá prioridade.
+      // Note que o erro das senhas estando diferentes terá prioridade.
       errors.set("Password", passwordError)
       errors.set("PasswordConfirm", passwordError)
     }
@@ -72,7 +69,9 @@ export const ResetPasswordScreen: FC<ResetPasswordScreenProps> = function ResetP
       const res = await submitPasswordChange(route.params.userEmail, password)
       if (res.success) {
         alert("Sucesso", "Senha Alterada com Sucesso!")
-        user ? navigation.popTo("Home") : navigation.popTo("SignIn")
+        user
+          ? navigation.replace("HomeNav", { screen: "HomeTabs", params: { screen: "Dashboard" } })
+          : navigation.replace("SignIn")
       } else {
         alert("Erro", res.error || "Erro desconhecido. Tente novamente mais tarde.")
       }

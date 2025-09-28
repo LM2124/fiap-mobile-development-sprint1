@@ -6,7 +6,7 @@ import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { TextField, type TextFieldProps } from "@/components/TextField"
 import { useAuth } from "@/contexts/AuthContext"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { LoginStackScreenProps } from "@/navigators/LoginNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
@@ -14,7 +14,7 @@ import { validateEmail } from "@/utils/validation"
 
 import { $loginStyles } from "./styles"
 
-interface ForgetPasswordScreenProps extends AppStackScreenProps<"ForgetPassword"> {}
+interface ForgetPasswordScreenProps extends LoginStackScreenProps<"ForgetPassword"> {}
 
 export const ForgetPasswordScreen: FC<ForgetPasswordScreenProps> = ({ navigation }) => {
   const { themed } = useAppTheme()

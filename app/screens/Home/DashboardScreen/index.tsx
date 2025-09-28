@@ -1,22 +1,19 @@
 import { FC } from "react"
 import { Image, View } from "react-native"
 
-import { PressableIcon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import { dadosDashboard } from "@/data/DadosDashboard"
-import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
+import type { HomeTabScreenProps } from "@/navigators/HomeTabsNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
-import { alert } from "@/utils/alert"
 
 import {
   $root,
   $rootContentContainer,
   $headerBar,
   $headerGreeting,
-  $iconContainer,
   $summaryContainer,
   $dashContainer,
   $graph,
@@ -25,7 +22,7 @@ import {
   $dashText,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
-import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
+import { HomeBottomBarSpacer } from "../_components/HomeBottomBarSpacer"
 
 interface DashboardScreenProps extends HomeTabScreenProps<"Dashboard"> {}
 
@@ -60,12 +57,6 @@ export const DashboardScreen: FC<DashboardScreenProps> = function DashboardScree
           {/* TODO: Fazer isso falar boa noite quando estiver de noite :D */}
           <Text preset="default" size="xs" style={themed($styles.$negativeText)} text="Bom dia!" />
         </View>
-        {/* <PressableIcon
-          icon="bell"
-          containerStyle={themed($iconContainer)}
-          color={theme.colors.palette.neutral100}
-          onPress={() => alert("WIP", "Não implementado :(")}
-        /> */}
       </View>
 
       {/* Sumário */}

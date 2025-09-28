@@ -6,7 +6,7 @@ import { ProgressBarWithText } from "@/components/ProgressBarWithText"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { dadosTransaction, dadosFluxo } from "@/data/DadosTransaction"
-import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
+import type { HomeTabScreenProps } from "@/navigators/HomeTabsNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 
@@ -30,7 +30,7 @@ import {
   $dashTitleContainer,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
-import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
+import { HomeBottomBarSpacer } from "../_components/HomeBottomBarSpacer"
 
 interface HomeScreenProps extends HomeTabScreenProps<"Transaction"> {}
 
@@ -51,7 +51,7 @@ export const TransactionScreen: FC<HomeScreenProps> = function TransactionScreen
       preset="scroll"
     >
       {/* Área Saldo Total */}
-      <View style={themed([$loginStyles.$scaleWithSize, $summaryContainer])}>
+      <View style={themed([$loginStyles.$aspectRatioSmartSizing, $summaryContainer])}>
         <View style={themed($saldoContainer)}>
           <Text size="sm" weight="semiBold" text="Saldo Total" />
           <Text

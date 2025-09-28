@@ -6,7 +6,7 @@ import { Screen } from "@/components/Screen"
 import { SecurityCodeInput } from "@/components/SecurityCodeInput"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { LoginStackScreenProps } from "@/navigators/LoginNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
@@ -14,7 +14,7 @@ import { delay } from "@/utils/delay"
 
 import { $loginStyles } from "./styles"
 
-interface SecurityCodeScreenProps extends AppStackScreenProps<"SecurityCode"> {}
+interface SecurityCodeScreenProps extends LoginStackScreenProps<"SecurityCode"> {}
 
 export const SecurityCodeScreen: FC<SecurityCodeScreenProps> = ({ navigation, route }) => {
   const { theme, themed } = useAppTheme()

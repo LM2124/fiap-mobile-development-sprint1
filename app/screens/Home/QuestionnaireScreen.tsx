@@ -8,18 +8,16 @@ import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
 import { questionario } from "@/data/Questionario"
-import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import type { HomeStackScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
 
-import { $loginStyles } from "./Login/styles"
+import { $loginStyles } from "../Login/styles"
 
-interface QuestionnaireScreenProps extends AppStackScreenProps<"Questionnaire"> {}
+interface QuestionnaireScreenProps extends HomeStackScreenProps<"Questionnaire"> {}
 
-export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function QuestionnaireScreen({
-  navigation,
-}) {
+export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = ({ navigation }) => {
   const {
     theme: { colors },
     themed,
@@ -42,7 +40,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = function Questi
     setSending(true)
     try {
       await submitQuestionnaire(answers)
-      navigation.navigate("Home")
+      navigation.navigate("HomeTabs", { screen: "Dashboard" })
       console.log(answers)
     } finally {
       setSending(false)

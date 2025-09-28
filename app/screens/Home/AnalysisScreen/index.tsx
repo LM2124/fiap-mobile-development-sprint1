@@ -6,11 +6,11 @@ import { Icon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/contexts/AuthContext"
-import type { HomeTabScreenProps } from "@/navigators/HomeNavigator"
+import type { HomeTabScreenProps } from "@/navigators/HomeTabsNavigator"
 import { useAppTheme } from "@/theme/context"
 
 import { $restartFormContainer, $restartFormButton, $formText, $restartFormView } from "./styles"
-import { HomeBottomBarSpacer } from "../components/HomeBottomBarSpacer"
+import { HomeBottomBarSpacer } from "../_components/HomeBottomBarSpacer"
 
 interface AnalysisScreenProps extends HomeTabScreenProps<"Analysis"> {}
 

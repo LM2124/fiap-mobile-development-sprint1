@@ -18,7 +18,7 @@ if (__DEV__) {
 }
 import "./utils/gestureHandler"
 
-import { useEffect, useState } from "react"
+import { StrictMode, useEffect, useState } from "react"
 import { useFonts } from "expo-font"
 import * as Linking from "expo-linking"
 import { KeyboardProvider } from "react-native-keyboard-controller"
@@ -84,19 +84,21 @@ export function App() {
 
   // otherwise, we're ready to render the app
   return (
-    <AuthProvider>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <KeyboardProvider>
-          {/* FIXME: Fazer um tema escuro */}
-          <ThemeProvider initialContext="light">
-            <AppNavigator
-              linking={linking}
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
-          </ThemeProvider>
-        </KeyboardProvider>
-      </SafeAreaProvider>
-    </AuthProvider>
+    <StrictMode>
+      <AuthProvider>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <KeyboardProvider>
+            {/* FIXME: Fazer um tema escuro */}
+            <ThemeProvider initialContext="light">
+              <AppNavigator
+                linking={linking}
+                initialState={initialNavigationState}
+                onStateChange={onNavigationStateChange}
+              />
+            </ThemeProvider>
+          </KeyboardProvider>
+        </SafeAreaProvider>
+      </AuthProvider>
+    </StrictMode>
   )
 }
