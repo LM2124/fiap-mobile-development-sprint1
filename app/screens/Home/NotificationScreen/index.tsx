@@ -1,5 +1,5 @@
-import { FC, useState } from "react"
-import { View, ViewStyle } from "react-native"
+import { FC } from "react"
+import { View } from "react-native"
 
 import { Icon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
@@ -30,15 +30,13 @@ export const NotificationScreen: FC<NotificationScreenProps> = () => {
   // Pull in navigation via hook
   // const navigation = useNavigation()
 
-  const [periods, setPeriods] = useState<any>([])
-
   const { themed } = useAppTheme()
 
   const timeElapsedInDays = (time: Date) => {
     const now = new Date()
-    const timeElapsed = Math.floor((now - time) / 86400000)
+    const timeElapsed = Math.floor((Number(now) - Number(time)) / 86400000)
 
-    if (timeElapsed === 0) {
+    if (timeElapsed <= 0) {
       return "Hoje"
     }
     if (timeElapsed === 1) {
@@ -73,8 +71,20 @@ export const NotificationScreen: FC<NotificationScreenProps> = () => {
   }
 
   const uniquePeriods = Array.from(
-    new Set(dadosNotification.map(([date]) => timeElapsedInDays(date))),
+    new Set(dadosNotification.map((notification) => timeElapsedInDays(notification.date))),
   )
+
+  const formatDate = (date: Date) => {
+    return (
+      String(date.getHours()).padStart(2, "0") +
+      ":" +
+      String(date.getMinutes()).padStart(2, "0") +
+      " - " +
+      date.getDate() +
+      " - " +
+      mesesAno[date.getMonth()]
+    )
+  }
 
   return (
     <Screen
@@ -87,24 +97,24 @@ export const NotificationScreen: FC<NotificationScreenProps> = () => {
           <View key={index} style={themed($addTopSpacing)}>
             <Text size="xxs" weight="normal" text={period} />
             {dadosNotification
-              .filter(([day]) => period === timeElapsedInDays(day))
-              .map(([date, icon, title, about, details], index) => (
+              .filter((notification) => period === timeElapsedInDays(notification.date))
+              .map((notification, index) => (
                 <View key={index} style={themed($dashItem)}>
                   <View style={themed($iconDescriptionContainer)}>
                     <Icon
                       containerStyle={themed($iconContentContainer)}
-                      icon={icon}
+                      icon={notification.icon}
                       size={30}
                       color="#ffff"
                     />
                     <View style={themed($textSpacingContainer)}>
-                      <Text weight="medium" size="sm" text={`${title}`} />
-                      <Text weight="medium" size="xxs" text={`${about}`} />
+                      <Text weight="medium" size="sm" text={`${notification.title}`} />
+                      <Text weight="medium" size="xxs" text={`${notification.about}`} />
                       <Text
                         weight="semiBold"
                         size="xxs"
                         style={themed($blueFont)}
-                        text={`${details}`}
+                        text={`${notification.details}`}
                       />
                     </View>
                   </View>
@@ -115,15 +125,7 @@ export const NotificationScreen: FC<NotificationScreenProps> = () => {
                       style={themed($blueFont)}
                       size="xs"
                       weight="light"
-                      text={
-                        String(date.getHours()).padStart(2, "0") +
-                        ":" +
-                        String(date.getMinutes()).padStart(2, "0") +
-                        " - " +
-                        date.getDate() +
-                        " - " +
-                        mesesAno[date.getMonth()]
-                      }
+                      text={formatDate(notification.date)}
                     />
                   </View>
                 </View>

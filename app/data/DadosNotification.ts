@@ -1,40 +1,54 @@
-export const dadosNotification: [
-  date: Date,
-  icon: string,
-  title: string,
-  about: string,
-  details: string,
-][] = [
-  [new Date(2025, 8, 29, 17, 0, 0, 0), "bell", "Lembrete!", "Lorem ipsum dolor sit amet. ", ""],
-  [
-    new Date(2025, 8, 29, 17, 0, 0, 0),
-    "bell",
-    "Nova Atualização",
-    "Lorem ipsum dolor sit amet. ",
-    "",
-  ],
-  [
-    new Date(2025, 8, 29, 17, 0, 0, 0),
-    "bell",
-    "Transações",
-    "Lorem ipsum dolor sit amet. ",
-    "Mercado |  padaria  |  -$100,00",
-  ],
-  [new Date(2025, 8, 28, 17, 0, 0, 0), "bell", "Lembrete!", "Lorem ipsum dolor sit amet. ", ""],
-  [new Date(2025, 8, 24, 17, 0, 0, 0), "bell", "Despesas", "Lorem ipsum dolor sit amet. ", ""],
+import { Notification } from "@/components/Notification"
+
+export const dadosNotification: Notification[] = [
+  {
+    date: new Date(2025, 8, 29, 17, 0, 0, 0),
+    icon: "bell",
+    title: "Lembrete!",
+    about: "Lorem ipsum dolor sit amet.",
+    details: "",
+  },
+  {
+    date: new Date(2025, 8, 29, 17, 0, 0, 0),
+    icon: "bell",
+    title: "Nova Atualização",
+    about: "Lorem ipsum dolor sit amet.",
+    details: "",
+  },
+  {
+    date: new Date(2025, 8, 29, 17, 0, 0, 0),
+    icon: "bell",
+    title: "Transações",
+    about: "Lorem ipsum dolor sit amet.",
+    details: "Mercado |  padaria  |  -$100,00",
+  },
+  {
+    date: new Date(2025, 8, 28, 17, 0, 0, 0),
+    icon: "bell",
+    title: "Lembrete!",
+    about: "Lorem ipsum dolor sit amet.",
+    details: "",
+  },
+  {
+    date: new Date(2025, 8, 24, 17, 0, 0, 0),
+    icon: "bell",
+    title: "Despesas",
+    about: "Lorem ipsum dolor sit amet.",
+    details: "",
+  },
 ]
 
-export const mesesAno: [mes: string][] = [
-  ["Janeiro"],
-  ["Fevereiro"],
-  ["Março"],
-  ["Abril"],
-  ["Maio"],
-  ["Junho"],
-  ["Julho"],
-  ["Agosto"],
-  ["Setembro"],
-  ["Outubro"],
-  ["Novembro"],
-  ["Dezembro"],
+export const mesesAno: string[] = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
 ]
