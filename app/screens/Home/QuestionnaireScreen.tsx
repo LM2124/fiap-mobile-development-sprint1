@@ -40,7 +40,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = ({ navigation }
     setSending(true)
     try {
       await submitQuestionnaire(answers)
-      navigation.navigate("HomeTabs", { screen: "Dashboard" })
+      navigation.navigate("UserType")
       console.log(answers)
     } finally {
       setSending(false)
