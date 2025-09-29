@@ -1,4 +1,4 @@
-import { TextStyle, ViewStyle } from "react-native"
+import type { TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
@@ -9,18 +9,30 @@ export const $root: ThemedStyle<ViewStyle> = ({ colors }) => ({
   // Não tenho a menor ideia por quê, mas aqui estou compensando.
   marginBottom: -1,
 })
+export const $rootContentContainer: ThemedStyle<ViewStyle> = () => ({
+  minHeight: "100%",
+  alignSelf: "center",
+})
 export const $notificationContainer: ThemedStyle<ViewStyle> = () => ({
-  padding: 20,
+  paddingVertical: 20,
+  paddingHorizontal: 30,
+})
+export const $iconContentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+  height: 38,
+  backgroundColor: colors.palette.primary300,
+  marginRight: spacing.sm,
+  paddingTop: spacing.xxs,
+  paddingHorizontal: spacing.xxs,
+  borderRadius: spacing.sm,
+})
+export const $addTopSpacing: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginTop: spacing.lg,
 })
 export const $dashItem: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
-  flexDirection: "row",
   justifyContent: "space-between",
-  alignItems: "center",
-  marginVertical: spacing.xs,
+  marginBottom: spacing.xs,
   paddingVertical: spacing.xs,
-  paddingHorizontal: spacing.md,
-  borderWidth: 5,
-  borderRadius: 10,
+  borderBottomWidth: 2,
   borderColor: colors.palette.primary300,
 })
 export const $dashTitleContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
@@ -30,15 +42,25 @@ export const $dashTitleContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "flex-start",
   gap: spacing.sm,
 })
+export const $iconDescriptionContainer: ThemedStyle<TextStyle> = ({ spacing }) => ({
+  flexDirection: "row",
+  alignItems: "center",
+})
+export const $textSpacingContainer: ThemedStyle<TextStyle> = ({ spacing }) => ({
+  height: 55,
+  justifyContent: "space-between",
+})
+export const $dateContainer: ThemedStyle<TextStyle> = ({ spacing }) => ({
+  marginTop: spacing.xs,
+  flexDirection: "row",
+  justifyContent: "end",
+})
 export const $dashText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   overflow: "visible",
   width: "25%",
   textAlign: "center",
   textAlignVertical: "center",
   paddingHorizontal: spacing.xxs,
-})
-export const $dashTextNoCenter: ThemedStyle<TextStyle> = () => ({
-  fontSize: 15,
 })
 export const $blueFont: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.primary500,
