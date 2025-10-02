@@ -42,18 +42,18 @@ export const $dashTitleContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "flex-start",
   gap: spacing.sm,
 })
-export const $iconDescriptionContainer: ThemedStyle<TextStyle> = ({ spacing }) => ({
+export const $iconDescriptionContainer: ThemedStyle<ViewStyle> = () => ({
   flexDirection: "row",
   alignItems: "center",
 })
-export const $textSpacingContainer: ThemedStyle<TextStyle> = ({ spacing }) => ({
+export const $textSpacingContainer: ThemedStyle<ViewStyle> = () => ({
   height: 55,
   justifyContent: "space-between",
 })
-export const $dateContainer: ThemedStyle<TextStyle> = ({ spacing }) => ({
+export const $dateContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   marginTop: spacing.xs,
   flexDirection: "row",
-  justifyContent: "end",
+  justifyContent: "flex-end",
 })
 export const $dashText: ThemedStyle<TextStyle> = ({ spacing }) => ({
   overflow: "visible",
