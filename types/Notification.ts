@@ -1,4 +1,4 @@
-import { IconTypes } from "./Icon"
+import { IconTypes } from "@/components/Icon"
 
 export type Notification = {
   date: Date

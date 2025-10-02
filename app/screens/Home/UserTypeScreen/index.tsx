@@ -5,7 +5,6 @@ import { Button } from "@/components/Button"
 import { Icon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
-import { dadosUserType } from "@/data/DadosUserType"
 import { HomeStackScreenProps } from "@/navigators/HomeNavigator"
 import { colors } from "@/theme/colors"
 import { useAppTheme } from "@/theme/context"
@@ -26,8 +25,10 @@ interface UserTypeScreenProps extends HomeStackScreenProps<"UserType"> {}
 
 const img = require("assets/images/giftbox.png")
 
+const dadosUserType = { pontuacao: 23, tipo: "Conservador" }
+
 export const UserTypeScreen: FC<UserTypeScreenProps> = ({ navigation }) => {
-  const { theme, themed } = useAppTheme()
+  const { themed } = useAppTheme()
 
   const goToHome = () => {
     navigation.navigate("HomeTabs", { screen: "Dashboard" })
