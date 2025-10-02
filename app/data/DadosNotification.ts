@@ -1,4 +1,4 @@
-import { Notification } from "@/components/Notification"
+import type { Notification } from "types/Notification"
 
 export const dadosNotification: Notification[] = [
   {
