@@ -3,6 +3,7 @@ import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navig
 
 import { useAuth } from "@/contexts/AuthContext"
 import { QuestionnaireScreen } from "@/screens/Home/QuestionnaireScreen"
+import { UserTypeScreen } from "@/screens/Home/UserTypeScreen"
 
 import type { AppStackParamList } from "./AppNavigator"
 import { HomeTabs, type HomeTabParamList } from "./HomeTabsNavigator"
@@ -10,6 +11,7 @@ import { HomeTabs, type HomeTabParamList } from "./HomeTabsNavigator"
 export type HomeStackParamList = {
   HomeTabs: NavigatorScreenParams<HomeTabParamList>
   Questionnaire: undefined
+  UserType: undefined
 }
 
 export type HomeStackScreenProps<T extends keyof HomeStackParamList> = CompositeScreenProps<
@@ -35,6 +37,7 @@ export const HomeNavigator = (props: HomeNavigationProps) => {
     >
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
       <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
+      <Stack.Screen name="UserType" component={UserTypeScreen} />
     </Stack.Navigator>
   )
 }
