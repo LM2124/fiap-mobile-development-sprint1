@@ -49,11 +49,9 @@ export const $recomendationButton: ThemedStyle<ViewStyle> = ({ colors }) => ({
   backgroundColor: colors.palette.primary500,
   borderRadius: 10,
 })
-export const $recomendationView: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+export const $buttonText: ThemedStyle<TextStyle> = ({ spacing, colors }) => ({
   alignItems: "center",
   gap: spacing.sm,
-})
-export const $buttonText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.neutral100,
 })
 export const $img: ThemedStyle<ImageStyle> = ({ spacing }) => ({

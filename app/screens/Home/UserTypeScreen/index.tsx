@@ -5,6 +5,7 @@ import { Button } from "@/components/Button"
 import { Icon } from "@/components/Icon"
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
+import { dadosUserType } from "@/data/DadosUserType"
 import { HomeStackScreenProps } from "@/navigators/HomeNavigator"
 import { colors } from "@/theme/colors"
 import { useAppTheme } from "@/theme/context"
@@ -18,7 +19,6 @@ import {
   $iconContentContainer,
   $recomendationButton,
   $buttonText,
-  $recomendationView,
 } from "./styles"
 import { $loginStyles } from "../../Login/styles"
 
@@ -54,7 +54,7 @@ export const UserTypeScreen: FC<UserTypeScreenProps> = ({ navigation }) => {
               color={colors.palette.primary400}
             />
             <Text weight="semiBold" size="sm">
-              Pontuação: 23
+              Pontuação: {dadosUserType.pontuacao}
             </Text>
           </View>
           <View style={themed($infoLineContainer)}>
@@ -65,16 +65,17 @@ export const UserTypeScreen: FC<UserTypeScreenProps> = ({ navigation }) => {
               color={colors.palette.primary400}
             />
             <Text weight="semiBold" size="sm">
-              Seu perfil é: Conservador
+              Seu perfil é: {dadosUserType.tipo}
             </Text>
           </View>
         </View>
 
-        <Button onPress={goToHome} style={themed($recomendationButton)}>
-          <View style={themed($recomendationView)}>
-            <Text style={themed($buttonText)}>Veja nossas Recomendações</Text>
-          </View>
-        </Button>
+        <Button
+          onPress={goToHome}
+          style={themed($recomendationButton)}
+          text="Veja nossas Recomendações"
+          textStyle={themed($buttonText)}
+        ></Button>
       </View>
     </Screen>
   )
