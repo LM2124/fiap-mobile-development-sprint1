@@ -43,7 +43,7 @@ export const $infoLineContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   gap: spacing.sm,
 })
 
-export const $iconContentContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+export const $iconContentContainer: ThemedStyle<ViewStyle> = ({ colors }) => ({
   height: 40,
   width: 40,
   justifyContent: "center",
@@ -98,21 +98,6 @@ export const $headerText: ThemedStyle<TextStyle> = ({ colors }) => ({
   letterSpacing: -0.5,
 })
 
-export const $cardContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: "100%",
-  padding: spacing.lg,
-  backgroundColor: colors.palette.neutral100,
-  borderRadius: 16,
-  borderWidth: 1,
-  borderColor: colors.palette.neutral200,
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.08,
-  shadowRadius: 8,
-  elevation: 3,
-  marginBottom: spacing.md,
-})
-
 export const $sectionContainer: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   width: "100%",
   padding: spacing.lg,
@@ -134,7 +119,7 @@ export const $sectionTitle: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
   fontWeight: "700",
 })
 
-export const $sectionText: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
+export const $sectionText: ThemedStyle<TextStyle> = ({ colors }) => ({
   lineHeight: 22,
   color: colors.palette.neutral700,
   fontSize: 14,

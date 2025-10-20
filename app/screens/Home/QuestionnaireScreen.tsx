@@ -1,5 +1,12 @@
 import { FC, useMemo, useState } from "react"
-import { ScrollView, type TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import {
+  ActivityIndicator,
+  ScrollView,
+  type TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native"
 
 import { Button, type ButtonAccessoryProps } from "@/components/Button"
 import { Icon } from "@/components/Icon"
@@ -169,15 +176,23 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = ({ navigation }
           disabled={page === 0}
           disabledStyle={themed($styles.$buttonDisabled)}
         />
+
         {page === questionario.length - 1 ? (
           <Button
-            text={isSending ? "Analisando perfil..." : "Finalizar"}
             onPress={finish}
             style={themed($controlButton)}
-            textStyle={themed($controlButtonsText)}
             disabled={!answers[page] || isSending}
             disabledStyle={themed($styles.$buttonDisabled)}
-          />
+          >
+            {isSending ? (
+              <View style={themed($profileAnalysisView)}>
+                <Text style={themed($controlButtonsText)}>Analisando perfil...</Text>
+                <ActivityIndicator color={colors.background} />
+              </View>
+            ) : (
+              <Text style={themed($controlButtonsText)}>Finalizar</Text>
+            )}
+          </Button>
         ) : (
           <Button
             text={"Próximo"}
@@ -271,4 +286,9 @@ const $controlButton: ThemedStyle<ViewStyle> = (theme) => ({
 
 const $controlButtonsText: ThemedStyle<TextStyle> = (theme) => ({
   ...$styles.$buttonText(theme),
+})
+
+const $profileAnalysisView: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  flexDirection: "row",
+  gap: spacing.sm,
 })

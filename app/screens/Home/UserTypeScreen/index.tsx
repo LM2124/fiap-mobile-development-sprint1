@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import { FC } from "react"
-import { View, Image, ScrollView } from "react-native"
+import { View, Image } from "react-native"
 
 import { Button } from "@/components/Button"
 import { Icon } from "@/components/Icon"
@@ -9,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { HomeStackScreenProps } from "@/navigators/HomeNavigator"
 import { colors } from "@/theme/colors"
 import { useAppTheme } from "@/theme/context"
+import { $styles } from "@/theme/styles"
 
 import {
   $img,
@@ -21,7 +23,6 @@ import {
   $buttonText,
   $headerContainer,
   $headerText,
-  $cardContainer,
   $sectionContainer,
   $sectionTitle,
   $sectionText,
@@ -79,7 +80,7 @@ export const UserTypeScreen: FC<UserTypeScreenProps> = ({ navigation }) => {
               size={24}
               color={colors.palette.primary500}
             />
-            <View style={{ flex: 1 }}>
+            <View style={$styles.flex1}>
               <Text size="xs" style={{ color: colors.palette.neutral600, marginBottom: 2 }}>
                 Seu Perfil
               </Text>
@@ -96,7 +97,7 @@ export const UserTypeScreen: FC<UserTypeScreenProps> = ({ navigation }) => {
               size={24}
               color={colors.palette.primary500}
             />
-            <View style={{ flex: 1 }}>
+            <View style={$styles.flex1}>
               <Text size="xs" style={{ color: colors.palette.neutral600, marginBottom: 2 }}>
                 Pontuação de Risco
               </Text>
@@ -158,7 +159,7 @@ export const UserTypeScreen: FC<UserTypeScreenProps> = ({ navigation }) => {
             {analysis.recomendacoes.map((recomendacao, index) => (
               <View key={index} style={themed($recomendacaoItem)}>
                 <Icon icon={"check"} size={20} color={colors.palette.secondary500} />
-                <Text size="sm" style={{ flex: 1 }}>
+                <Text size="sm" style={$styles.flex1}>
                   {recomendacao}
                 </Text>
               </View>

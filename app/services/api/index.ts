@@ -17,7 +17,7 @@ import type { ApiConfig } from "./types"
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
-  timeout: 60000, // 60 segundos (análise de IA pode demorar)
+  timeout: 10000,
 }
 
 /**

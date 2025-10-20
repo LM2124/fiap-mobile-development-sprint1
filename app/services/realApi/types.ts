@@ -1,82 +1,107 @@
-/**
- * Tipos para a API Real do Backend
- * Base URL: http://localhost:8080/api
- */
+// ============================================================================
+// General Typing
+// ============================================================================
+export type ApiErrorList<T extends object> = Record<keyof T, string[]>
+
+export type ApiDataResponse<T extends object, ErrorSchema extends object = ApiErrorList<T>> =
+  | { success: true; message?: string; data?: T }
+  // TODO: Descobrir se `errors` é um campo opcional ou se sempre vai ser no mínimo `null`
+  | { success: false; message?: string; error?: string; errors?: ErrorSchema | null }
+
+export type ApiVoidResponse =
+  | { success: true; message?: string }
+  // TODO: ver se errors pode ser alguma coisa além de null se não há body
+  | { success: false; message?: string; errors: null }
+
+export type ApiResponse<T extends object | void = void> = T extends object
+  ? ApiDataResponse<T>
+  : ApiVoidResponse
+
+// Classe vazia para ajudar a diferenciar erros
+// jogados pela API de outros erros de runtime
+export class ApiServiceError extends Error {}
 
 // ============================================================================
 // User Types
 // ============================================================================
+export type UserId = number
 
-export interface RealApiUser {
+export interface ApiUser {
   id: number
   name: string
   email: string
-  email_verified_at: string | null
-  cpf: string
   phone: string
-  created_at: string
   updated_at: string
-  deleted_at: string | null
+  created_at: string
 }
 
 // ============================================================================
 // Auth Types
 // ============================================================================
 
-export interface LoginRequest {
+export type AuthToken = string
+
+export interface SignUpRequestBody {
+  name: string
+  email: string
+  phone: string
+  password: string
+  password_confirmation: string
+  birthdate: string
+}
+export interface SignUpResponseData {
+  user: ApiUser
+  token: AuthToken
+}
+
+export interface LoginRequestBody {
   email: string
   password: string
 }
-
-export interface LoginResponse {
-  success: boolean
-  message: string
-  data: {
-    user: RealApiUser
-    token: string
+export interface LoginResponseData {
+  user: ApiUser
+  token: AuthToken
+  questionario_status: {
+    has_answered: boolean
+    has_classified_profile: boolean
+    ultima_resposta?: {
+      id: number
+      data_resposta: string
+      pontuacao_total: number
+      perfil_classificado: string
+      foi_analisada: boolean
+    }
   }
 }
 
-// ============================================================================
-// Generic API Response Types
-// ============================================================================
-
-export interface RealApiSuccessResponse<T = any> {
-  success: true
-  message: string
-  data: T
-}
-
-export interface RealApiErrorResponse {
-  success: false
-  message: string
-  errors?: Record<string, string[]>
-}
-
-export type RealApiResponse<T = any> = RealApiSuccessResponse<T> | RealApiErrorResponse
+export interface LogoutRequestBody {}
+export interface LogoutResponseData {}
 
 // ============================================================================
 // Questionnaire Types
 // ============================================================================
+export type QuestionnaireId = number
 
-export interface QuestionnaireRequest {
-  respostas: {
-    questao_1: string
-    questao_2: string
-    questao_3: string
-    questao_4: string
-    questao_5: string
-    questao_6: string
-    questao_7: string
-    questao_8: string
-    questao_9: string
-    questao_10: string
-  }
+export type ApiQuestionnaireAnswers = {
+  questao_1: string
+  questao_2: string
+  questao_3: string
+  questao_4: string
+  questao_5: string
+  questao_6: string
+  questao_7: string
+  questao_8: string
+  questao_9: string
+  questao_10: string
 }
 
-export interface QuestionnaireData {
-  id: number
-  user_id: number
+export interface QuestionnaireSubmitRequestBody {
+  respostas: ApiQuestionnaireAnswers
+}
+
+export interface QuestionnaireSubmitResponse {
+  id: QuestionnaireId
+  user_id: UserId
   respostas: {
     questao_1: string
     questao_2: string
@@ -94,22 +119,16 @@ export interface QuestionnaireData {
   created_at: string
 }
 
-export interface QuestionnaireResponse {
-  success: boolean
-  message: string
-  data: QuestionnaireData
-}
-
 // ============================================================================
 // Questionnaire Analysis Types
 // ============================================================================
 
 export interface QuestionnaireAnalysisRequest {
-  questionario_id: number
+  questionario_id: QuestionnaireId
 }
 
-export interface QuestionnaireAnalysisData {
-  questionario_id: number
+export interface QuestionnaireAnalysisResponseData {
+  questionario_id: QuestionnaireId
   perfil: string
   justificativa: string
   recomendacoes: string[]
@@ -124,12 +143,6 @@ export interface QuestionnaireAnalysisData {
   timestamp: string
 }
 
-export interface QuestionnaireAnalysisResponse {
-  success: boolean
-  message: string
-  data: QuestionnaireAnalysisData
-}
-
 // ============================================================================
 // Helper Types para Integração com App
 // ============================================================================
@@ -138,7 +151,7 @@ export interface QuestionnaireAnalysisResponse {
  * Converte RealApiUser para o tipo User do app
  */
 export interface UserAdapter {
-  id: string
+  id: UserId
   name: string
   email: string
   phone: string
@@ -151,7 +164,7 @@ export interface UserAdapter {
   createdAt?: string
   updatedAt?: string
   // ID do questionário respondido
-  questionnaireId?: number
+  questionnaireId?: QuestionnaireId
   // Análise do questionário
-  questionnaireAnalysis?: QuestionnaireAnalysisData
+  questionnaireAnalysis?: QuestionnaireAnalysisResponseData
 }
