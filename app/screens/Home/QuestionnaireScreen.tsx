@@ -1,5 +1,12 @@
 import { FC, useMemo, useState } from "react"
-import { ScrollView, type TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
+import {
+  ActivityIndicator,
+  ScrollView,
+  type TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native"
 
 import { Button, type ButtonAccessoryProps } from "@/components/Button"
 import { Icon } from "@/components/Icon"
@@ -12,6 +19,7 @@ import type { HomeStackScreenProps } from "@/navigators/HomeNavigator"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
+import { alert } from "@/utils/alert"
 
 import { $loginStyles } from "../Login/styles"
 
@@ -22,7 +30,7 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = ({ navigation }
     theme: { colors },
     themed,
   } = useAppTheme()
-  const { submitQuestionnaire } = useAuth()
+  const { submitQuestionnaire, analyzeQuestionnaire } = useAuth()
 
   const [page, setPage] = useState<number>(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -39,9 +47,43 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = ({ navigation }
   const finish = async () => {
     setSending(true)
     try {
-      await submitQuestionnaire(answers)
+      // 1. Enviar respostas do questionário
+      const submitResult = await submitQuestionnaire(answers)
+
+      if (!submitResult.success) {
+        alert("Erro ao enviar questionário", submitResult.error)
+        return
+      }
+
+      if (__DEV__) {
+        console.log("[QuestionnaireScreen] Questionnaire submitted successfully")
+        console.log("[QuestionnaireScreen] QuestionnaireId:", submitResult.questionnaireId)
+        console.log("[QuestionnaireScreen] Starting analysis (pode demorar até 60s)...")
+      }
+
+      // 2. Analisar o perfil automaticamente usando o ID retornado
+      // A análise usa IA e pode demorar 40-60 segundos
+      const analysisResult = await analyzeQuestionnaire(submitResult.questionnaireId)
+
+      if (!analysisResult.success) {
+        // Se a análise falhar, mostrar erro mas ainda redirecionar
+        if (__DEV__) {
+          console.error("[QuestionnaireScreen] Analysis failed:", analysisResult.error)
+        }
+        alert("Aviso", "Questionário salvo, mas houve erro na análise: " + analysisResult.error)
+      } else {
+        if (__DEV__) {
+          console.log("[QuestionnaireScreen] Analysis completed successfully!")
+        }
+      }
+
+      // 3. Redirecionar para tela de resultado (UserType)
       navigation.navigate("UserType")
-      console.log(answers)
+    } catch (error) {
+      if (__DEV__) {
+        console.error("[QuestionnaireScreen] Unexpected error:", error)
+      }
+      alert("Erro", "Erro inesperado ao processar questionário")
     } finally {
       setSending(false)
     }
@@ -134,15 +176,23 @@ export const QuestionnaireScreen: FC<QuestionnaireScreenProps> = ({ navigation }
           disabled={page === 0}
           disabledStyle={themed($styles.$buttonDisabled)}
         />
+
         {page === questionario.length - 1 ? (
           <Button
-            text={isSending ? "Enviando respostas..." : "Finalizar"}
             onPress={finish}
             style={themed($controlButton)}
-            textStyle={themed($controlButtonsText)}
             disabled={!answers[page] || isSending}
             disabledStyle={themed($styles.$buttonDisabled)}
-          />
+          >
+            {isSending ? (
+              <View style={themed($profileAnalysisView)}>
+                <Text style={themed($controlButtonsText)}>Analisando perfil...</Text>
+                <ActivityIndicator color={colors.background} />
+              </View>
+            ) : (
+              <Text style={themed($controlButtonsText)}>Finalizar</Text>
+            )}
+          </Button>
         ) : (
           <Button
             text={"Próximo"}
@@ -236,4 +286,9 @@ const $controlButton: ThemedStyle<ViewStyle> = (theme) => ({
 
 const $controlButtonsText: ThemedStyle<TextStyle> = (theme) => ({
   ...$styles.$buttonText(theme),
+})
+
+const $profileAnalysisView: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  flexDirection: "row",
+  gap: spacing.sm,
 })

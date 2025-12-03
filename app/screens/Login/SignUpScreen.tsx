@@ -95,7 +95,14 @@ export const SignUpScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       setValidationErrors(errors)
       if (errors.size > 0) return
 
-      const res = await signUp({ name, email, phone, birthdate, password })
+      const res = await signUp({
+        name,
+        email,
+        phone,
+        birthdate,
+        password,
+        password_confirmation: confirmPassword,
+      })
       if (res.success) {
         // Navegação deve acontecer automaticamente
         // navigation.navigate("Home")

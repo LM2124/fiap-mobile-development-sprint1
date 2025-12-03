@@ -90,21 +90,20 @@ export async function submitPasswordChange(
   return { ok: true, status: 200, data: { user } }
 }
 
-export async function submitQuestionnaire(
-  user: User,
-  answers: Record<number, string>,
-): Promise<ApiResponse<{ user: User }>> {
-  await fakeApiDelay()
+// export async function submitQuestionnaire(
+//   user: User,
+//   answers: Record<number, string>,
+// ): Promise<ApiResponse<{ user: User }>> {
+//   await fakeApiDelay()
 
-  user.questionnaireAnswers = answers
-  saveUsers(users)
+//   saveUsers(users)
 
-  return { ok: true, status: 200, data: { user } }
-}
+//   return { ok: true, status: 200, data: { user } }
+// }
+
 export async function deleteQuestionnaire(user: User): Promise<ApiResponse<{ user: User }>> {
   await fakeApiDelay()
 
-  user.questionnaireAnswers = undefined
   saveUsers(users)
 
   return { ok: true, status: 200, data: { user } }

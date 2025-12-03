@@ -2,36 +2,60 @@ import { createContext, useContext, useEffect, useState } from "react"
 
 import type { User } from "types/User"
 
+// Manter importações da fake API para funções ainda não migradas
 import {
-  type AuthToken,
   deleteQuestionnaire,
   sendPasswordResetEmail,
-  signIn,
-  signOut,
-  signUp,
   STORAGE_KEYS,
   submitConfirmationCode,
   submitPasswordChange,
-  submitQuestionnaire,
 } from "@/services/fakeApi"
+import { authService, questionnaireService, type AuthToken } from "@/services/realApi"
 import * as storage from "@/utils/storage"
 
-type AuthResult = { success: true } | { success: false; error: string }
+export type AuthContextResult<T extends Exclude<object, "success" | "message"> | void = void> =
+  | (T extends object
+      ? { success: true; message?: string } & T
+      : { success: true; message?: string })
+  | { success: false; error: string }
 
 interface AuthContextType {
   isAuthenticated: boolean
   user: User | null
   authToken: AuthToken | null
   // Tipagem forte sempre é bom, mas as vezes fica tão verbose...
-  signUp: (..._: Parameters<typeof signUp>) => Promise<AuthResult>
-  signIn: (..._: Parameters<typeof signIn>) => Promise<AuthResult>
-  signOut: (..._: Parameters<typeof signOut>) => Promise<AuthResult>
+  signUp: (..._: Parameters<typeof authService.signUp>) => Promise<AuthContextResult>
+  signIn: (..._: Parameters<typeof authService.signIn>) => Promise<AuthContextResult>
+  signOut: () => Promise<AuthContextResult>
 
-  sendPasswordResetEmail: (..._: Parameters<typeof sendPasswordResetEmail>) => Promise<AuthResult>
-  submitConfirmationCode: (..._: Parameters<typeof submitConfirmationCode>) => Promise<AuthResult>
-  submitPasswordChange: (..._: Parameters<typeof submitPasswordChange>) => Promise<AuthResult>
-  submitQuestionnaire: (answers: Record<number, string>) => Promise<AuthResult>
-  deleteQuestionnaire: () => Promise<AuthResult>
+  sendPasswordResetEmail: (
+    ..._: Parameters<typeof sendPasswordResetEmail>
+  ) => Promise<AuthContextResult>
+
+  submitConfirmationCode: (
+    ..._: Parameters<typeof submitConfirmationCode>
+  ) => Promise<AuthContextResult>
+
+  submitPasswordChange: (
+    ..._: Parameters<typeof submitPasswordChange>
+  ) => Promise<AuthContextResult>
+
+  submitQuestionnaire: (
+    ..._: Parameters<typeof questionnaireService.submitQuestionnaire>
+  ) => Promise<AuthContextResult<{ questionnaireId: number }>>
+
+  analyzeQuestionnaire: (
+    ..._: Parameters<typeof questionnaireService.analyzeQuestionnaire>
+  ) => Promise<AuthContextResult>
+
+  deleteQuestionnaire: () => Promise<AuthContextResult>
+}
+
+function debugLog(...rest: Parameters<typeof console.log>) {
+  if (__DEV__) return console.log("[AuthContext]", ...rest)
+}
+function debugError(...rest: Parameters<typeof console.error>) {
+  if (__DEV__) return console.error("[AuthContext]", ...rest)
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -60,52 +84,92 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loadAuthData()
   }, [])
 
-  const handleSignUp = async (user: Omit<User, "id">): Promise<AuthResult> => {
-    const res = await signUp(user)
-    if (res.ok) {
-      setUser(res.data.user)
-      setAuthToken(res.data.authToken)
-      storage.save(STORAGE_KEYS.USER, res.data.user)
-      storage.saveString(STORAGE_KEYS.AUTHTOKEN, res.data.authToken)
+  const handleSignUp: AuthContextType["signUp"] = async (userForm) => {
+    try {
+      const { user, token } = await authService.signUp(userForm)
+      setUser(user)
+      setAuthToken(token)
+      storage.save(STORAGE_KEYS.USER, user)
+      storage.saveString(STORAGE_KEYS.AUTHTOKEN, token)
+
+      debugLog("SignUp successful:", {
+        userId: user.id,
+        userName: user.name,
+      })
+
       return { success: true }
+    } catch (error) {
+      debugError("SignUp error:", error)
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Erro ao fazer cadastro",
+      }
     }
-    return { success: false, error: res.error }
   }
 
-  const handleSignIn = async (email: string, password: string): Promise<AuthResult> => {
-    const res = await signIn(email, password)
-    if (res.ok) {
-      setUser(res.data.user)
-      setAuthToken(res.data.authToken)
-      storage.save(STORAGE_KEYS.USER, res.data.user)
-      storage.saveString(STORAGE_KEYS.AUTHTOKEN, res.data.authToken)
+  const handleSignIn: AuthContextType["signIn"] = async (email, password) => {
+    try {
+      // Usar API real para login
+      const { user, token } = await authService.signIn(email, password)
+
+      setUser(user)
+      setAuthToken(token)
+      storage.save(STORAGE_KEYS.USER, user)
+      storage.saveString(STORAGE_KEYS.AUTHTOKEN, token)
+
+      debugLog("Login successful:", {
+        userId: user.id,
+        userName: user.name,
+      })
+
       return { success: true }
+    } catch (error) {
+      debugError("Login error:", error)
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Erro ao fazer login",
+      }
     }
-    return { success: false, error: res.error }
   }
 
-  const handleSignOut = async (): Promise<AuthResult> => {
-    setUser(null)
-    setAuthToken(null)
-    const res = await signOut()
-    if (res.ok) {
-      // FIXME: Será que deveríamos apagar os dados
-      // independente da resposta do "servidor"?
-      // Por enquanto ele sempre vai dar true, então tanto faz
+  const handleSignOut: AuthContextType["signOut"] = async () => {
+    try {
+      // Tentar fazer logout na API real
+      if (authToken) {
+        await authService.signOut()
+      }
+
+      // Limpar estado local independente da resposta
+      setUser(null)
+      setAuthToken(null)
       storage.remove(STORAGE_KEYS.USER)
       storage.remove(STORAGE_KEYS.AUTHTOKEN)
+
+      debugLog("Logout successful")
+
+      return { success: true }
+    } catch (error) {
+      debugError("Logout error:", error)
+
+      // Mesmo com erro, tentar limpar dados locais
+      try {
+        setUser(null)
+        setAuthToken(null)
+        storage.remove(STORAGE_KEYS.USER)
+        storage.remove(STORAGE_KEYS.AUTHTOKEN)
+      } catch (_) {}
+
       return { success: true }
     }
-    return { success: false, error: res.error }
   }
 
-  const handleResetPasswordEmail = async (email: string): Promise<AuthResult> => {
+  const handleResetPasswordEmail: AuthContextType["sendPasswordResetEmail"] = async (email) => {
     const res = await sendPasswordResetEmail(email)
     if (res.ok) return { success: true }
     return { success: false, error: res.error }
   }
 
-  const handleConfirmationCode = async (email: string, code: string): Promise<AuthResult> => {
+  const handleConfirmationCode: AuthContextType["submitConfirmationCode"] = async (email, code) => {
     const res = await submitConfirmationCode(email, code)
     if (res.ok) {
       setAuthToken(res.data.token)
@@ -115,7 +179,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { success: false, error: res.error }
   }
 
-  const handleChangePassword = async (email: string, newPassword: string): Promise<AuthResult> => {
+  const handleChangePassword: AuthContextType["submitPasswordChange"] = async (
+    email,
+    newPassword,
+  ) => {
     if (!isAuthenticated()) return { success: false, error: "Não autenticado" }
 
     const res = await submitPasswordChange(email, newPassword)
@@ -133,30 +200,111 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { success: false, error: res.error }
   }
 
-  const handleQuestionnaire = async (answers: Record<number, string>): Promise<AuthResult> => {
+  const handleSubmitQuestionnaire: AuthContextType["submitQuestionnaire"] = async (answers) => {
     if (!user || !isAuthenticated()) return { success: false, error: "Não autenticado" }
 
-    const res = await submitQuestionnaire(user, answers)
-    if (res.ok) {
-      setUser(res.data.user)
-      storage.save(STORAGE_KEYS.USER, res.data.user)
+    try {
+      // Usar API real para enviar questionário
+      const res = await questionnaireService.submitQuestionnaire(answers)
 
-      return { success: true }
+      // Atualizar usuário com respostas e ID do questionário
+      const updatedUser: User = {
+        ...user,
+        questionnaireId: res.questionnaireId,
+      }
+
+      setUser(updatedUser)
+      storage.save(STORAGE_KEYS.USER, updatedUser)
+
+      debugLog("Questionnaire submitted:", {
+        questionnaireId: res.questionnaireId,
+        score: res.score,
+      })
+
+      // Retornar o ID para uso imediato
+      return { success: true, questionnaireId: res.questionnaireId } as const
+    } catch (error) {
+      debugError("Questionnaire submission error:", error)
+
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Erro ao enviar questionário",
+      }
     }
-    return { success: false, error: res.error }
   }
 
-  const handleDeleteQuestionnaire = async (): Promise<AuthResult> => {
+  const handleAnalyzeQuestionnaire: AuthContextType["analyzeQuestionnaire"] = async (
+    questionnaireId?: number,
+  ) => {
     if (!user || !isAuthenticated()) return { success: false, error: "Não autenticado" }
 
-    const res = await deleteQuestionnaire(user)
-    if (res.ok) {
-      setUser(res.data.user)
-      storage.save(STORAGE_KEYS.USER, res.data.user)
+    // Usar o ID passado como parâmetro ou o que está no user
+    const idToAnalyze = questionnaireId || user.questionnaireId
+
+    if (!idToAnalyze) {
+      return { success: false, error: "Questionário não foi respondido ainda" }
+    }
+
+    try {
+      // Chamar API de análise
+      const res = await questionnaireService.analyzeQuestionnaire(idToAnalyze)
+
+      // Atualizar usuário com a análise
+      const updatedUser: User = {
+        ...user,
+        questionnaireAnalysis: res,
+      }
+
+      setUser(updatedUser)
+      storage.save(STORAGE_KEYS.USER, updatedUser)
+
+      debugLog("Questionnaire analyzed:", {
+        perfil: res.perfil,
+        pontuacaoRisco: res.pontuacao_risco,
+      })
 
       return { success: true }
+    } catch (error) {
+      debugError("Questionnaire analysis error:", error)
+
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Erro ao analisar questionário",
+      }
     }
-    return { success: false, error: res.error }
+  }
+
+  const handleDeleteQuestionnaire: AuthContextType["deleteQuestionnaire"] = async () => {
+    if (!user || !isAuthenticated()) return { success: false, error: "Não autenticado" }
+
+    try {
+      // TODO: Usar API real quando o endpoint estiver disponível
+      const res = await deleteQuestionnaire(user)
+
+      if (res.ok) {
+        // Remover respostas e ID do questionário
+        const updatedUser: User = {
+          ...user,
+          questionnaireId: undefined,
+        }
+
+        setUser(updatedUser)
+        storage.save(STORAGE_KEYS.USER, updatedUser)
+
+        debugLog("Questionnaire deleted")
+
+        return { success: true }
+      }
+
+      return { success: false, error: res.error }
+    } catch (error) {
+      debugError("Questionnaire deletion error:", error)
+
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Erro ao deletar questionário",
+      }
+    }
   }
 
   return (
@@ -171,7 +319,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sendPasswordResetEmail: handleResetPasswordEmail,
         submitConfirmationCode: handleConfirmationCode,
         submitPasswordChange: handleChangePassword,
-        submitQuestionnaire: handleQuestionnaire,
+        submitQuestionnaire: handleSubmitQuestionnaire,
+        analyzeQuestionnaire: handleAnalyzeQuestionnaire,
         deleteQuestionnaire: handleDeleteQuestionnaire,
       }}
     >

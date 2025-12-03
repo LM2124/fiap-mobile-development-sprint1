@@ -9,6 +9,7 @@ import { ApisauceInstance, create } from "apisauce"
 
 import Config from "@/config"
 
+import { setupAuthInterceptor } from "./interceptors"
 import type { ApiConfig } from "./types"
 
 /**
@@ -36,9 +37,13 @@ export class Api {
       baseURL: this.config.url,
       timeout: this.config.timeout,
       headers: {
-        Accept: "application/json",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
       },
     })
+
+    // Configurar interceptors de autenticação
+    setupAuthInterceptor(this.apisauce)
   }
 }
 

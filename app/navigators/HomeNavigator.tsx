@@ -25,7 +25,7 @@ export interface HomeNavigationProps extends NativeStackScreenProps<AppStackPara
 
 export const HomeNavigator = (props: HomeNavigationProps) => {
   const { user } = useAuth()
-  const shouldQuestionnaireRedirect = user && !user.questionnaireAnswers
+  const shouldQuestionnaireRedirect = user && !user.questionnaireId
 
   return (
     <Stack.Navigator
